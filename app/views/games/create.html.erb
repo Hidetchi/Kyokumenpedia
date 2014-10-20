@@ -1,0 +1,13 @@
+<h1>New game</h1>
+<tt><pre>
+<% if (@error) %>
+Error: <%= @error %>
+<% else %>
+Successfully added.<br>
+<% @csa_positions.each do |out| %>
+<% out.split("\n").each do |line| %>
+<%= line %>
+<% end %>
+<% end %>
+<% end %>
+</pre></tt>

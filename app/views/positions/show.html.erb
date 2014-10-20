@@ -1,0 +1,57 @@
+<h2><%= @position.sfen %></h2>
+
+<div>
+<tt><pre><% @position.csa.split('\n').each do |line| %><%= line %><% end %></pre></tt>
+</div>
+
+<div>
+Handicap type: <%= @position.handicap.name %><br>
+Most frequent appearance:
+<% if @counts_sorted[0] == 0 %>
+Initial position
+<% else %>
+After move #<%= @counts_sorted[0] %>, until <%= @prev_moves_sorted[0].csa %>
+<% end %>
+<br>
+Strategy: <br>
+<br>
+
+Professioanl games: <%= @position.stat1_black %> wins vs. <%= @position.stat1_white %> wins<br>
+Amateur online games: <%= @position.stat2_black %> wins vs. <%= @position.stat2_white %> wins<br>
+</div>
+
+<br>
+
+<div>
+<table border=1 cellspacing=0>
+<tr><td>Next move<td>Professioanl total<td>Amateur total<td>Next position
+<% @moves.each do |move| %>
+<tr>
+<td><%= move.csa %>
+<td><%= move.stat1_total %>
+<td><%= move.stat2_total %>
+<td><%= link_to 'Jump', "/positions/#{move.next_position_id}" %>
+<% end %>
+</table>
+</div>
+
+<br>
+
+<div>
+<table border=1 cellspacing=0>
+<tr><td>Black<td>White<td>Event<td>Next move<td>result<td>kifu
+<% @appearances.each do |appearance| %>
+<% game = appearance.game %>
+<tr>
+<td><%= game.black_name %>
+<td><%= game.white_name %>
+<td><%= game.game_source.name %>
+<td><%= appearance.next_move.csa %>
+<td><%= game.result %>
+<td><%= game.game_source.kifu_url_header %><%= game.native_kid %>
+<% end %>
+</table>
+
+<h2>Wiki section from here...</h2>
+
+

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  prev_position_id: 1
+  next_position_id: 1
+  csa: MyString
+  promote: false
+  vague: false
+
+two:
+  prev_position_id: 1
+  next_position_id: 1
+  csa: MyString
+  promote: false
+  vague: false

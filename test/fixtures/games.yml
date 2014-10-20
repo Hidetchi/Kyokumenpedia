@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  black_name: MyString
+  white_name: MyString
+  black_rate: 1
+  white_rate: 1
+  date: 2014-10-17
+  result: 1
+  native_kid: 1
+
+two:
+  black_name: MyString
+  white_name: MyString
+  black_rate: 1
+  white_rate: 1
+  date: 2014-10-17
+  result: 1
+  native_kid: 1

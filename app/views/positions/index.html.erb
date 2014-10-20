@@ -1,0 +1,25 @@
+<h1>Listing Positions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sfen</th>
+      <th>CSA</th>
+      <th>Black Won</th>
+      <th>White Won</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @positions.each do |position| %>
+      <tr>
+        <td><%= position.sfen %></td>
+        <td><tt>
+        <pre><% position.csa.split('\n').each do |line| %><%= line %><% end %>
+        </pre></tt></td>
+        <td align=center><%= position.stat2_black %></td>
+        <td align=center><%= position.stat2_white %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
