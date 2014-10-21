@@ -14,9 +14,6 @@ class GamesController < ApplicationController
       @error = 'No proper handicap specified.'
       return
     end
-    @game = Game.new(params.permit(:black_name, :white_name, :date, :csa, :result))
-    @game.game_source = game_source
-    @game.handicap = handicap
 
     # parse moves from the continuous CSA move string
     csa_moves = []
@@ -33,7 +30,7 @@ class GamesController < ApplicationController
     end
     render :action => 'error' if csa_moves.empty?
     @board = Board.new
-    @board.initial(@game.handicap_id)
+    @board.initial(handicap.id)
 
     sfens = [] # sfen for each move, which is used to identify/register Position model.
     @csa_positions = []  # csa position for each move, which is shown in the view.
@@ -53,6 +50,15 @@ class GamesController < ApplicationController
     end
 
     # If the kifu is OK, then update database
+    @game = Game.new(params.permit(:black_name, :white_name, :date, :csa, :result))
+    @game.game_source = game_source
+    @game.handicap = handicap
+    begin
+      @game.save
+    rescue
+      @error = 'Duplicate Kifu'
+      return
+    end
     for i in 0..(sfens.length - 1) do
       unless (position = Position.find_by(sfen: sfens[i]))
         position = Position.create(:sfen => sfens[i], :csa => @csa_positions[i], :handicap => handicap)
@@ -113,7 +119,6 @@ class GamesController < ApplicationController
       return
     end
 
-#    @game.save
   end
 
 end

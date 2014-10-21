@@ -7,14 +7,14 @@
 
 <body>
 
-<form method="get" action="http://127.0.0.1:3000/newkifu">
-先手<input type="text" name="black_name" value="Hidetchi"><br>
-後手<input type="text" name="white_name" value="Kota"><br>
-対局日<input type="date" name="date" value="2011-01-07"><br>
-結果<input type="number" name="result" value="1"><br>
-手合コード<input type="number" name="handicap" value="1"><br>
-CSA<textarea name="csa" value="2011-01-07" rows="15">+5756FU-3334FU+2858HI-7162GI+7776FU-6152KI+5948OU-4344FU+4838OU-5142OU+3828OU-4232OU+3938GI-8384FU+1716FU-8485FU+8877KA-5243KI+7968GI-2233KA+5859HI-3222OU+6857GI-4132KI+5655FU-7374FU+4746FU-8272HI+7766KA-1112KY+6958KI-2211OU+5847KI-3122GI+5756GI-6364FU+3736FU-6251GI+2937KE-5142GI+1615FU-4231GI+4645FU-4445FU+5645GI-6465FU+6677KA-7475FU+7675FU-7275HI+0044FU-4344KI+4544GI-3344KA+0045FU-4433KA+0044KI-3324KA+4434KI-7577RY+8977KE-2468UM+7765KE-0033FU+3444KI-0046FU+4748KI-0047GI+3847GI-4647TO+4847KI-0046FU+4748KI-0047GI+0039GI-4736NG+3938GI-6859UM+4959KI-0056KA+0069KA-0079HI+6936KA-7959RY+0049GI-0047KI%TORYO</textarea><br>
-データ元パス<input type="text" name="game_source_pass" value="shogi81"><br>
+<form method="get" action="../newkifu">
+Black<input type="text" name="black_name" value="Hidetchi"><br>
+White<input type="text" name="white_name" value="Kota"><br>
+Date<input type="date" name="date" value="2011-01-07"><br>
+Result(0,1,2)<input type="number" name="result" value="1"><br>
+Handicap type<input type="number" name="handicap" value="1"><br>
+CSA<textarea name="csa" value="2011-01-07" rows="15" cols="100">+5756FU-3334FU+2858HI-7162GI+7776FU-6152KI+5948OU-4344FU+4838OU-5142OU+3828OU-4232OU+3938GI-8384FU+1716FU-8485FU+8877KA-5243KI+7968GI-2233KA+5859HI-3222OU+6857GI-4132KI+5655FU-7374FU+4746FU-8272HI+7766KA-1112KY+6958KI-2211OU+5847KI-3122GI+5756GI-6364FU+3736FU-6251GI+2937KE-5142GI+1615FU-4231GI+4645FU-4445FU+5645GI-6465FU+6677KA-7475FU+7675FU-7275HI+0044FU-4344KI+4544GI-3344KA+0045FU-4433KA+0044KI-3324KA+4434KI-7577RY+8977KE-2468UM+7765KE-0033FU+3444KI-0046FU+4748KI-0047GI+3847GI-4647TO+4847KI-0046FU+4748KI-0047GI+0039GI-4736NG+3938GI-6859UM+4959KI-0056KA+0069KA-0079HI+6936KA-7959RY+0049GI-0047KI%TORYO</textarea><br>
+Kifu provider site pass<input type="text" name="game_source_pass" value="shogi81"><br>
 <input type="submit" value="send">
 </form>
 
