@@ -1,0 +1,46 @@
+﻿{
+  "handicaps": [
+    {
+      "id": 1,
+      "families": [
+        {
+          "name": "横歩取り",
+          "moves": "+7776FU-3334FU+2726FU-8384FU+2625FU-8485FU+6978KI-4132KI+2524FU-2324FU+2824HI-8586FU+8786FU-8286HI+2434HI",
+          "groups": [
+          	{
+          		"name": "△４五角戦法",
+          		"moves": "-2288UM+7988GI-0028FU+7928GI-0045KA",
+          		"branches": [
+          			{
+          				"name": "△６六銀型",
+          				"moves": "+3424HI-0023FU+0077KA-8688RY+7788KA-2324FU+8811UM-2133KE+0036KY-0066GI"
+          			},
+          			{
+          				"name": "△８七銀型",
+          				"moves": "+3424HI-0023FU+0077KA-8688RY+7788KA-2324FU+8811UM-0087GI"
+          			}
+          		]
+          	},
+          	{
+          		"name": "相横歩取り",
+          		"moves": "-2288UM+7988GI-8676HI",
+          		"branches": []
+          	}
+          ]
+        },
+        {
+          "name": "ゴキゲン中飛車",
+          "moves": "+7776FU-3334FU+2726FU-5354FU+2625FU-8252HI",
+          "groups": [
+          	{
+          		"name": "▲５八金右超急戦",
+          		"moves": "+4958KI-5455FU+2524FU-2324FU+2824HI-5556FU",
+          		"branches": []
+          	}
+          ]
+        }
+      ]
+    }
+  ]
+}
+

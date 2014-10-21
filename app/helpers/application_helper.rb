@@ -181,7 +181,6 @@ class Board
     if ((x0 == 0) || (y0 == 0))
       piece = have_piece?(hands, name)
       return :illegal if (piece == nil || ! piece.move_to?(x1, y1, name))
-      piece.promoted = true if (piece.name != name) # Kyoto-shogi drop-and-promoted?
       piece.move_to(x1, y1)
     else
       if (@array[x0][y0] == nil || !@array[x0][y0].move_to?(x1, y1, name))
@@ -485,6 +484,19 @@ class Board
     end
 
     return :normal
+  end
+
+  def do_moves_str(csa)
+    new_board = deep_copy
+    ret = []
+    rs = csa.gsub %r{[\+\-]\d{4}\w{2}} do |s|
+           ret << s
+           ""
+         end
+    ret.each do |move|
+      new_board.handle_one_move(move)
+    end
+    return new_board
   end
 
   def to_s

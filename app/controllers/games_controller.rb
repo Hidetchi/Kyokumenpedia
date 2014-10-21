@@ -25,10 +25,14 @@ class GamesController < ApplicationController
       if (rs == '%TORYO')
         csa_moves << rs
       else
-        render :action => 'error'
+        @error = 'Invalid moves.'
+        return
       end
     end
-    render :action => 'error' if csa_moves.empty?
+    if csa_moves.empty?
+      @error = 'No moves specified.'
+      return
+    end
     @board = Board.new
     @board.initial(handicap.id)
 
@@ -50,6 +54,7 @@ class GamesController < ApplicationController
     end
 
     # If the kifu is OK, then update database
+    strategy_id = nil
     @game = Game.new(params.permit(:black_name, :white_name, :date, :csa, :result))
     @game.game_source = game_source
     @game.handicap = handicap
@@ -82,10 +87,15 @@ class GamesController < ApplicationController
             end
             move.save
           end
+          move_already[move.id] = true
         end
-        move_already[move.id] = true
 
         unless position_already[positions[i].id]
+          if (position[i].strategy_id)
+            strategy_id = position[i].strategy_id
+          else
+            position[i].strategy_id = strategy_id
+          end
           if (@game.game_source.category == 1)  # Official professional kifu
             if (@game.result == 0) 
               positions[i].stat1_black += 1
