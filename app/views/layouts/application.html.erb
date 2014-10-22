@@ -6,9 +6,33 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body id="root">
 
+<div id="side_column">
+<h1>LOGO</h1>
+<ul>
+<li>Top
+<li>How to use
+<li>Hot positions
+<li>Requested positions
+<li>New positions
+<li>Recent changes
+<li>Positions search
+</ul>
+</div>
+
+<div id="main">
+
+<div id="header">
+| Create account | Login |
+</div>
+
+<div id="contents">
 <%= yield %>
+</div>
+
+</div>
+
 
 </body>
 </html>

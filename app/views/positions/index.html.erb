@@ -3,23 +3,26 @@
 <table>
   <thead>
     <tr>
-      <th>Sfen</th>
-      <th>CSA</th>
-      <th>Black Won</th>
-      <th>White Won</th>
+      <td>Position
+      <td>Black Won
+      <td>White Won
+      <td>Strg.fam
+      <td>Strg.grp
+      <td>Strg
     </tr>
   </thead>
 
   <tbody>
     <% @positions.each do |position| %>
       <tr>
-        <td><%= position.sfen %></td>
-        <td><tt>
-        <pre><% position.csa.split('\n').each do |line| %><%= line %><% end %>
-        </pre></tt></td>
-        <td align=center><%= position.stat2_black %></td>
-        <td align=center><%= position.stat2_white %></td>
-      </tr>
+        <td><%= position.sfen %><br><br>
+        <tt>
+        <pre><% position.csa.split('\n').each do |line| %><%= line %><% end %></pre></tt></td>
+        <td><%= position.stat2_black %></td>
+        <td><%= position.stat2_white %></td>
+        <td><%= position.strategy.strategy_group.strategy_family.name if position.strategy %></td>
+        <td><%= position.strategy.strategy_group.name if position.strategy %></td>
+        <td><%= position.strategy.name if position.strategy %></td>
     <% end %>
   </tbody>
 </table>

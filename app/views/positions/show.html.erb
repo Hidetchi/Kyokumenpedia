@@ -1,30 +1,38 @@
 <h2><%= @position.sfen %></h2>
 
-<div>
-<tt><pre><% @position.csa.split('\n').each do |line| %><%= line %><% end %></pre></tt>
-</div>
+<%= @board_table.html_safe %>
+<br>
 
 <div>
-Handicap type: <%= @position.handicap.name %><br>
-Most frequent appearance:
+<table>
+
+<tr><td rowspan=3>分類<td>手合割<td><%= @position.handicap.name %>
+<tr><td>最頻到達手<td>
 <% if @counts_sorted[0] == 0 %>
-Initial position
-<% else %>
-After move #<%= @counts_sorted[0] %>, until <%= @prev_moves_sorted[0].csa %>
+開始局面
+<% elsif (@prev_moves_sorted[0]) %>
+<%= @counts_sorted[0] %>手目 <%= @prev_moves_sorted[0].csa %>まで
 <% end %>
-<br>
-Strategy: <br>
-<br>
+<tr><td>戦型<td>
+<% if @position.strategy %>
+<%= @position.strategy.strategy_group.strategy_family.name %> / <%= @position.strategy.strategy_group.name %> / <%= @position.strategy.name %>
+<% else %>
+-
+<% end %>
 
-Professioanl games: <%= @position.stat1_black %> wins vs. <%= @position.stat1_white %> wins<br>
-Amateur online games: <%= @position.stat2_black %> wins vs. <%= @position.stat2_white %> wins<br>
+<tr><td rowspan=2>棋譜統計<br>サマリー<td>プロ<td>▲<%= @position.stat1_black %>勝 - △<%= @position.stat1_white %>勝
+<tr><td>オンライン道場<td>▲<%= @position.stat2_black %>勝 - △<%= @position.stat2_white %>勝
+
+<tr><td rowspan=2>局面評価<br>サマリー<br>(Wiki)<td>人間<td>
+<tr><td>AI評価値<td>
+</table>
 </div>
 
 <br>
 
 <div>
-<table border=1 cellspacing=0>
-<tr><td>Next move<td>Professioanl total<td>Amateur total<td>Next position
+<table>
+<tr><td>次の手<td>採用数<br>(プロ)<td>採用数<br>(オンライン道場)<td>局面を見る
 <% @moves.each do |move| %>
 <tr>
 <td><%= move.csa %>
@@ -38,17 +46,17 @@ Amateur online games: <%= @position.stat2_black %> wins vs. <%= @position.stat2_
 <br>
 
 <div>
-<table border=1 cellspacing=0>
-<tr><td>Black<td>White<td>Event<td>Next move<td>result<td>kifu
+<table>
+<tr><td>先手<td>後手<td>棋戦<td>次の手<td>棋譜を見る
 <% @appearances.each do |appearance| %>
 <% game = appearance.game %>
 <tr>
-<td><%= game.black_name %>
-<td><%= game.white_name %>
+<td align=right><%= game.black_name %> <%= game.result == 0 ? "○" : "●" %>
+<td align=left><%= game.result == 0 ? "●" : "○" %> <%= game.white_name %>
 <td><%= game.game_source.name %>
 <td><%= appearance.next_move.csa %>
-<td><%= game.result %>
-<td><%= game.game_source.kifu_url_header %><%= game.native_kid %>
+<td><%= link_to 'LINK', game.game_source.kifu_url_header + game.native_kid.to_s %>
+
 <% end %>
 </table>
 

@@ -9,15 +9,15 @@
 require 'yaml'
 
 GameSource.create(:name => '81Dojo', :pass => 'shogi81', :kifu_url_header => 'http://81dojo.com/kifuviewer_jp.html?kid=', :category => 2)
-Handicap.create(:id => 1, :name => 'Even')
-Handicap.create(:id => 2, :name => 'Lance')
-Handicap.create(:id => 3, :name => 'Bishop')
-Handicap.create(:id => 4, :name => 'Rook')
-Handicap.create(:id => 5, :name => 'Rook-lance')
-Handicap.create(:id => 6, :name => '2-piece')
-Handicap.create(:id => 7, :name => '4-piece')
-Handicap.create(:id => 8, :name => '6-piece')
-Handicap.create(:id => 9, :name => '8-piece')
+Handicap.create(:id => 1, :name => '平手')
+Handicap.create(:id => 2, :name => '香落ち')
+Handicap.create(:id => 3, :name => '角落ち')
+Handicap.create(:id => 4, :name => '飛車落ち')
+Handicap.create(:id => 5, :name => '飛香落ち')
+Handicap.create(:id => 6, :name => '二枚落ち')
+Handicap.create(:id => 7, :name => '四枚落ち')
+Handicap.create(:id => 8, :name => '六枚落ち')
+Handicap.create(:id => 9, :name => '八枚落ち')
 
 js_data = YAML.load_file("./db/strategy_seeds.yml")
 

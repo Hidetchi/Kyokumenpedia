@@ -540,7 +540,7 @@ class Board
     sfen = ""
     for y in 1..9 do
       ns = 0
-      for x in 1..9 do
+      for x in 9.downto(1) do
         if (@array[x][y])
           sfen += ns.to_s if (ns > 0)
           ns = 0
@@ -557,17 +557,62 @@ class Board
       sfen += "-"
     else
       hand_pieces = Hash.new
+      hand_pieces = {"R" => 0, "B" => 0, "G" => 0, "S" => 0, "N" => 0, "L" => 0, "P" => 0,
+                     "r" => 0, "b" => 0, "g" => 0, "s" => 0, "n" => 0, "l" => 0, "p" => 0}
       (gote_hands + sente_hands).each do |p|
-        hand_pieces[p.to_sfen] = 0 if (!hand_pieces[p.to_sfen])
         hand_pieces[p.to_sfen] += 1
       end
       hand_pieces.each{|key, value|
+        next if (value == 0)
         value = value.to_s
         value = "" if (value == "1")
         sfen += value + key
       }
     end
     return sfen
+  end
+
+  def to_html_table
+    tag = "<table class='board'>"
+    for y in 1..9 do
+      tag += "<tr>"
+      if (y == 1)
+        tag += "<td valign=top rowspan=9>後手 "
+        if (gote_hands.empty?)
+          tag += "なし"
+        else
+          hand_pieces = Hash.new
+          hand_pieces = {"r" => 0, "b" => 0, "g" => 0, "s" => 0, "n" => 0, "l" => 0, "p" => 0}
+          gote_hands.each do |p|
+            hand_pieces[p.to_sfen] += 1
+          end
+          hand_pieces.each{|key, value|
+            tag += key + value.to_s + "<br>" if (value > 0)
+          }
+        end
+      end
+      for x in 9.downto(1) do
+        tag += "<td>"
+        tag += @array[x][y].to_sfen if @array[x][y]
+      end
+      if (y == 1)
+        tag += "<td valign=bottom rowspan=9>先手 "
+        if (sente_hands.empty?)
+          tag += "なし"
+        else
+          hand_pieces = Hash.new
+          hand_pieces = {"R" => 0, "B" => 0, "G" => 0, "S" => 0, "N" => 0, "L" => 0, "P" => 0}
+          sente_hands.each do |p|
+            hand_pieces[p.to_sfen] += 1
+          end
+          hand_pieces.each{|key, value|
+            tag += "<br>" + key + value.to_s if (value > 0)
+          }
+        end
+      end
+    end
+    tag += "</table>"
+    return tag
   end
 
 end

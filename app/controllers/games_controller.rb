@@ -91,10 +91,10 @@ class GamesController < ApplicationController
         end
 
         unless position_already[positions[i].id]
-          if (position[i].strategy_id)
-            strategy_id = position[i].strategy_id
+          if (positions[i].strategy_id)
+            strategy_id = positions[i].strategy_id
           else
-            position[i].strategy_id = strategy_id
+            positions[i].strategy_id = strategy_id
           end
           if (@game.game_source.category == 1)  # Official professional kifu
             if (@game.result == 0) 
