@@ -573,43 +573,45 @@ class Board
   end
 
   def to_html_table
-    tag = "<table class='board'>"
+    tag = "<table class='board_wrapper'><tr><td class='komadai_gote'>△"
+    if (gote_hands.empty?)
+      tag += "<br>なし"
+    else
+      hand_pieces = Hash.new
+      hand_pieces = {"飛" => 0, "角" => 0, "金" => 0, "銀" => 0, "桂" => 0, "香" => 0, "歩" => 0}
+      gote_hands.each do |p|
+        hand_pieces[p.to_diag] += 1
+      end
+      hand_pieces.each {|key, value|
+        next if (value == 0)
+        tag += "<br>" + key + (value > 1 ? value.to_s : "")
+      }
+    end
+    tag += "<td class='board_frame'><table class='board'>"
     for y in 1..9 do
       tag += "<tr>"
-      if (y == 1)
-        tag += "<td valign=top rowspan=9>後手 "
-        if (gote_hands.empty?)
-          tag += "なし"
-        else
-          hand_pieces = Hash.new
-          hand_pieces = {"r" => 0, "b" => 0, "g" => 0, "s" => 0, "n" => 0, "l" => 0, "p" => 0}
-          gote_hands.each do |p|
-            hand_pieces[p.to_sfen] += 1
-          end
-          hand_pieces.each{|key, value|
-            tag += key + value.to_s + "<br>" if (value > 0)
-          }
-        end
-      end
       for x in 9.downto(1) do
-        tag += "<td>"
-        tag += @array[x][y].to_sfen if @array[x][y]
-      end
-      if (y == 1)
-        tag += "<td valign=bottom rowspan=9>先手 "
-        if (sente_hands.empty?)
-          tag += "なし"
+        if (@array[x][y])
+          tag += @array[x][y].sente ? "<td>" : "<td class='gote'>"
+          tag += @array[x][y].to_diag
         else
-          hand_pieces = Hash.new
-          hand_pieces = {"R" => 0, "B" => 0, "G" => 0, "S" => 0, "N" => 0, "L" => 0, "P" => 0}
-          sente_hands.each do |p|
-            hand_pieces[p.to_sfen] += 1
-          end
-          hand_pieces.each{|key, value|
-            tag += "<br>" + key + value.to_s if (value > 0)
-          }
+          tag += "<td>"
         end
       end
+    end
+    tag += "</table><td class='komadai_sente'>▲"
+    if (sente_hands.empty?)
+      tag += "<br>なし"
+    else
+      hand_pieces = Hash.new
+      hand_pieces = {"飛" => 0, "角" => 0, "金" => 0, "銀" => 0, "桂" => 0, "香" => 0, "歩" => 0}
+      sente_hands.each do |p|
+        hand_pieces[p.to_diag] += 1
+      end
+      hand_pieces.each {|key, value|
+        next if (value == 0)
+        tag += "<br>" + key + (value > 1 ? value.to_s : "")
+      }
     end
     tag += "</table>"
     return tag
@@ -764,6 +766,10 @@ class Piece
   def to_sfen
     (@promoted ? "+" : "") + (@sente ? @sfen_name : @sfen_name.downcase)
   end
+
+  def to_diag
+    @promoted ? @promoted_name_jp : @name_jp
+  end
 end
 
 class PieceFU < Piece
@@ -774,6 +780,8 @@ class PieceFU < Piece
     @name = "FU"
     @promoted_name = "TO"
     @sfen_name = "P"
+    @name_jp = "歩"
+    @promoted_name_jp = "と"
     super
   end
   def room_of_head?(x, y, name)
@@ -809,6 +817,8 @@ class PieceKY  < Piece
     @name = "KY"
     @promoted_name = "NY"
     @sfen_name = "L"
+    @name_jp = "香"
+    @promoted_name_jp = "杏"
     super
   end
   def room_of_head?(x, y, name)
@@ -856,6 +866,8 @@ class PieceKE  < Piece
     @name = "KE"
     @promoted_name = "NK"
     @sfen_name = "N"
+    @name_jp = "桂"
+    @promoted_name_jp = "圭"
     super
   end
   def room_of_head?(x, y, name)
@@ -877,6 +889,8 @@ class PieceGI  < Piece
     @name = "GI"
     @promoted_name = "NG"
     @sfen_name = "S"
+    @name_jp = "銀"
+    @promoted_name_jp = "全"
     super
   end
 end
@@ -888,6 +902,9 @@ class PieceKI  < Piece
     @name = "KI"
     @promoted_name = nil
     @sfen_name = "G"
+    @name_jp = "金"
+    @promoted_name_jp = nil
+    @promoted_name_diag = nil
     super
   end
 end
@@ -899,6 +916,8 @@ class PieceKA  < Piece
     @name = "KA"
     @promoted_name = "UM"
     @sfen_name = "B"
+    @name_jp = "角"
+    @promoted_name_jp = "馬"
     super
   end
   def far_movable_grids
@@ -950,6 +969,8 @@ class PieceHI  < Piece
     @name = "HI"
     @promoted_name = "RY"
     @sfen_name = "R"
+    @name_jp = "飛"
+    @promoted_name_jp = "龍"
     super
   end
   def far_movable_grids
@@ -997,6 +1018,8 @@ class PieceOU < Piece
     @name = "OU"
     @promoted_name = nil
     @sfen_name = "K"
+    @name_jp = "玉"
+    @promoted_name_jp = nil
     super
   end
 end
