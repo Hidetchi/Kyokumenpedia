@@ -47,12 +47,12 @@
 
 <div id="stat_appearances">
 <table>
-<tr><th>先手<th>後手<th>棋戦<th>次の手<th>棋譜を見る
+<tr><th colspan=2>先手<th colspan=2>後手<th>棋戦<th>次の手<th>棋譜を見る
 <% @appearances.each do |appearance| %>
 <% game = appearance.game %>
 <tr>
-<td align=right><%= game.black_name %> <%= game.result == 0 ? "○" : "●" %>
-<td align=left><%= game.result == 0 ? "●" : "○" %> <%= game.white_name %>
+<td style="border-right: 0;"><%= game.black_name %><td><%= game.result == 0 ? "○" : "●" %>
+<td style="border-right: 0;"><%= game.result == 0 ? "●" : "○" %><td><%= game.white_name %>
 <td><%= game.game_source.name %>
 <td><%= appearance.next_move.to_kif %>
 <td><%= link_to 'LINK', game.game_source.kifu_url_header + game.native_kid.to_s %>

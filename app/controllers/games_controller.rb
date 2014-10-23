@@ -10,7 +10,7 @@ class GamesController < ApplicationController
       return
     end
     # Check handicap code. (If invalid, render error.) 1: even 2: lance-handicap 3: 4: 5: ...... 9: 8-piece-handicap
-    unless (params[:handicap] && handicap = Handicap.find_by(id: params[:handicap]))
+    unless (params[:handicap_id] && Handicap.find(params[:handicap_id]))
       @error = 'No proper handicap specified.'
       return
     end
@@ -34,7 +34,7 @@ class GamesController < ApplicationController
       return
     end
     @board = Board.new
-    @board.initial(handicap.id)
+    @board.initial(params[:handicap_id])
 
     sfens = [] # sfen for each move, which is used to identify/register Position model.
     @csa_positions = []  # csa position for each move, which is shown in the view.
@@ -55,9 +55,8 @@ class GamesController < ApplicationController
 
     # If the kifu is OK, then update database
     strategy_id = nil
-    @game = Game.new(params.permit(:black_name, :white_name, :date, :csa, :result))
+    @game = Game.new(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid))
     @game.game_source = game_source
-    @game.handicap = handicap
     begin
       @game.save
     rescue
@@ -66,7 +65,7 @@ class GamesController < ApplicationController
     end
     for i in 0..(sfens.length - 1) do
       unless (position = Position.find_by(sfen: sfens[i]))
-        position = Position.create(:sfen => sfens[i], :csa => @csa_positions[i], :handicap => handicap)
+        position = Position.create(:sfen => sfens[i], :csa => @csa_positions[i], :handicap_id => handicap_id)
       end
       positions << position
     end
