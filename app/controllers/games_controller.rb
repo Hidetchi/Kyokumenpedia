@@ -34,7 +34,7 @@ class GamesController < ApplicationController
       return
     end
     @board = Board.new
-    @board.initial(params[:handicap_id])
+    @board.initial(params[:handicap_id].to_i)
 
     sfens = [] # sfen for each move, which is used to identify/register Position model.
     @csa_positions = []  # csa position for each move, which is shown in the view.
@@ -65,7 +65,7 @@ class GamesController < ApplicationController
     end
     for i in 0..(sfens.length - 1) do
       unless (position = Position.find_by(sfen: sfens[i]))
-        position = Position.create(:sfen => sfens[i], :csa => @csa_positions[i], :handicap_id => handicap_id)
+        position = Position.create(:sfen => sfens[i], :csa => @csa_positions[i], :handicap_id => params[:handicap_id])
       end
       positions << position
     end
