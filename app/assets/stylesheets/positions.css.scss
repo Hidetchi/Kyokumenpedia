@@ -3,19 +3,17 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 div#position {
-	float: left;
 }
 
 div#summary {
-	float: left;
-	margin-left: 40px;
 }
 
 div#stat_next_moves {
-	float: left;
+	max-height: 200px;
+	overflow-y: auto;
 }
 
 div#stat_appearances {
-	float: left;
-	margin-left: 20px;
+	max-height: 200px;
+	overflow-y: auto;
 }

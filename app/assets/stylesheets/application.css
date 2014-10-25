@@ -18,6 +18,7 @@ body#root {
 	margin: 0;
 	width: 100%;
 	height: 100%;
+	font-size: 13px;
 	font-family: "メイリオ","Meiryo","Meiryo UI","ヒラギノ角ゴ Pro","Hiragino Kaku Gothic Pro","Takao Pゴシック","TakaoPGothic","sans"
 }
 
@@ -44,7 +45,7 @@ div#header {
 	height: 25px;
 	line-height: 25px;
 	text-align: right;
-	padding-right: 5px;
+	padding-right: 15px;
 	border-bottom: 2px solid #ccc;
 }
 
@@ -92,7 +93,9 @@ td, th {
     border-right:1px solid #666666;
     border-bottom:1px solid #666666;
     text-align: center;
-    padding: 3px 5px;
+    padding: 0px 3px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 th {
@@ -101,13 +104,20 @@ th {
 }
 
 ul {
-	padding-left: 15px;
+	padding-left: 20px;
+}
+
+.invisible {
+	border: 0;
+	background-color: transparent;
+	vertical-align: top;
+	padding: 15px 10px;
 }
 
 table.board_wrapper {
 	border: 0;
-	font-size: 23px;
-	font-family: "游明朝","Yu Mincho","ヒラギノ明朝 Pro","Hiragino Mincho Pro","Takao明朝","TakaoMincho","serif";
+	font-size: 18px;
+	font-family: "游明朝","Yu Mincho","ヒラギノ明朝 Pro","Hiragino Mincho Pro","Takao明朝","TakaoMincho","ＭＳ 明朝","serif";
 	line-height: 1.1em;
 }
 
@@ -115,8 +125,8 @@ table.board {
 }
 
 table.board td {
-    width: 26px;
-    height: 28px;
+    width: 20px;
+    height: 22px;
     padding: 0;
 }
 

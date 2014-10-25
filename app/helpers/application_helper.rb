@@ -575,7 +575,7 @@ class Board
   def to_html_table
     tag = "<table class='board_wrapper'><tr><td class='komadai_gote'>△"
     if (gote_hands.empty?)
-      tag += "<br>なし"
+      tag += "<br>な<br>し"
     else
       hand_pieces = Hash.new
       hand_pieces = {"飛" => 0, "角" => 0, "金" => 0, "銀" => 0, "桂" => 0, "香" => 0, "歩" => 0}
@@ -601,7 +601,7 @@ class Board
     end
     tag += "</table><td class='komadai_sente'>▲"
     if (sente_hands.empty?)
-      tag += "<br>なし"
+      tag += "<br>な<br>し"
     else
       hand_pieces = Hash.new
       hand_pieces = {"飛" => 0, "角" => 0, "金" => 0, "銀" => 0, "桂" => 0, "香" => 0, "歩" => 0}

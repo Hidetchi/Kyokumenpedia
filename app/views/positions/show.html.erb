@@ -1,12 +1,17 @@
-<h2><%= @position.sfen %></h2>
+<table class="invisible">
+<tr><td class="invisible">
 
 <div id="position">
 <%= @board_table.html_safe %>
 </div>
 
+<td class="invisible">
+
+<div style="text-align:right;margin-bottom:10px;">
+エクスポート: <button type=button>SFEN</button> <button type=button>BOD</button>
+</div>
 <div id="summary">
 <table>
-
 <tr><th rowspan=3 width=90>分類<td>手合割<td width=200><%= @position.handicap.name %>
 <tr><td>最頻到達手<td>
 <% if @counts_sorted[0] == 0 %>
@@ -29,25 +34,25 @@
 </table>
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<tr><td class="invisible">
 
 <div id="stat_next_moves">
 <table>
-<tr><th>次の手<th>採用数<br>(プロ)<th>採用数<br>(オンライン道場)<th>局面を見る
+<tr><th width=60>次の手<th width=50>採用数<th colspan=2 width=150>次の局面
 <% @moves.each do |move| %>
 <tr>
 <td><%= move.to_kif %>
-<td><%= move.stat1_total %>
 <td><%= move.stat2_total %>
-<td><%= link_to 'Jump', "/positions/#{move.next_position_id}" %>
+<td style="border-right:0;">▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝
+<td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
 <% end %>
 </table>
-</div>
 
+<td class="invisible">
 
 <div id="stat_appearances">
 <table>
-<tr><th colspan=2>先手<th colspan=2>後手<th>棋戦<th>次の手<th>棋譜を見る
+<tr><th colspan=2>先手<th colspan=2>後手<th width=60>棋戦<th width=60>次の手<th width=30>棋譜
 <% @appearances.each do |appearance| %>
 <% game = appearance.game %>
 <tr>
@@ -55,14 +60,14 @@
 <td style="border-right: 0;"><%= game.result == 0 ? "●" : "○" %><td><%= game.white_name %>
 <td><%= game.game_source.name %>
 <td><%= appearance.next_move.to_kif %>
-<td><%= link_to 'LINK', game.game_source.kifu_url_header + game.native_kid.to_s %>
-
+<td><%= link_to 'LINK', game.game_source.kifu_url_header + game.native_kid.to_s, :target=>["_blank"] %>
 <% end %>
 </table>
-
 </div>
 
-<br><br><br><br>
+</table>
+
+<br>
 <h2>Wiki section from here...</h2>
 
 
