@@ -69,7 +69,7 @@ class Board
   # @param strs a board text
   #
   def set_from_str(strs) #TODO define @sente_ou and @gote_ou
-    strs.each_line do |str|
+    strs.split("\n").each do |str|
       case str
       when /^P\d/
         str.sub!(/^P(.)/, '')
@@ -231,6 +231,16 @@ class Board
       x = x + 1
     end
     return false
+  end
+
+  def num_candidates(x1, y1, name)
+    num = 0
+    for x in 1..9 do
+      for y in 1..9 do
+        num += 1 if (@array[x][y] && @array[x][y].to_s == name && @array[x][y].movable_grids.include?([x1, y1]))
+      end
+    end
+    return num
   end
 
   def uchifuzume?(sente)
@@ -615,6 +625,10 @@ class Board
     end
     tag += "</table>"
     return tag
+  end
+
+  def get_piece(x, y)
+  	@array[x][y] ? @array[x][y].to_s : ""
   end
 
 end

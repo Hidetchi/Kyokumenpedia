@@ -12,7 +12,7 @@
 </div>
 <div id="summary">
 <table>
-<tr><th rowspan=3 width=90>分類<td>手合割<td width=200><%= @position.handicap.name %>
+<tr><th rowspan=3 width=70>分類<td>手合割<td width=150><%= @position.handicap.name %>
 <tr><td>最頻到達手<td>
 <% if @counts_sorted[0] == 0 %>
 開始局面
@@ -21,7 +21,13 @@
 <% end %>
 <tr><td>戦型<td>
 <% if @position.strategy %>
-<%= @position.strategy.strategy_group.strategy_family.name %> / <%= @position.strategy.strategy_group.name %> / <%= @position.strategy.name %>
+<%= @position.strategy.strategy_group.strategy_family.name %>
+<% if @position.strategy.strategy_group.name != '-' %>
+ / <%= @position.strategy.strategy_group.name %>
+<% end %>
+<% if @position.strategy.name != '-' %>
+<br><%= @position.strategy.name %>
+<% end %>
 <% else %>
 -
 <% end %>
@@ -46,8 +52,12 @@
 <tr>
 <td><%= move.to_kif %>
 <td><%= move.stat2_total %>
-<td style="border-right:0;">▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝
-<td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
+<td style="border-right:0;">
+<% unless (move.next_position_id == @position.id) %>
+▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝<td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
+<% else %>
+<td>
+<% end %>
 <% end %>
 </table>
 
@@ -72,7 +82,7 @@
 
 <hr>
 <div id="wiki_edit_buttons">
-[編集] [ディスカッション]
+[編集] [履歴] [ディスカッション] 
 </div>
 <h2>解説</h3>
 <div class="wiki">
