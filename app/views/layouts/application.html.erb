@@ -7,11 +7,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body id="root">
+<div id="wrapper">
 
 <div id="side_column">
-<h1>LOGO</h1>
+<center>
+<%= link_to image_tag('logo.png', :width => 100), '/' %>
+</center>
 <ul>
-<li>Top
+<li><%= link_to 'Top', '/' %>
 <li>How to use
 <li>Hot positions
 <li>Requested positions
@@ -33,6 +36,9 @@
 
 </div>
 
-
+</div>
+<div id="footer">
+(c) Team ISCube, All rights reserved.<br>Innovative Shogi Information System Initiation Scheme
+</div>
 </body>
 </html>

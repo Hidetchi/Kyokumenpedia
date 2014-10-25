@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :positions, :only => [:index, :show]
   get 'newkifu' => 'games#create'
+  get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'
+  root :to => 'positions#show', :sfen => 'lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

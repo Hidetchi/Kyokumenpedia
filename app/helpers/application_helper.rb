@@ -532,7 +532,7 @@ class Board
       end
       a.push("\n")
     end
-    a.push("%s\n" % [@teban ? "+" : "-"])
+    a.push(@teban ? "+" : "-")
     return a.join
   end
 
