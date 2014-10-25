@@ -1,0 +1,58 @@
+ja:
+  devise:
+    confirmations:
+      confirmed: アカウントの認証が完了しました。
+      send_instructions: アカウントの認証についてのご案内のメールが数分以内に送信されます。
+      send_paranoid_instructions: あなたのメールアドレスが登録済みの場合、本人確認用のメールが数分以内に送信されます。
+    failure:
+      already_authenticated: すでにログインしています。
+      inactive: アカウントが有効化されていません。メールに記載された手順にしたがって、アカウントの認証を完了してください。
+      invalid: ユーザ名またはパスワードが違います。
+      last_attempt: あと1回ログインに失敗すると、アカウントがロックされます。
+      locked: あなたのアカウントはロックされています。
+      not_found_in_database: ユーザ名またはパスワードが違います。
+      timeout: セッションがタイムアウトしました。もう一度ログインしてください。
+      unauthenticated: アカウント登録もしくはログインしてください。
+      unconfirmed: メールアドレスの認証が完了していないアカウントです。
+    mailer:
+      confirmation_instructions:
+        subject: アカウント認証について
+      reset_password_instructions:
+        subject: パスワード再設定について
+      unlock_instructions:
+        subject: アカウントのロック解除について
+    omniauth_callbacks:
+      failure: '%{kind} アカウントによる認証に失敗しました。理由：（%{reason}）'
+      success: '%{kind} アカウントによる認証に成功しました。'
+    passwords:
+      no_token: このページには、パスワード再設定メールのリンクからのみアクセス可能です。メールに記載されたURLをご確認ください。
+      send_instructions: パスワードの再設定について数分以内にメールでご連絡いたします。
+      send_paranoid_instructions: あなたのメールアドレスが登録済みの場合、パスワード再設定用のメールが数分以内に送信されます。
+      updated: パスワードが正しく変更されました。
+      updated_not_active: パスワードが正しく変更されました。
+    registrations:
+      destroyed: アカウントを削除しました。またのご利用をお待ちしております。
+      signed_up: アカウント登録が完了しました。
+      signed_up_but_inactive: アカウントの仮登録が完了しました。ログインするには、アカウントの認証を完了してください。
+      signed_up_but_locked: アカウントがロックされているためログインできません。
+      signed_up_but_unconfirmed: 本人確認用のメールを送信しました。メール内のリンクからアカウントの認証を行ってください。
+      update_needs_confirmation: アカウント情報を変更しました。変更されたメールアドレスの本人確認のため、本人確認用メールより確認処理をおこなってください。
+      updated: アカウント情報を変更しました。
+    sessions:
+      already_signed_out: 既にログアウト済みです。
+      signed_in: ログインしました。
+      signed_out: ログアウトしました。
+    unlocks:
+      send_instructions: アカウントのロック解除方法を数分以内にメールでご連絡します。
+      send_paranoid_instructions: アカウントが見つかった場合、アカウントのロック解除方法を数分以内にメールでご連絡します。
+      unlocked: アカウントのロックを解除しました。
+  errors:
+    messages:
+      already_confirmed: は既に登録認証済みです。ログインしてください。
+      confirmation_period_expired: の期限が切れました。%{period}までに確認する必要があります。 新しくリクエストしてください。
+      expired: の有効期限が切れました。新しくリクエストしてください。
+      not_found: は見つかりませんでした。
+      not_locked: はロックされていません。
+      not_saved:
+        one: 'エラーが発生したため処理を中断しました:'
+        other: '%{count}件のエラーが発生したため処理を中断しました:'

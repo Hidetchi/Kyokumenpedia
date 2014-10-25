@@ -22,12 +22,33 @@
 <li>Recent changes
 <li>Positions search
 </ul>
+<% if (notice || alert) %>
+<div id="alert_box">
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+</div>
+<% end %>
+<% if user_signed_in? %>
+<div id="user_panel">
+<%= current_user.email %><br>
+<ul>
+<li>MyPage
+<li><%= link_to "登録情報変更", edit_user_registration_path %>
+<li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+</div>
+<% end %>
 </div>
 
 <div id="main">
 
 <div id="header">
-| Create account | Login |
+<% if user_signed_in? %>
+  <strong><span style="color:blue;"><%= current_user.email %></span></strong>でログイン中 | 
+  <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+<% else %>
+ | <%= link_to "アカウント登録", new_user_registration_path %> |
+  <%= link_to "ログイン", new_user_session_path, :class => 'navbar-link' %> |
+<% end %>
 </div>
 
 <div id="contents">

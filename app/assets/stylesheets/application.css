@@ -39,6 +39,27 @@ div#side_column {
 	margin-bottom: -10000px;
 }
 
+div#alert_box {
+	border: 1px solid #ccc;
+	background-color: #ffd;
+	padding-left: 3px;
+	padding-top: 3px;
+	margin-top: 20px;
+	margin-left: 2px;
+	width: 132px;
+}
+
+div#user_panel {
+	border: 1px solid #ccc;
+	background-color: white;
+	padding-left: 3px;
+	padding-top: 3px;
+	margin-top: 30px;
+	margin-left: 3px;
+	width: 131px;
+	overflow: hidden;
+}
+
 div#main {
 	width: 100%;
 }
@@ -64,6 +85,14 @@ div#footer {
 	clear: both;
 	text-align: center;
 	border-top: solid 1px #ccd
+}
+
+p.notice {
+	color: blue;
+}
+
+p.alert {
+	color: red;
 }
 
 h2 {

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :positions, :only => [:index, :show]
   get 'newkifu' => 'games#create'
   get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'

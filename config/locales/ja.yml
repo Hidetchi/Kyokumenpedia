@@ -1,0 +1,24 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード再入力"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "が既に登録されています"
+            password_confirmation:
+              confirmation: "を確認して下さい"
+            password:
+              too_short: "が短すぎます"
+              blank: "を入力して下さい"
+
+  helpers:
+    label:
+      user:
+        remember_me: 次回からパスワード入力を省く
+        current_password: 現在のパスワード

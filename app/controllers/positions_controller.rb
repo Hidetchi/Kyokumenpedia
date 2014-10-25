@@ -1,4 +1,5 @@
 class PositionsController < ApplicationController
+
   def index
     @positions = Position.all.limit(200)
   end
