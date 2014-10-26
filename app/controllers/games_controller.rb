@@ -71,7 +71,7 @@ class GamesController < ApplicationController
     end
     position_already = Hash::new(false)
     move_already = Hash::new(false)
-#    begin
+    begin
       for i in 0..(positions.length - 1) do
         unless (i >= positions.length - 1)
           unless (move = Move.find_by(prev_position_id: positions[i].id, next_position_id: positions[i+1].id))
@@ -122,11 +122,11 @@ class GamesController < ApplicationController
         end
         position_already[positions[i].id] = true
       end
-#    rescue
-#      @game.destroy
-#      @error = 'Database error.'
-#      return
-#    end
+    rescue
+      @game.destroy
+      @error = 'Database error.'
+      return
+    end
 
   end
 
