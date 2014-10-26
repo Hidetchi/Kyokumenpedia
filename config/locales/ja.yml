@@ -12,6 +12,7 @@ ja:
           attributes:
             username:
               taken: "が既に登録されています"
+              too_short: "が短すぎます"
             email:
               taken: "が既に登録されています"
             password_confirmation:
