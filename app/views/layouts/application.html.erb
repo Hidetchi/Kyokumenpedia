@@ -30,7 +30,7 @@
 <% end %>
 <% if user_signed_in? %>
 <div id="user_panel">
-<%= current_user.email %><br>
+<strong><%= current_user.username %></strong>さん<br>
 <ul>
 <li>MyPage
 <li><%= link_to "登録情報変更", edit_user_registration_path %>

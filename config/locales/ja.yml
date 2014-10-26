@@ -2,6 +2,7 @@ ja:
   activerecord:
     attributes:
       user:
+        username: "ユーザ名"
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "パスワード再入力"
@@ -9,6 +10,8 @@ ja:
       models:
         user:
           attributes:
+            username:
+              taken: "が既に登録されています"
             email:
               taken: "が既に登録されています"
             password_confirmation:
@@ -16,9 +19,13 @@ ja:
             password:
               too_short: "が短すぎます"
               blank: "を入力して下さい"
+            current_password:
+              invalid: "現在のパスワードが一致しません"
+            confirmation_token:
+              invalid: "認証キーが一致しません"
 
   helpers:
     label:
       user:
-        remember_me: 次回からパスワード入力を省く
+        remember_me: ログイン状態をキープする
         current_password: 現在のパスワード
