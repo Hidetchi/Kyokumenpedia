@@ -21,8 +21,8 @@ class PositionsController < ApplicationController
     board = Board.new
     board.set_from_str(@position.csa)
     @board_table = board.to_html_table
-    @appearances = @position.appearances.limit(50)
-    @moves = @position.next_moves.order("stat1_total+stat2_total desc")
+    @appearances = @position.appearances.limit(50).includes(:game => :game_source).includes(:next_move)
+    @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
     @prev_moves_sorted = @position.prev_moves.order('stat1_total + stat2_total desc')
     @counts_sorted = @appearances.group(:num).order('count_num desc').count('num').keys
   end

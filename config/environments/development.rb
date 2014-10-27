@@ -46,4 +46,11 @@ Rails.application.configure do
     :domain => "81dojo.com",
     :enable_starttls_auto => true
    }
+	config.after_initialize do
+	  Bullet.enable = false
+	  Bullet.alert = true
+	  Bullet.bullet_logger = true
+	  Bullet.console = true
+	  Bullet.rails_logger = true
+	end
 end

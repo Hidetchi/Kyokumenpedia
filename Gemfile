@@ -39,6 +39,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'therubyracer'
 gem 'devise'
+group :development do
+  gem 'bullet'
+end
 group :test do
   gem "rspec"
   gem "rspec-rails"
