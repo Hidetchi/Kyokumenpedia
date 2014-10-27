@@ -1,3 +1,4 @@
+require 'board'
 class PositionsController < ApplicationController
 
   def index
@@ -17,7 +18,7 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
-    board = ApplicationHelper::Board.new
+    board = Board.new
     board.set_from_str(@position.csa)
     @board_table = board.to_html_table
     @appearances = @position.appearances.limit(50)

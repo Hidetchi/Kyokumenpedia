@@ -60,5 +60,33 @@ RSpec.describe GamesController, :type => :controller do
         expect(Position.find(1).stat2_white).to eq(1)
       end
     end
+    context "with no handicap_id" do
+      it "rejects the kifu post" do
+        expect{
+          get :create, black_name: "player3", white_name: "player4", date: "2015-11-07", result: 1, csa: "+7776FU-3334FU%TORYO", game_source_pass: "rspec"
+        }.to change(Game, :count).by(0)
+      end
+    end
+    context "with invalid handicap_id" do
+      it "rejects the kifu post" do
+        expect{
+          get :create, black_name: "player3", white_name: "player4", date: "2015-11-07", result: 1, handicap_id: 2, csa: "+7776FU-3334FU%TORYO", game_source_pass: "rspec"
+        }.to change(Game, :count).by(0)
+      end
+    end
+    context "with no game_source_pass" do
+      it "rejects the kifu post" do
+        expect{
+          get :create, black_name: "player3", white_name: "player4", date: "2015-11-07", result: 1, handicap_id: 1, csa: "+7776FU-3334FU%TORYO"
+        }.to change(Game, :count).by(0)
+      end
+    end
+    context "with invalid game_source_pass" do
+      it "rejects the kifu post" do
+        expect{
+          get :create, black_name: "player3", white_name: "player4", date: "2015-11-07", result: 1, handicap_id: 1, csa: "+7776FU-3334FU%TORYO", game_source_pass: "xxxx"
+        }.to change(Game, :count).by(0)
+      end
+    end
   end
 end

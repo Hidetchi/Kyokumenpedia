@@ -1,16 +1,16 @@
 class GamesController < ApplicationController
-  include ApplicationHelper
+  require 'board'
 
   def create
     @error = nil
     # Check game source password. (If invalid, render error.)
     # Any trusted kifu provider can post kifu (for example 81Dojo) with its unique password.
-    unless (params[:game_source_pass] && game_source = GameSource.find_by(pass: params[:game_source_pass]))
+    unless (game_source = GameSource.find_by(pass: params[:game_source_pass]))
       @error = 'No proper game source specified.'
       return
     end
     # Check handicap code. (If invalid, render error.) 1: even 2: lance-handicap 3: 4: 5: ...... 9: 8-piece-handicap
-    unless (params[:handicap_id] && Handicap.find(params[:handicap_id]))
+    unless (Handicap.find_by(id: params[:handicap_id]))
       @error = 'No proper handicap specified.'
       return
     end
@@ -55,36 +55,21 @@ class GamesController < ApplicationController
 
     # If the kifu is OK, then update database
     strategy_id = nil
-    @game = Game.new(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid))
-    @game.game_source = game_source
-    begin
-      @game.save
-    rescue
+    unless (@game = Game.api_add(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid), game_source.id))
       @error = 'Duplicate Kifu'
       return
     end
     for i in 0..(sfens.length - 1) do
-      unless (position = Position.find_by(sfen: sfens[i]))
-        position = Position.create(:sfen => sfens[i], :csa => @csa_positions[i], :handicap_id => params[:handicap_id])
-      end
-      positions << position
+      positions << Position.find_or_create(sfens[i], @csa_positions[i], params[:handicap_id])
     end
     position_already = Hash::new(false)
     move_already = Hash::new(false)
     begin
       for i in 0..(positions.length - 1) do
         unless (i >= positions.length - 1)
-          unless (move = Move.find_by(prev_position_id: positions[i].id, next_position_id: positions[i+1].id))
-            move = Move.new(:prev_position_id => positions[i].id, :next_position_id => positions[i+1].id, :csa => csa_moves[i])
-            move.analyze
-          end
+          move = Move.find_or_new(positions[i].id, positions[i+1].id, csa_moves[i])
           unless move_already[move.id]
-            if (@game.game_source.category == 1)
-              move.stat1_total += 1
-            elsif (@game.game_source.category == 2)
-              move.stat2_total += 1
-            end
-            move.save
+            move.update_stat(game_source.category)
           end
           move_already[move.id] = true
         end
@@ -95,25 +80,8 @@ class GamesController < ApplicationController
           else
             positions[i].strategy_id = strategy_id
           end
-          if (@game.game_source.category == 1)  # Official professional kifu
-            if (@game.result == 0) 
-              positions[i].stat1_black += 1
-            elsif (@game.result == 1)
-              positions[i].stat1_white += 1
-            elsif (@game.result == 2)
-              positions[i].stat1_draw += 1
-            end
-          elsif (@game.game_source.category == 2)  # Amateur online games
-            if (@game.result == 0) 
-              positions[i].stat2_black += 1
-            elsif (@game.result == 1)
-              positions[i].stat2_white += 1
-            elsif (@game.result == 2)
-              positions[i].stat2_draw += 1
-            end
-          end
           positions[i].games << @game
-          positions[i].save
+          positions[i].update_stat(game_source.category, @game.result)
 
           appearance = Appearance.last
           appearance.num = i

@@ -1,8 +1,25 @@
 class Move < ActiveRecord::Base
-  include ApplicationHelper
+  require 'board'
   belongs_to :prev_position, class_name: 'Position', foreign_key: 'prev_position_id'
   belongs_to :next_position, class_name: 'Position', foreign_key: 'next_position_id'
   has_many :appearances
+
+  def self.find_or_new(prev_id, next_id, csa_move)
+    unless (move = Move.find_by(prev_position_id: prev_id, next_position_id: next_id))
+      move = Move.new(:prev_position_id => prev_id, :next_position_id => next_id, :csa => csa_move)
+      move.analyze
+    end
+    return move
+  end
+
+  def update_stat(category)
+    if (category == 1)
+      self.stat1_total += 1
+    elsif (category == 2)
+      self.stat2_total += 1
+    end
+    save
+  end
 
   def analyze
   	return if (prev_position_id == next_position_id)
