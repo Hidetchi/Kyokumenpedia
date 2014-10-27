@@ -87,7 +87,7 @@ class Move < ActiveRecord::Base
 		kif += ["玉", "飛", "角", "金", "銀", "桂", "香", "歩", "", "龍", "馬", "", "成銀", "成桂", "成香", "と"][type]
 		if (self.promote)
 			kif += "成"
-		elsif (x0 != 0 && (sg == "+" ? (y0 <= 3 || y1 <= 3) : (y0 >= 6 || y1 >= 6)) && type <= 7 && type != 0 && type != 3)
+		elsif (x0 != 0 && (sg == "+" ? (y0 <= 3 || y1 <= 3) : (y0 >= 7 || y1 >= 7)) && type <= 7 && type != 0 && type != 3)
 			kif += "不成"
 		end
 		if (self.vague)

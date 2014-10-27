@@ -8,9 +8,11 @@ class Position < ActiveRecord::Base
   has_many :prev_positions, :through => :prev_moves, :source => :prev_position
   has_many :next_positions, :through => :next_moves, :source => :next_position
   
-  def self.find_or_create(sfen, csa, handicap_id)
+  def self.find_or_create(sfen)
     unless (position = Position.find_by(sfen: sfen))
-      position = Position.create(:sfen => sfen, :csa => csa, :handicap_id => handicap_id)
+      board = Board.new
+      board.set_from_sfen(sfen)
+      position = Position.create(:sfen => sfen, :csa => board.to_s, :handicap_id => board.handicap_id)
     end
     return position
   end

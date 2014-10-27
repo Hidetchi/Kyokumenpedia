@@ -11,7 +11,6 @@ class Board
     @move_count = move_count
     @teban = nil # black => true, white => false
     @initial_moves = []
-    @handicap = 1
   end
   attr_accessor :array, :sente_hands, :gote_hands, :history, :sente_history, :gote_history, :teban
   attr_reader :move_count
@@ -57,7 +56,6 @@ class Board
     end
     @teban = handicap == 1
     @gote_base_point = [0, 0, 1, 5, 5, 6, 10, 12, 14, 16][handicap]
-    @handicap = handicap
   end
 
   def empty
@@ -163,6 +161,80 @@ class Board
       end # case
     end # do
   end
+
+  def set_from_sfen(sfen)
+		tokens = sfen.split(" ")
+		lines = tokens[0].split("/")
+		y = 0
+		promoted = false
+		lines.each do |line|
+			x = 9
+			y += 1
+			line.each_char do |s|
+				if (s.match(/^\d$/))
+					s.to_i.times do
+						x -= 1
+					end
+				elsif (s == "+")
+					promoted = true
+			  else
+			  	case (s.upcase)
+					when "P"
+						PieceFU::new(self, x, y, s == s.upcase, promoted)
+					when "L"
+						PieceKY::new(self, x, y, s == s.upcase, promoted)
+					when "N"
+						PieceKE::new(self, x, y, s == s.upcase, promoted)
+					when "S"
+						PieceGI::new(self, x, y, s == s.upcase, promoted)
+					when "G"
+						PieceKI::new(self, x, y, s == s.upcase, promoted)
+					when "K"
+						PieceOU::new(self, x, y, s == s.upcase, promoted)
+					when "B"
+						PieceKA::new(self, x, y, s == s.upcase, promoted)
+					when "R"
+						PieceHI::new(self, x, y, s == s.upcase, promoted)
+					else
+						raise "unkown piece #{s}"
+					end
+					x -= 1
+					promoted = false
+				end
+			end
+		end
+		@teban = tokens[1] == "b"
+		num = 1
+		tokens[2].each_char do |s|
+			if (s == "-")
+				break
+			elsif (s.match(/^\d$/))
+				num = s.to_i
+			else
+				num.times do
+			  	case (s.upcase)
+					when "P"
+						PieceFU::new(self, 0, 0, s == s.upcase)
+					when "L"
+						PieceKY::new(self, 0, 0, s == s.upcase)
+					when "N"
+						PieceKE::new(self, 0, 0, s == s.upcase)
+					when "S"
+						PieceGI::new(self, 0, 0, s == s.upcase)
+					when "G"
+						PieceKI::new(self, 0, 0, s == s.upcase)
+					when "B"
+						PieceKA::new(self, 0, 0, s == s.upcase)
+					when "R"
+						PieceHI::new(self, 0, 0, s == s.upcase)
+					else
+						raise "unkown piece #{s}"
+					end
+				end
+				num = 1
+			end
+		end
+	end
 
   def have_piece?(hands, name)
     piece = hands.find { |i|
@@ -580,6 +652,40 @@ class Board
       }
     end
     return sfen
+  end
+
+  def handicap_id
+	num = 0
+	pieces = Hash.new(0)
+	for y in 1..9 do
+     for x in 1..9 do
+	    if (@array[x][y])
+         pieces[@array[x][y].name] += 1
+         num += 1
+       end
+     end
+	end
+	(gote_hands + sente_hands).each do |p|
+     pieces[p.name] += 1
+     num += 1
+   end
+	if (num == 40)
+		return 1
+	elsif (num == 39)
+		return 2 if pieces["KY"] == 3
+		return 3 if pieces["KA"] == 1
+		return 4 if pieces["HI"] == 1
+	elsif (num == 38)
+		return 5 if pieces["KY"] == 3
+		return 6 if pieces["KA"] == 1
+	elsif (num == 36)
+		return 7
+	elsif (num == 34)
+		return 8
+	elsif (num == 32)
+		return 9
+	end
+	return nil
   end
 
   def to_html_table

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Move, :type => :model do
-  before do
+  before :all do
     lines = ["P1-KY-KE-GI-KI-OU-KI-GI-KE-KY",
              "P2 * -HI *  *  *  *  * -KA * ",
              "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU",
@@ -100,6 +100,38 @@ RSpec.describe Move, :type => :model do
     @move_0088GI.analyze
   end
 
+  describe "#find_or_new" do
+		context "when existing move is set" do
+			it "loads the existing move even if the csa_move is wrong" do
+				expect{
+    				move = Move.find_or_new(@pos_initial.id, @pos_7776FU.id, "+5756FU")
+	    			move.save
+				}.to change(Move, :count).by(0)
+			end
+		end
+		context "when non-existing move is set" do
+			it "creates a new record even if the move is not proper" do
+				expect{
+					move = Move.find_or_new(@pos_initial.id, @pos_6152KI.id, "+2726FU")
+					move.save
+				}.to change(Move, :count).by(1)
+			end
+		end
+	end
+
+	describe "#update_stat" do
+		it "increases the stat_total for the corresponding category" do
+		    stat = @move_7776FU.stat1_total
+		    @move_7776FU.update_stat(1)
+		    expect(@move_7776FU.stat1_total - stat).to be(1)
+		end
+		it "does not increase the stat_total for other categories" do
+		    stat = @move_7776FU.stat2_total
+		    @move_7776FU.update_stat(1)
+		    expect(@move_7776FU.stat2_total - stat).to be(0)
+		end
+	end
+
   describe "#analyze" do
     context "with +7776FU" do
       it "sets self.promote = false" do
@@ -160,5 +192,9 @@ RSpec.describe Move, :type => :model do
         expect(@move_0088GI.to_kif).to eq("▲８八銀打")
       end
     end
+  end
+  after :all do
+    Position.delete_all
+    Move.delete_all
   end
 end

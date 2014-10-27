@@ -4,8 +4,8 @@
 Error: <%= @error %>
 <% else %>
 Successfully added.<br>
-<% @csa_positions.each do |out| %>
-<% out.split("\n").each do |line| %>
+<% @positions.each do |pos| %>
+<% pos.csa.split("\n").each do |line| %>
 <%= line %>
 <% end %>
 <% end %>
