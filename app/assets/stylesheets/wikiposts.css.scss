@@ -1,3 +1,47 @@
 // Place all the styles related to the wikiposts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+table.diff {
+	border: 2px ridge #aaa;
+	margin-left: 40px;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	width: 800px;
+	line-height: 1.6em;
+}
+
+table.diff td {
+	border: 0;
+	text-align: left;
+	padding-left: 6px;
+}
+
+table.diff td.mark {
+	padding: 0;
+	width: 25px;
+	border-right: 1px solid grey;
+	text-align: center;
+	vertical-align: top;
+}
+
+tr.del {
+	background-color: #fee;
+}
+
+tr.add {
+	background-color: #eef;
+}
+
+
+span.del {
+#	font-weight: bold;
+  background-color: #fcc;
+	color: red;
+}
+
+span.add {
+#	font-weight: bold;
+  background-color: #ccf;
+	color: blue;
+}

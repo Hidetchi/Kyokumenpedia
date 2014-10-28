@@ -1,4 +1,41 @@
 <%= @wikipost.user.username %>さんの投稿 (<%= @wikipost.created_at %>)
-<h2>差分</h2>
+<h2>更新差分</h2>
+<table class="diff">
+<% @wikipost.diff_sets.each do |set| %>
+	<% case (set[:line].action) %>
+	<% when "!" %>
+		<tr class="del"><td class="mark">-<td>
+		<% highlight = false
+		set[:chars].each do |change|
+			if (change.action == "+")
+			elsif (change.action == "-" || change.action == "!")
+				if (!highlight) %><span class="del"><% end %><%= change.old_element %><% highlight = true
+			else
+				if (highlight) %></span><% end %><%= change.old_element %><% highlight = false
+			end
+		end %>
+	  <% if (highlight) %></span><% end %>
+		<tr class="add"><td class="mark">+<td>
+		<% highlight = false
+		set[:chars].each do |change|
+			if (change.action == "-")
+			elsif (change.action == "+" || change.action == "!")
+				if (!highlight) %><span class="add"><% end %><%= change.new_element %><% highlight = true
+			else
+				if (highlight) %></span><% end %><%= change.old_element %><% highlight = false
+			end
+		end %>
+	  <% if (highlight) %></span><% end %>
+	<% when "-" %>
+		<tr class="del"><td class="mark">-<td><span class="del"><%= set[:line].old_element %></span>
+	<% when "+" %>
+		<tr class="add"><td class="mark">+<td><span class="add"><%= set[:line].new_element %></span>
+	<% when "=" %>
+		<tr><td class="mark"><td><%= set[:line].old_element %>
+	<% end %>
+<% end %>
+</table>
 
+<hr>
+<h1>記事</h1>
 <%= render :partial => 'interpreter', :locals => { :content => @wikipost.content } %>

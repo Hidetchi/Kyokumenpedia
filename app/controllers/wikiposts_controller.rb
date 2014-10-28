@@ -3,9 +3,9 @@ class WikipostsController < ApplicationController
 
   def index
     if (params[:position_id])
-      @wikiposts = Wikipost.where(:position_id => params[:position_id])
+      @wikiposts = Wikipost.where(:position_id => params[:position_id]).order('created_at desc').limit(50)
     elsif (params[:user_id])
-      @wikiposts = Wikipost.where(:user_id => params[:user_id])
+      @wikiposts = Wikipost.where(:user_id => params[:user_id]).order('created_at desc').limit(50)
     end
   end
   

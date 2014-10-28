@@ -1,6 +1,6 @@
 <%
 board = Board.new
-board.set_from_str(position.csa)
+board.set_from_sfen(position.sfen)
 board_table = board.to_html_table
 prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total desc').limit(1)
 num_counts = position.appearances.pluck(:num).group_by { |v| v }

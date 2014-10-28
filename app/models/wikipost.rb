@@ -1,3 +1,5 @@
+require 'diff/lcs'
+
 class Wikipost < ActiveRecord::Base
   belongs_to :user
   belongs_to :position
@@ -15,5 +17,20 @@ class Wikipost < ActiveRecord::Base
       return false
     end
     return wikipost
+  end
+  
+  def diff_sets
+    sets = []
+    lines1 = self.prev_post ? self.prev_post.content.split("\n") : ""
+    lines2 = self.content.split("\n")
+    lineContextChanges = Diff::LCS.sdiff(lines1, lines2)
+    lineContextChanges.each do |lcc|
+      change = Hash[:line => lcc]
+      if (lcc.action == "!")
+        change[:chars] = Diff::LCS.sdiff(lcc.old_element, lcc.new_element)
+      end
+      sets << change
+    end
+    return sets
   end
 end
