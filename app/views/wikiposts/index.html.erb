@@ -1,0 +1,14 @@
+<h2>Listing Wikiposts</h2>
+
+<table>
+<tr><td>投稿日時<td>局面<td>編集内容の説明<td>マイナー変更<td>編集者<td>差分
+<% @wikiposts.each do |w| %>
+<tr>
+<td><%= w.created_at %>
+<td><tt><%= w.position.csa.split("\n").join("<br>").html_safe %></tt>
+<td><%= w.comment %>
+<td><%= w.minor %>
+<td><%= w.user.username %>
+<td><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
+<% end %>
+</table>

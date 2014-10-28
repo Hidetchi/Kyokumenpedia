@@ -34,6 +34,7 @@
 <strong><%= current_user.username %></strong>さん<br>
 <ul>
 <li>MyPage
+<li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + current_user.id.to_s %>
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 </div>

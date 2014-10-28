@@ -1,0 +1,53 @@
+<%
+board = Board.new
+board.set_from_str(position.csa)
+board_table = board.to_html_table
+prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total desc').limit(1)
+num_counts = position.appearances.pluck(:num).group_by { |v| v }
+num = num_counts.sort[0][0]
+%>
+
+<table class="invisible">
+<tr><td class="invisible">
+
+<div id="position">
+<%= board_table.html_safe %>
+</div>
+
+<td class="invisible">
+
+<div style="text-align:right;margin-bottom:10px;">
+エクスポート: <button type=button>SFEN</button> <button type=button>BOD</button>
+</div>
+<div id="summary">
+<table>
+<tr><th rowspan=3 width=70>分類<td>手合割<td width=150><%= position.handicap.name %>
+<tr><td>最頻到達手<td>
+<% if num == 0 %>
+開始局面
+<% elsif (prev_moves_sorted[0]) %>
+<%= num %>手目 <%= prev_moves_sorted[0].to_kif %>まで
+<% end %>
+<tr><td>戦型<td>
+<% if position.strategy %>
+<%= position.strategy.strategy_group.strategy_family.name %>
+<% if position.strategy.strategy_group.name != '-' %>
+ / <%= position.strategy.strategy_group.name %>
+<% end %>
+<% if position.strategy.name != '-' %>
+<br><%= position.strategy.name %>
+<% end %>
+<% else %>
+-
+<% end %>
+
+<tr><th rowspan=2>棋譜統計<br>サマリー<td>プロ<td>▲<%= position.stat1_black %>勝 - △<%= position.stat1_white %>勝
+<tr><td>オンライン道場<td>▲<%= position.stat2_black %>勝 - △<%= position.stat2_white %>勝
+
+<tr><th rowspan=2>局面評価<br>サマリー<br>(Wiki)<td>人間<td>
+<tr><td>AI評価値<td>
+</table>
+</div>
+</table>
+
+<hr>

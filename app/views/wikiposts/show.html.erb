@@ -1,0 +1,4 @@
+<%= @wikipost.user.username %>さんの投稿 (<%= @wikipost.created_at %>)
+<h2>差分</h2>
+
+<%= render :partial => 'interpreter', :locals => { :content => @wikipost.content } %>
