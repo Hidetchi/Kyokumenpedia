@@ -1,17 +1,14 @@
 <%
-board = Board.new
-board.set_from_sfen(position.sfen)
-board_table = board.to_html_table
 prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total desc').limit(1)
 num_counts = position.appearances.pluck(:num).group_by { |v| v }
-num = num_counts.sort[0][0]
+num = num_counts[0] ? num_counts.sort[0][0] : nil
 %>
 
 <table class="invisible">
 <tr><td class="invisible">
 
 <div id="position">
-<%= board_table.html_safe %>
+<%= position.to_html.html_safe %>
 </div>
 
 <td class="invisible">

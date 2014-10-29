@@ -41,7 +41,7 @@
 
 <hr>
 <div id="wiki_edit_buttons">
-[<%= link_to '編集', {:action => 'edit', :id => @position.id, :content => @position.latest_post ? @position.latest_post.content : '' } %>]
+[<%= link_to '編集', {:action => 'edit', :id => @position.id} %>]
 [<%= link_to '履歴', {:controller => 'wikiposts', :action => 'index', :position_id => @position.id} %>]
 [ディスカッション] 
 </div>

@@ -1,14 +1,22 @@
-<h2>Listing Wikiposts</h2>
+<h2><%= @list_title %></h2>
 <br>
-<table>
-<tr><td>投稿日時<td>局面<td>編集内容の説明<td>マイナー変更<td>編集者<td>差分
+<table class="list">
+<tr>
+<th class="list" style="width:120px;">局面
+<th class="list">編集内容の説明
+<th class="list">編集者
+<th class="list">投稿日時
+<th class="list">リンク
 <% @wikiposts.each do |w| %>
 <tr>
-<td><%= w.created_at %>
-<td><pre><%= w.position.csa.split("\n").join("<br>").html_safe %></pre>
-<td><%= w.comment %>
-<td><%= w.minor %>
-<td><%= w.user.username %>
-<td><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
+<td class="list"><%= w.position.to_html("S").html_safe %>
+<td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %>
+<% if (w.minor) %>
+  <br><i>(マイナー変更)</i>
+<% end %>
+<td class="list"><%= w.user.username %>
+<td class="list"><%= w.to_past_time %>
+<td class="list"><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
+<br><br><%= link_to '局面', '/positions/' + w.position.id.to_s %>
 <% end %>
 </table>

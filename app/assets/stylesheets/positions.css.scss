@@ -18,16 +18,29 @@ div#stat_appearances {
 	overflow-y: auto;
 }
 
-div.wiki {
-	margin-left: 20px;
-}
-
-div.wiki_sub {
-	margin-left: 35px;
-}
-
 div#wiki_edit_buttons {
 	float: right;
 	margin-right: 20px;
 }
 
+div.level2 {
+	padding-left: 15px;
+}
+div.level3 {
+	padding-left: 25px;
+}
+div.level4 {
+	padding-left: 35px;
+}
+div.level5 {
+	padding-left: 45px;
+}
+
+table.wiki {
+	margin-left: 35px;
+	min-width: 450px;
+}
+table.wiki td.left {
+	padding-left: 8px;
+	text-align: left;
+}

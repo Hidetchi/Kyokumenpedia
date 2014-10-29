@@ -19,6 +19,7 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
+    session[:wikiedit] = @position.latest_post ? @position.latest_post.content : ""
     @appearances = @position.appearances.select(:game_id, :next_move_id).limit(50).includes(:game => :game_source).includes(:next_move)
     @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
   end

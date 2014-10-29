@@ -6,7 +6,7 @@
 
 <h2>編集</h2>
 <%= form_for :wikipost, :url => {:controller => 'wikiposts', :action => 'create'} do |f| %>
-<%= f.text_area :content, :size => "70x20", :value => params[:content] %><br>
+<%= f.text_area :content, :size => "80x18", :value => session[:wikiedit] %><br>
 <%= f.submit 'プレビュー', :name => "preview" %>
 <%= f.hidden_field :position_id, :value => @position.id %>
 <%= f.hidden_field :prev_post_id, :value => @position.latest_post_id %>
@@ -20,4 +20,4 @@
 <hr>
 
 <h1>プレビュー</h1>
-<%= render :partial => 'wikiposts/interpreter', :locals => { :content => @preload_content } %>
+<%= render :partial => 'wikiposts/interpreter', :locals => { :content => session[:wikiedit] } %>

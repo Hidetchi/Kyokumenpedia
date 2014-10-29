@@ -4,8 +4,11 @@ class WikipostsController < ApplicationController
   def index
     if (params[:position_id])
       @wikiposts = Wikipost.where(:position_id => params[:position_id]).order('created_at desc').limit(50)
+      @list_title = "編集履歴"
     elsif (params[:user_id])
       @wikiposts = Wikipost.where(:user_id => params[:user_id]).order('created_at desc').limit(50)
+      user = User.find_by(id: params[:user_id])
+      @list_title = user.username + "さんのコントリビューション"
     end
   end
   
@@ -14,15 +17,16 @@ class WikipostsController < ApplicationController
   end
 
   def create
+    session[:wikiedit] = params[:wikipost][:content]
     if (params[:preview])
-      redirect_to '/positions/' + params[:wikipost][:position_id] + '/edit?content=' + ERB::Util.url_encode(params[:wikipost][:content])
+      redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id]
     elsif (wikipost = Wikipost.new_post(params[:wikipost].permit(:content, :comment, :position_id, :user_id, :minor, :prev_post_id)))
       position = Position.find(params[:wikipost][:position_id])
       position.update_attribute(:latest_post_id, wikipost.id)
       redirect_to '/positions/' + params[:wikipost][:position_id]
     else
       flash[:alert] = "保存に失敗しました。入力内容を確認して下さい。"
-      redirect_to '/positions/' + params[:wikipost][:position_id] + '/edit?content=' + ERB::Util.url_encode(params[:wikipost][:content])
+      redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id]
     end
   end
 end

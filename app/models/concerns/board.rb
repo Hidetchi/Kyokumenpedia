@@ -688,8 +688,8 @@ class Board
 	return nil
   end
 
-  def to_html_table
-    tag = "<table class='board_wrapper'><tr><td class='komadai_gote'>△"
+  def to_html_table(size="M")
+    tag = "<table class='board_wrapper font" + size + "'><tr><td class='komadai gote'>△"
     if (gote_hands.empty?)
       tag += "<br>な<br>し"
     else
@@ -703,7 +703,7 @@ class Board
         tag += "<br>" + key + (value > 1 ? value.to_s : "")
       }
     end
-    tag += "<td class='board_frame'><table class='board'>"
+    tag += "<td class='board_frame'><table class='board_" + size + "'>"
     for y in 1..9 do
       tag += "<tr>"
       for x in 9.downto(1) do
@@ -715,7 +715,7 @@ class Board
         end
       end
     end
-    tag += "</table><td class='komadai_sente'>▲"
+    tag += "</table><td class='komadai'>▲"
     if (sente_hands.empty?)
       tag += "<br>な<br>し"
     else

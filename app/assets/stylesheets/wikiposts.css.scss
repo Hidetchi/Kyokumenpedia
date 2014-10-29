@@ -4,10 +4,10 @@
 
 table.diff {
 	border: 2px ridge #aaa;
-	margin-left: 40px;
+	margin-left: 30px;
 	margin-top: 20px;
 	margin-bottom: 30px;
-	width: 800px;
+	width: 630px;
 	line-height: 1.6em;
 }
 
@@ -15,6 +15,7 @@ table.diff td {
 	border: 0;
 	text-align: left;
 	padding-left: 6px;
+#	white-space: pre;
 }
 
 table.diff td.mark {
@@ -44,4 +45,20 @@ span.add {
 #	font-weight: bold;
   background-color: #ccf;
 	color: blue;
+}
+
+table.list {
+  border: 0;
+  width: 97%;
+}
+
+th.list {
+  border-left: 0;
+  border-right: 0;
+}
+
+td.list {
+  padding: 5px;
+  border-left: 0;
+  border-right: 0;
 }

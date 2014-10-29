@@ -67,6 +67,7 @@ div#main {
 div#contents {
 	margin-left: 150px;
 	padding-left:20px;
+	padding-bottom: 10px;
 }
 
 div#header {
@@ -95,6 +96,10 @@ p.alert {
 	color: red;
 }
 
+h1 {
+color: #026;
+}
+
 h2 {
 margin-top: 15px;
 margin-bottom: 5px;
@@ -113,6 +118,19 @@ padding: 3px 5px;
 border-bottom: 1px solid #888;
 border-left: 10px solid #888;
 font-size: 15px;
+}
+
+h4 {
+margin: 0 0 10px 15px;
+padding: 3px 5px;
+font-size: 14px;
+text-decoration: underline;
+}
+
+h5 {
+margin: 0 0 5px 22px;
+padding: 3px 5px;
+font-size: 14px;
 }
 
 hr {
@@ -152,23 +170,36 @@ ul {
 	padding: 15px 10px;
 }
 
+
+
 table.board_wrapper {
 	border: 0;
-	font-size: 18px;
 	font-family: "游明朝","Yu Mincho","ヒラギノ明朝 Pro","Hiragino Mincho Pro","Takao明朝","TakaoMincho","ＭＳ 明朝","serif";
 	line-height: 1.1em;
 }
 
-table.board {
+table.fontM {
+	font-size: 18px;
 }
+table.fontS {
+	font-size: 10px;
+}	
 
-table.board td {
+table.board_M td {
     width: 20px;
     height: 22px;
+    border: 1px solid black;
     padding: 0;
 }
 
-table.board td.gote {
+table.board_S td {
+    width: 10px;
+    height: 11px;
+    border: 1px solid black;
+    padding: 0;
+}
+
+td.gote {
 	-moz-transform:matrix(-1, 0, 0, -1, 0, 0);
 	-webkit-transform:matrix(-1, 0, 0, -1, 0, 0);
 	-o-transform:matrix(-1, 0, 0, -1, 0, 0);
@@ -182,22 +213,9 @@ td.board_frame {
 	padding: 5px;
 }
 
-td.komadai_sente {
+td.komadai {
 	border: 0;
 	text-align: left;
 	vertical-align: bottom;
-	padding-left: 10px;
-}
-
-td.komadai_gote {
-	border: 0;
-	text-align: left;
-	vertical-align: bottom;
-	padding-left: 10px;
-	-moz-transform:matrix(-1, 0, 0, -1, 0, 0);
-	-webkit-transform:matrix(-1, 0, 0, -1, 0, 0);
-	-o-transform:matrix(-1, 0, 0, -1, 0, 0);
-	-ms-transform:matrix(-1, 0, 0, -1, 0, 0);
-	transform:matrix(-1, 0, 0, -1, 0, 0);
-	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+	padding-left: 9px;
 }

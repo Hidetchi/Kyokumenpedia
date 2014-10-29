@@ -1,4 +1,5 @@
-<%= @wikipost.user.username %>さんの投稿 (<%= @wikipost.created_at %>)
+<%= @wikipost.user.username %>さんの投稿 (<%= @wikipost.to_local_time %>)
+
 <h2>更新差分</h2>
 <table class="diff">
 <% @wikipost.diff_sets.each do |set| %>
