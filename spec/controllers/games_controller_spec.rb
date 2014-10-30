@@ -34,10 +34,10 @@ RSpec.describe GamesController, :type => :controller do
         expect(Appearance.count).to eq(19)
       end
       it "increments stat_total in moves" do
-        expect(Move.find(1).stat2_total).to eq(1)
+        expect(Move.first.stat2_total).to eq(1)
       end
       it "increments stat_black/white in position" do
-        expect(Position.find(1).stat2_white).to eq(1)
+        expect(Position.first.stat2_white).to eq(1)
       end
       it "sets move number as num in appearance" do
         expect(Appearance.last.num).to eq(18)
@@ -54,10 +54,10 @@ RSpec.describe GamesController, :type => :controller do
         expect(Game.count).to eq(1)
       end
       it "does not update stat_total in moves" do
-        expect(Move.find(1).stat2_total).to eq(1)
+        expect(Move.first.stat2_total).to eq(1)
       end
       it "does not update stat_black/white in position" do
-        expect(Position.find(1).stat2_white).to eq(1)
+        expect(Position.first.stat2_white).to eq(1)
       end
     end
     context "with no handicap_id" do
