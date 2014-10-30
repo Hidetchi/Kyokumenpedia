@@ -20,7 +20,7 @@
 <li>Requested positions
 <li>New positions
 <li>Recent changes
-<li>Positions search
+<li><%= link_to '局面検索', positions_search_path %>
 <li>Terms of Use
 </ul>
 <% if (notice || alert) %>
@@ -37,6 +37,7 @@
 <li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + current_user.id.to_s %>
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+</ul>
 </div>
 <% end %>
 </div>

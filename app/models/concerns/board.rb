@@ -204,13 +204,15 @@ class Board
 			end
 		end
 		@teban = tokens[1] == "b"
-		num = 1
+		num = 0
 		tokens[2].each_char do |s|
 			if (s == "-")
 				break
 			elsif (s.match(/^\d$/))
-				num = s.to_i
+				num *= 10 if (num > 0)
+				num += s.to_i
 			else
+				num = 1 if (num == 0)
 				num.times do
 			  	case (s.upcase)
 					when "P"
@@ -231,7 +233,7 @@ class Board
 						raise "unkown piece #{s}"
 					end
 				end
-				num = 1
+				num = 0
 			end
 		end
 	end
@@ -241,6 +243,93 @@ class Board
       i.name == name
     }
     return piece
+  end
+
+  def set_from_bod(bod)
+    @teban = true
+    lines = bod.split("\n")
+    lines.each do |line|
+      line.chomp!
+      if (line =~ /^(.)手の持駒：(.*)$/)
+        player = $1
+        pieces = $2
+        sente = (player == "先" || player == "下")
+        unless (pieces =~ /なし/)
+          pieces.split("　").each do |p|
+            if (p.length == 1)
+              piece_name = p
+              num = 1
+            else
+              piece_name = p[0]
+              num = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八"].index(p[1..(p.length-1)])
+            end
+            num.times do
+			  	case (piece_name)
+					when "歩"
+						PieceFU::new(self, 0, 0, sente)
+					when "香"
+						PieceKY::new(self, 0, 0, sente)
+					when "桂"
+						PieceKE::new(self, 0, 0, sente)
+					when "銀"
+						PieceGI::new(self, 0, 0, sente)
+					when "金"
+						PieceKI::new(self, 0, 0, sente)
+					when "角"
+						PieceKA::new(self, 0, 0, sente)
+					when "飛"
+						PieceHI::new(self, 0, 0, sente)
+					else
+						raise "unkown piece #{piece_name}"
+				end
+            end
+          end
+        end
+      elsif (line =~ /^\|(.+)\|(.)$/)
+        row = $1
+        y = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"].index($2) 
+        (1..9).each do |x|
+          piece = row[(2*(9-x))..(2*(9-x)+1)]
+          unless (piece == " ・")
+            sente = piece[0] != "v"
+			  	case (piece[1])
+					when "歩"
+						PieceFU::new(self, x, y, sente)
+					when "香"
+						PieceKY::new(self, x, y, sente)
+					when "桂"
+						PieceKE::new(self, x, y, sente)
+					when "銀"
+						PieceGI::new(self, x, y, sente)
+					when "金"
+						PieceKI::new(self, x, y, sente)
+					when "角"
+						PieceKA::new(self, x, y, sente)
+					when "飛"
+						PieceHI::new(self, x, y, sente)
+					when "玉"
+						PieceOU::new(self, x, y, sente)
+					when "と"
+						PieceFU::new(self, x, y, sente, true)
+					when "杏"
+						PieceKY::new(self, x, y, sente, true)
+					when "圭"
+						PieceKE::new(self, x, y, sente, true)
+					when "全"
+						PieceGI::new(self, x, y, sente, true)
+					when "馬"
+						PieceKA::new(self, x, y, sente, true)
+					when "龍"
+						PieceHI::new(self, x, y, sente, true)
+					else
+						raise "unkown piece #{piece[1]}"
+				end
+          end
+        end
+      elsif (line =~ /後手番/)
+        @teban = false
+      end
+    end
   end
 
   def move_to(x0, y0, x1, y1, name, sente)
@@ -675,15 +764,15 @@ class Board
 		return 2 if pieces["KY"] == 3
 		return 3 if pieces["KA"] == 1
 		return 4 if pieces["HI"] == 1
-	elsif (num == 38)
+	elsif (num == 38 && pieces["HI"] == 1)
 		return 5 if pieces["KY"] == 3
 		return 6 if pieces["KA"] == 1
 	elsif (num == 36)
-		return 7
+		return 7 if (pieces["HI"] == 1 && pieces["KA"] == 1 && pieces["KY"] == 2)
 	elsif (num == 34)
-		return 8
+		return 8 if (pieces["HI"] == 1 && pieces["KA"] == 1 && pieces["KY"] == 2 && pieces["KE"] == 2)
 	elsif (num == 32)
-		return 9
+		return 9 if (pieces["HI"] == 1 && pieces["KA"] == 1 && pieces["KY"] == 2 && pieces["KE"] == 2 && pieces["GI"] == 2)
 	end
 	return nil
   end
