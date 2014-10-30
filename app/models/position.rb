@@ -11,10 +11,10 @@ class Position < ActiveRecord::Base
   has_many :wikiposts, foreign_key: 'position_id'
   
   def self.find_or_create(sfen)
-    unless (position = Position.find_by(sfen: sfen))
-      board = Board.new
-      board.set_from_sfen(sfen)
-      position = Position.create(:sfen => sfen, :csa => board.to_s, :handicap_id => board.handicap_id)
+    board = Board.new
+    board.set_from_sfen(sfen)
+    unless (position = Position.find_by(sfen: board.to_sfen))
+      position = Position.create(:sfen => board.to_sfen, :csa => board.to_s, :handicap_id => board.handicap_id)
     end
     return position
   end

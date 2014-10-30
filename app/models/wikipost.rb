@@ -52,7 +52,7 @@ class Wikipost < ActiveRecord::Base
     elsif (diff > 60)
       return diff.div(60).to_s + "分前"
     else
-      return diff.to_s + "秒前"
+      return diff.to_i.to_s + "秒前"
     end
   end
 end

@@ -31,9 +31,9 @@ class Move < ActiveRecord::Base
 		y1 = $5.to_i
 		name = $6
 	  	prev_board = Board.new
-	  	prev_board.set_from_str(self.prev_position.csa)
+	  	prev_board.set_from_sfen(self.prev_position.sfen)
 	  	next_board = Board.new
-	  	next_board.set_from_str(self.next_position.csa)
+	  	next_board.set_from_sfen(self.next_position.sfen)
 	  	self.promote = x0 != 0 && prev_board.get_piece(x0, y0) != next_board.get_piece(x1, y1)
 		moved_piece_name = x0 == 0 ? (sg + name) : prev_board.get_piece(x0, y0)
 	  	num = prev_board.num_candidates(x1, y1, moved_piece_name)
