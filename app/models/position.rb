@@ -40,9 +40,9 @@ class Position < ActiveRecord::Base
     save
   end
   
-  def to_html(size="M")
+  def to_board
     board = Board.new
     board.set_from_sfen(self.sfen)
-    return board.to_html_table(size)
+    return board
   end
 end

@@ -1,33 +1,22 @@
 <%
 prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total desc').limit(1)
 num_counts = position.appearances.pluck(:num).group_by { |v| v }
-num = num_counts[0] ? num_counts.sort[0][0] : nil
+num = num_counts.sort[0] ? num_counts.sort[0][0] : nil
+board = position.to_board
 %>
 
 <table class="invisible">
 <tr><td class="invisible">
 
 <div id="position">
-<%= position.to_html.html_safe %>
+<%= board.to_html_table("M").html_safe %>
 </div>
 
 <td class="invisible">
 
-<div style="text-align:right;margin-bottom:10px;">
-エクスポート: 
-<button type="button" onmouseup="alert('<%= position.sfen %>')">SFEN</button>
-<button type="button" onmouseup="alert('Not implemented yet')">BOD</button>
-<button type="button" onmouseup="alert('Not implemented yet')">CSA</button>
-</div>
 <div id="summary">
-<table>
+<table  , >
 <tr><th rowspan=3 width=70>分類<td>手合割<td width=150><%= position.handicap.name %>
-<tr><td>最頻到達手<td>
-<% if num == 0 %>
-開始局面
-<% elsif (prev_moves_sorted[0]) %>
-<%= num %>手目 <%= prev_moves_sorted[0].to_kif %>まで
-<% end %>
 <tr><td>戦型<td>
 <% if position.strategy %>
 <%= position.strategy.strategy_group.strategy_family.name %>
@@ -40,13 +29,28 @@ num = num_counts[0] ? num_counts.sort[0][0] : nil
 <% else %>
 -
 <% end %>
+<tr><td>手番
+<td><%= board.to_teban_text %>
 
-<tr><th rowspan=2>棋譜統計<br>サマリー<td>プロ<td>▲<%= position.stat1_black %>勝 - △<%= position.stat1_white %>勝
+<tr><th rowspan=3>棋譜統計<br>サマリー<td>最頻到達手<td>
+<% if num == 0 %>
+開始局面
+<% elsif (prev_moves_sorted[0]) %>
+<%= num %>手目 <%= prev_moves_sorted[0].to_kif %>まで
+<% end %>
+<tr><td>プロ<td>▲<%= position.stat1_black %>勝 - △<%= position.stat1_white %>勝
 <tr><td>オンライン道場<td>▲<%= position.stat2_black %>勝 - △<%= position.stat2_white %>勝
 
-<tr><th rowspan=2>局面評価<br>サマリー<br>(Wiki)<td>人間<td>
+<tr><th rowspan=2>局面評価<br>サマリー<td>現在の結論<td>
 <tr><td>AI評価値<td>
 </table>
+</div>
+
+<div style="text-align:right;margin-top:10px;">
+エクスポート: 
+<button type="button" onmouseup="alert('<%= position.sfen %>')">SFEN</button>
+<button type="button" onmouseup="alert('Not implemented yet')">BOD</button>
+<button type="button" onmouseup="alert('Not implemented yet')">CSA</button>
 </div>
 </table>
 

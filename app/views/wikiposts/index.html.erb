@@ -9,7 +9,7 @@
 <th class="list">リンク
 <% @wikiposts.each do |w| %>
 <tr>
-<td class="list"><%= w.position.to_html("S").html_safe %>
+<td class="list"><%= w.position.to_board.to_html_table("S").html_safe %>
 <td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %>
 <% if (w.minor) %>
   <br><i>(マイナー変更)</i>

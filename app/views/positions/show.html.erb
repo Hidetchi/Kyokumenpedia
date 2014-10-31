@@ -6,16 +6,16 @@
 
 <div id="stat_next_moves">
 <table>
-<tr><th width=60>次の手<th width=50>採用数<th colspan=2 width=150>次の局面
+<tr><th width=60>次の手<th width=50>採用数<th colspan=3 width=150>次の局面
 <% @moves.each do |move| %>
 <tr>
 <td><%= move.to_kif %>
 <td><%= move.stat2_total %>
 <td style="border-right:0;">
 <% unless (move.next_position_id == @position.id) %>
-▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝<td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
+▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝<td style="border-right:0;"><%= "W" if (move.next_position.latest_post_id) %><td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
 <% else %>
-<td>
+<td><td>
 <% end %>
 <% end %>
 </table>

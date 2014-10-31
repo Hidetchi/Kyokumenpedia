@@ -821,6 +821,14 @@ class Board
     tag += "</table>"
     return tag
   end
+  
+  def to_teban_text
+    if (handicap_id == 1)
+      @teban ? "先手番" : "後手番"
+    else
+      @teban ? "下手番" : "上手番"
+    end
+  end
 
   def get_piece(x, y)
   	@array[x][y] ? @array[x][y].to_s : ""
