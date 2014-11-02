@@ -1,5 +1,5 @@
 module WikipostsHelper
-	def interpret_wiki(content)
+	def interpret_wiki(position_id, content)
 		lines = content.split("\n")
 		new_lines = []
 		hash = Hash.new(0)
@@ -46,7 +46,7 @@ module WikipostsHelper
 				match1 = $1
 				match2 = $2
 				if (match1 =~ /^[\+\-]\d{4}[A-Z]{2}/)
-					'<a href="/positions/moves/' + match1 + '" target="_blank">' + match2 + '</a>'
+					'<a href="/positions/' + position_id.to_s + '/' + match1 + '" target="_blank">' + match2 + '</a>'
 				else
 					'<a href="/positions/' + match1 + '" target="_blank">' + match2 + '</a>'
 				end
@@ -55,9 +55,9 @@ module WikipostsHelper
 			line = line.gsub(/\[(http.+?)\]/) {
 				match = $1
 				if (match =~ /^(.+)\|(.+)$/)
-					'<a href="' + $1 + '" target="_blank">' + $2 + '</a>'
+					'<a class="external" href="' + $1 + '" target="_blank">' + $2 + '</a>'
 				else
-					'<a href="' + match + '" target="_blank">' + match + '</a>'
+					'<a class="external" href="' + match + '" target="_blank">' + match + '</a>'
 				end
 			}
 

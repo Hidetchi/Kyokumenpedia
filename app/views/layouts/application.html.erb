@@ -19,7 +19,7 @@
 <li>Hot positions
 <li>Requested positions
 <li>New positions
-<li>Recent changes
+<li><%= link_to '最新の変更', wikiposts_path %>
 <li><%= link_to '局面検索', positions_search_path %>
 <li>Terms of Use
 </ul>
@@ -33,8 +33,9 @@
 <div id="user_panel">
 <strong><%= current_user.username %></strong>さん<br>
 <ul>
-<li>MyPage
+<li>タイムライン
 <li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + current_user.id.to_s %>
+<li><%= link_to "マイページ", '/users/' + current_user.id.to_s %>
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 </ul>

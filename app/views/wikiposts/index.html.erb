@@ -14,7 +14,7 @@
 <% if (w.minor) %>
   <br><i>(マイナー変更)</i>
 <% end %>
-<td class="list"><%= w.user.username %>
+<td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %>
 <td class="list"><%= w.to_past_time %>
 <td class="list"><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
 <br><br><%= link_to '局面', '/positions/' + w.position.id.to_s %>

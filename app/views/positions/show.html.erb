@@ -13,9 +13,9 @@
 <td><%= move.stat2_total %>
 <td style="border-right:0;">
 <% unless (move.next_position_id == @position.id) %>
-▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝<td style="border-right:0;"><%= "W" if (move.next_position.latest_post_id) %><td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
+▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝<td style="border-right:0;"><%= image_tag "icon-pen.png", :style => "vertical-align:middle;", :title => "解説記事あり" if (move.next_position.latest_post_id) %><td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
 <% else %>
-<td><td>
+<td style="border-right:0;"><td>
 <% end %>
 <% end %>
 </table>
@@ -46,4 +46,4 @@
 [ディスカッション] 
 </div>
 
-<%= render :partial => 'wikiposts/interpreter', :locals => { :content => @position.latest_post ? @position.latest_post.content : nil } %>
+<%= render :partial => 'wikiposts/interpreter', :locals => { :position_id => @position.id, :content => @position.latest_post ? @position.latest_post.content : nil } %>

@@ -9,6 +9,30 @@ class PositionsController < ApplicationController
   def show
     if (params[:id])
       @position = Position.find_by(id: params[:id])
+      if (params[:moves])
+        csa_moves = []
+        rs = params[:moves].gsub %r{[\+\-]\d{4}\w{2}} do |s|
+          csa_moves << s
+          ""
+        end
+        if !rs.empty?
+          @error = 'Invalid moves.'
+          return
+        end
+        if csa_moves.empty?
+          @error = 'No moves specified.'
+          return
+        end
+        board = @position.to_board
+        csa_moves.each do |csa_move|
+          rt = board.handle_one_move(csa_move)
+          unless (rt == :normal)
+            @error = 'Illegal move'
+            return
+          end
+        end
+        @position = Position.find_by(sfen: board.to_sfen)
+      end
     else
       board = Board.new
       if (params[:bod])
@@ -33,7 +57,7 @@ class PositionsController < ApplicationController
     @appearances = @position.appearances.select(:game_id, :next_move_id).limit(50).includes(:game => :game_source).includes(:next_move)
     @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
   end
-  
+
   def edit
     unless (@position = Position.find(params[:id]))
       render '404'

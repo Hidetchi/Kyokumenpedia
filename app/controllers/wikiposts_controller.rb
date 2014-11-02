@@ -9,6 +9,9 @@ class WikipostsController < ApplicationController
       @wikiposts = Wikipost.where(:user_id => params[:user_id]).order('created_at desc').limit(50)
       user = User.find_by(id: params[:user_id])
       @list_title = user.username + "さんのコントリビューション"
+    else
+      @wikiposts = Wikipost.all.order('created_at desc').limit(50)
+      @list_title = "最新の変更"
     end
   end
   

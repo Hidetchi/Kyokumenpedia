@@ -1,0 +1,19 @@
+<h2><%= @user.username %>さんのページ</h2>
+<ul>
+<li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + @user.id.to_s %>: ○○件
+<li>フォロワー: ○○人
+<li>編集ポイント(ランク):
+<li>紹介文:
+<li>ウェブサイト:
+<li>棋力:
+<li>得意戦型:
+</ul>
+
+<hr>
+
+<% if (@user.id == current_user.id) %>
+<ul>
+<li>ウォッチ中の局面
+<li>フォロー中の相手
+</ul>
+<% end %>

@@ -20,4 +20,4 @@
 <hr>
 
 <h1>プレビュー</h1>
-<%= render :partial => 'wikiposts/interpreter', :locals => { :content => session[:wikiedit] } %>
+<%= render :partial => 'wikiposts/interpreter', :locals => { :position_id => @position.id, :content => session[:wikiedit] } %>
