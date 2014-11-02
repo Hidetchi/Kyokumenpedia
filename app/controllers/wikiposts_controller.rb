@@ -21,7 +21,11 @@ class WikipostsController < ApplicationController
 
   def create
     session[:wikiedit] = params[:wikipost][:content]
-    if (params[:preview])
+    session[:wikicomment] = params[:wikipost][:comment]
+    if (params[:wikipost][:content] =~ /<(img\s|font\s|hr>|h\d>|ul>|ol>|li>|a\s|table|span\s|b>|u>|i>|strong>)/)
+      flash[:alert] = "禁止タグが含まれています。(許可されているタグは<br><ref>のみです)"
+      redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id]
+    elsif (params[:preview])
       redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id]
     elsif (wikipost = Wikipost.new_post(params[:wikipost].permit(:content, :comment, :position_id, :user_id, :minor, :prev_post_id)))
       position = Position.find(params[:wikipost][:position_id])

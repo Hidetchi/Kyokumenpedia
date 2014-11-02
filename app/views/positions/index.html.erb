@@ -1,28 +1,16 @@
-<h1>Listing Positions</h1>
+<h2><%= @list_title %></h2>
 
-<table>
-  <thead>
-    <tr>
-      <td>Position
-      <td>Black Won
-      <td>White Won
-      <td>Strg.fam
-      <td>Strg.grp
-      <td>Strg
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @positions.each do |position| %>
-      <tr>
-        <td><%= position.sfen %><br><br>
-        <tt>
-        <pre><% position.csa.split('\n').each do |line| %><%= line %><% end %></pre></tt></td>
-        <td><%= position.stat2_black %></td>
-        <td><%= position.stat2_white %></td>
-        <td><%= position.strategy.strategy_group.strategy_family.name if position.strategy %></td>
-        <td><%= position.strategy.strategy_group.name if position.strategy %></td>
-        <td><%= position.strategy.name if position.strategy %></td>
-    <% end %>
-  </tbody>
-</table>
+<% @positions.each do |position| %>
+<div class="tile_position">
+<% if (position.strategy_id) %>
+  <%= Strategy.find(position.strategy_id).name %>
+<% end %>
+<br>
+<div style="padding:3px 0;"><%= position.to_board.to_html_table("S").html_safe %></div>
+<% if (position.latest_post_id) %>
+  <span class="dark_red">最終編集: <%= Wikipost.find(position.latest_post_id).to_past_time %></span>
+<% end %>
+<br>
+<%= link_to '見る', '/positions/' + position.id.to_s %>
+</div>
+<% end %>

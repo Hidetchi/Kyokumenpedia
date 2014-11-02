@@ -1,4 +1,4 @@
-<%= @wikipost.user.username %>さんの投稿 (<%= @wikipost.to_local_time %>)
+<%= link_to @wikipost.user.username, '/users/' + @wikipost.user.id.to_s %>さんの投稿 (<%= @wikipost.to_local_time %>)
 
 <h2>更新差分</h2>
 <table class="diff">
@@ -39,4 +39,4 @@
 
 <hr>
 <h1>記事</h1>
-<%= render :partial => 'interpreter', :locals => { :content => @wikipost.content } %>
+<%= render :partial => 'interpreter', :locals => { :position_id => @wikipost.position_id, :content => @wikipost.content } %>

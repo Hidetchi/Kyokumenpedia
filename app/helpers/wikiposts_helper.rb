@@ -7,6 +7,7 @@ module WikipostsHelper
 		famous_games = []
 		com_evals = []
 		level = 2
+		ref_num = 0
 		lines.each do |line|
 			line.chomp!
 			# interpret {{Resemble|sfen|comment}} as resembling position object
@@ -40,7 +41,13 @@ module WikipostsHelper
 				com_evals << record 
 				next
 			end
-
+			# interpret <ref> tag
+			line = line.gsub(/<ref>(.+?)<\/ref>/) {
+			  lines << "==脚注==" if (ref_num == 0)
+			  ref_num += 1
+			  lines << "#" + $1
+			  "<sup>[" + ref_num.to_s + "]</sup> "
+			}
 			# interpret [[sfen-or-CSAmoves|text]] as <a> tag link to a position
 			line = line.gsub(/\[{2}(.+?)\|(.+?)\]{2}/) {
 				match1 = $1
@@ -91,13 +98,13 @@ module WikipostsHelper
 					hash[:ol] = 0
 				end
 				if (hash[:p] == 0)
-					new_line += "<div class='level" + level.to_s + "'>"
+					new_line += "<div class='p level" + level.to_s + "'>"
 					hash[:p] = 1
 				end
 				num = $1.length
 				content = $2
 				if (hash[:ul] < num)
-					(num - hash[:ul]).times { new_line += "<ul>" }
+					(num - hash[:ul]).times { new_line += "<ul class='article'>" }
 					hash[:ul] = num
 				elsif (hash[:ul] > num)
 					(hash[:ul] - num).times { new_line += "</ul>" }
@@ -112,13 +119,13 @@ module WikipostsHelper
 					hash[:ul] = 0
 				end
 				if (hash[:p] == 0)
-					new_line += "<div class='level" + level.to_s + "'>"
+					new_line += "<div class='p level" + level.to_s + "'>"
 					hash[:p] = 1
 				end
 				num = $1.length
 				content = $2
 				if (hash[:ol] < num)
-					(num - hash[:ol]).times { new_line += "<ol>" }
+					(num - hash[:ol]).times { new_line += "<ol class='article'>" }
 					hash[:ol] = num
 				elsif (hash[:ol] > num)
 					(hash[:ol] - num).times { new_line += "</ol>" }
@@ -152,7 +159,7 @@ module WikipostsHelper
 					hash[:ol] = 0
 				end
 				if (hash[:p] == 0)
-					new_line += "<div class='level" + level.to_s + "'>"
+					new_line += "<div class='p level" + level.to_s + "'>"
 					hash[:p] = 1
 				end	
 				new_line += line
@@ -167,8 +174,9 @@ module WikipostsHelper
 		new_line += "</div>" if (hash[:p] > 0)
 		new_lines << new_line
 		
+		new_lines << "<h2>参考データ</h2>" if (famous_games.length > 0 || com_evals.length > 0 || resembles.length > 0)
 		if (famous_games.length > 0)
-			table_html = "<h3>有名局</h3><table class='wiki'><th>先手<th>後手<th>棋戦<th>対局日<th>勝敗<th>コメント<th>リンク"
+			table_html = "<h3>有名局</h3><table class='wiki'><tr><th>先手<th>後手<th>棋戦<th>対局日<th>勝敗<th>コメント<th>リンク"
 			famous_games.each do |r|
 				table_html += "<tr><td>" + r[:sente] + "<td>" + r[:gote] + "<td>" + r[:event] + "<td>" + r[:date] + "<td>" + r[:result] + "<td class='left'>" + r[:comment] + "<td>" + r[:url]
 			end

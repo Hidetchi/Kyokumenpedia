@@ -13,13 +13,13 @@
 <center>
 <%= link_to image_tag('logo.png', :width => 100), '/' %>
 </center>
-<ul>
+<ul class="sidemenu">
 <li><%= link_to 'トップ', '/' %>
 <li>How to use
 <li>Hot positions
 <li>Requested positions
 <li>New positions
-<li><%= link_to '最新の変更', wikiposts_path %>
+<li><%= link_to '最新の編集', wikiposts_path %>
 <li><%= link_to '局面検索', positions_search_path %>
 <li>Terms of Use
 </ul>
@@ -32,7 +32,7 @@
 <% if user_signed_in? %>
 <div id="user_panel">
 <strong><%= current_user.username %></strong>さん<br>
-<ul>
+<ul class="sidemenu">
 <li>タイムライン
 <li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + current_user.id.to_s %>
 <li><%= link_to "マイページ", '/users/' + current_user.id.to_s %>

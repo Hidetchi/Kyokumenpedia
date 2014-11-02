@@ -3,7 +3,8 @@ class PositionsController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit]
   
   def index
-    @positions = Position.all.limit(200)
+    @positions = Position.all.order('updated_at desc').limit(100)
+    @list_title = "局面一覧"
   end
 
   def show
@@ -54,6 +55,7 @@ class PositionsController < ApplicationController
       end
     end
     session[:wikiedit] = @position.latest_post ? @position.latest_post.content : ""
+    session[:wikicomment] = nil
     @appearances = @position.appearances.select(:game_id, :next_move_id).limit(50).includes(:game => :game_source).includes(:next_move)
     @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
   end
