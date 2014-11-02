@@ -2,9 +2,11 @@ require 'board'
 class PositionsController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit]
   
-  def index
-    @positions = Position.all.order('updated_at desc').limit(100)
-    @list_title = "局面一覧"
+  def list
+    if (params[:mode] == "new")
+      @positions = Position.joins(:latest_post).where("wikiposts.prev_post_id IS NULL").order('updated_at desc').limit(100)
+      @list_title = "新しい局面"
+    end
   end
 
   def show

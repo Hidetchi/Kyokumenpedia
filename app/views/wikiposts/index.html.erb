@@ -2,21 +2,21 @@
 <br>
 <table class="list">
 <tr>
-<th class="list" style="width:120px;">局面
+<% unless (@without_position) %><th class="list" style="width:120px;">局面<% end %>
 <th class="list">編集内容の説明
-<th class="list">編集者
+<% unless (@without_user) %><th class="list">編集者<% end %>
 <th class="list">投稿日時
 <th class="list">リンク
 <% @wikiposts.each do |w| %>
 <tr>
-<td class="list"><%= w.position.to_board.to_html_table("S").html_safe %>
+<% unless (@without_position) %><td class="list"><%= w.position.to_board.to_html_table("S").html_safe %><% end %>
 <td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %>
 <% if (w.minor) %>
   <br><i>(マイナー変更)</i>
 <% end %>
-<td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %>
+<% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><% end %>
 <td class="list"><%= w.to_past_time %>
 <td class="list"><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
-<br><br><%= link_to '局面', '/positions/' + w.position.id.to_s %>
+<% unless (@without_position) %><br><br><%= link_to '局面', '/positions/' + w.position.id.to_s %><% end %>
 <% end %>
 </table>

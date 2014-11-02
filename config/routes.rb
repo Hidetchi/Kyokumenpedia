@@ -2,11 +2,12 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users, :only => [:index, :show]
   get 'positions/search' => 'positions#search'
+  get 'positions/list/:mode' => 'positions#list'
   get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'
   post 'positions/show' => 'positions#show'
   get 'positions/:id/edit' => 'positions#edit'
   get 'positions/:id/:moves' => 'positions#show'
-  resources :positions, :only => [:index, :show]
+  resources :positions, :only => [:show]
   get 'newkifu' => 'games#create'
   post 'wikiposts/create' => 'wikiposts#create'
   get 'wikiposts/list_pos/:position_id' => 'wikiposts#index'
