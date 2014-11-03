@@ -178,7 +178,8 @@ module WikipostsHelper
 		if (famous_games.length > 0)
 			table_html = "<h3>有名局</h3><table class='wiki'><tr><th>先手<th>後手<th>棋戦<th>対局日<th>勝敗<th>コメント<th>リンク"
 			famous_games.each do |r|
-				table_html += "<tr><td>" + r[:sente] + "<td>" + r[:gote] + "<td>" + r[:event] + "<td>" + r[:date] + "<td>" + r[:result] + "<td class='left'>" + r[:comment] + "<td>" + r[:url]
+				table_html += "<tr><td>" + r[:sente] + "<td>" + r[:gote] + "<td>" + r[:event] + "<td>" + r[:date] + "<td>" + r[:result] + "<td class='left'>" + r[:comment] + "<td>"
+				table_html += "<a class='external' href='" + r[:url] + "' target='_blank'>棋譜</a>" if (r[:url] && r[:url] =~ /^http/)
 			end
 			table_html += "</table>"
 			new_lines << table_html
@@ -192,9 +193,9 @@ module WikipostsHelper
 			new_lines << table_html
 		end
 		if (resembles.length > 0)
-			table_html = "<h3>類似局面</h3><table class='wiki'><tr><th>変化点<th>リンク"
+			table_html = "<h3>類似局面</h3><table class='wiki'><tr><th>変化点<th width=60>リンク"
 			resembles.each do |r|
-				table_html += "<tr><td class='left'>" + r[:comment] + "<td>" + r[:sfen]
+				table_html += "<tr><td class='left'>" + r[:comment] + "<td><a href='/positions/" + r[:sfen] + "'>Go</a>"
 			end
 			table_html += "</table>"
 			new_lines << table_html

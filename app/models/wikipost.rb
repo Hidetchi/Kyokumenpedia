@@ -21,8 +21,16 @@ class Wikipost < ActiveRecord::Base
   
   def diff_sets
     sets = []
-    lines1 = self.prev_post ? self.prev_post.content.split("\n") : [""]
-    lines2 = self.content.split("\n")
+    lines = self.prev_post ? self.prev_post.content.split("\n") : []
+    lines1 = []
+    lines.each do |line|
+      lines1 << line.chomp
+    end
+    lines = self.content.split("\n")
+    lines2 = []
+    lines.each do |line|
+      lines2 << line.chomp
+    end    
     lineContextChanges = Diff::LCS.sdiff(lines1, lines2)
     lineContextChanges.each do |lcc|
       change = Hash[:line => lcc]

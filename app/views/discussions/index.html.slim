@@ -13,14 +13,19 @@ h2 局面のディスカッション
     br
     = f.submit "投稿", data: { confirm: "投稿前に内容をよくご確認下さい。\nこの内容で投稿してもよろしいですか？" }
 
-- @discussions.each do |discussion|
-  div.discussion
-    span.dark_red
-      = discussion.num
-      |:
-    span style="padding-left:15px;"
-      = link_to discussion.user.username, '/users/' + discussion.user_id.to_s
-    span style="padding-left:15px;"
-      = discussion.to_local_time
-    div style="padding-top:5px;"
-      = discussion.content
+br
+- if (@discussions.length == 0)
+  span.dark_red
+    |この局面のディスカッションはまだありません。
+- else
+  - @discussions.each do |discussion|
+    div.discussion
+      span.dark_red
+        = discussion.num
+        |:
+      span style="padding-left:15px;"
+        = link_to discussion.user.username, '/users/' + discussion.user_id.to_s
+      span style="padding-left:15px;"
+        = discussion.to_local_time
+      div style="padding-top:5px;"
+        = discussion.content
