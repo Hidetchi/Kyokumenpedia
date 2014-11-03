@@ -162,6 +162,9 @@ th {
 ul.sidemenu {
 	padding-left: 20px;
 }
+li.new_section {
+	margin-top: 8px;
+}
 
 .invisible {
 	border: 0;

@@ -4,7 +4,12 @@ class PositionsController < ApplicationController
   
   def list
     if (params[:mode] == "new")
-      @positions = Position.joins(:latest_post).where("wikiposts.prev_post_id IS NULL").order('updated_at desc').limit(100)
+      @wikiposts = Wikipost.includes(:position).where("prev_post_id IS NULL").order('updated_at desc').limit(100)
+      @positions = []
+      @wikiposts.each do |w|
+        @positions << w.position
+      end
+#      @positions = Position.joins(:latest_post).where("wikiposts.prev_post_id IS NULL").order('updated_at desc').limit(100)
       @list_title = "新しい局面"
     end
   end

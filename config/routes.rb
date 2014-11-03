@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'pages/help'
+
+  get 'pages/about'
+
+  get 'pages/terms'
+
   devise_for :users
   resources :users, :only => [:index, :show]
   get 'positions/search' => 'positions#search'

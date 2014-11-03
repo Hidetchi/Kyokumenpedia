@@ -58,10 +58,10 @@ module WikipostsHelper
 					'<a href="/positions/' + match1 + '" target="_blank">' + match2 + '</a>'
 				end
 			}
-			# interpret [url(|text)] as <a> tag link to an outside web
+			# interpret [url( text)] as <a> tag link to an outside web
 			line = line.gsub(/\[(http.+?)\]/) {
 				match = $1
-				if (match =~ /^(.+)\|(.+)$/)
+				if (match =~ /^(.+?)\s(.+)$/)
 					'<a class="external" href="' + $1 + '" target="_blank">' + $2 + '</a>'
 				else
 					'<a class="external" href="' + match + '" target="_blank">' + match + '</a>'

@@ -1,0 +1,118 @@
+h2 編集コマンド一覧
+h3 マークアップ
+table class="help" width=600
+  tr
+    th 種類
+    th 書き方
+    th 表示結果
+  tr
+    td 見出し
+    td
+      |==見出し2==
+      br
+      |===見出し3===
+      br
+      |====見出し4====
+    td
+      h3 見出し2
+      br
+      h4 見出し3
+      br
+      h5 見出し4
+  tr
+    td 内部リンク
+    td
+      |[[lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p|横歩取りの局面]]
+      br
+      br
+      |[[-2288UM+7988GI-0028FU+3928GI-0045KA|5手先の局面]]
+    td
+      = link_to '横歩取りの局面', '/positions/lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p'
+      br
+      | (SFENで指定された局面へ)
+      br
+      br
+      = link_to '5手先の局面', '/positions/lnsgk1snl/6g2/p1pppp2p/6R2/5b3/1rP6/P2PPPP1P/1SG4S1/LN2KG1NL b B4Pp'
+      br
+      | (現ページのテーマ局面から、指定の指し手を進めた局面へ)
+  tr
+    td 外部リンク
+    td
+      |[http://www.shogi.or.jp]
+      br
+      |[http://www.shogi.or.jp/ 日本将棋連盟]
+    td
+      |<a class="external" href="http://www.shogi.or.jp" target="_blank">http://www.shogi.or.jp</a>
+      br
+      |<a class="external" href="http://www.shogi.or.jp" target="_blank">日本将棋連盟</a>
+  tr
+    td 箇条書き
+    td
+      |*いち
+      br
+      |*に
+      br
+      |**いちのに
+    td
+      ul.wiki
+        li いち
+        li に
+        ul.wiki
+          li いちのに
+  tr
+    td 番号付き箇条書き
+    td
+      |#いち
+      br
+      |#に
+      br
+      |##いちのに
+    td
+      ol.wiki
+        li いち
+        li に
+        ol.wiki
+          li いちのに
+  tr
+    td 脚注
+    td
+      = "～と言われている<ref>参考文献や説明</ref>。"
+    td
+      |～と言われている<sup>[1]</sup>。
+      br
+      br
+      h3 脚注
+      ol.wiki
+        li 参考文献や説明
+        
+h3 テンプレート
+div.level2 これらのテンプレートを原稿中のどこかに入れると、自動的に各参考データのセクションに集められ、最後にまとめて表示されます。原稿の視認性のため、テンプレートはできるだけ原稿の最後に書いて下さい。テンプレートは一つずつ改行が必要で、一行内に他の文章と共存できません。
+br
+h5 有名局テンプレート: {{FamousGame|sente|gote|date|event|result|comment|url}}
+ul style="padding-left:60px;"
+  li 参考データとして、現テーマ局面が現れた有名局や重要局を登録します。
+  li パラメータ
+  ol
+    li sente: 先手の名前
+    li gote: 後手の名前
+    li date: 対局日
+    li event: 棋戦名
+    li result: 結果(0:先手勝, 1:後手勝, 2:引分)
+    li comment: 説明コメント
+    li url: 棋譜閲覧用の外部リンク
+h5 ソフト評価値テンプレート: {{ComEval|cp|name|date|condition}}
+ul style="padding-left:60px;"
+  li 参考データとして、現テーマ局面に対するソフトの評価値を確認した結果を登録します。
+  li パラメータ
+  ol
+    li cp: 評価値(単位はcp。先手は＋、後手は－で記載)
+    li name: ソフトの名称やバージョン
+    li date: 評価値の確認日
+    li condition: 解析した環境や条件(CPU、探索深さ、探索時間など)
+h5 類似局面テンプレート: {{Resemble|sfen|comment}}
+ul style="padding-left:60px;"
+  li 参考データとして、現テーマ局面と直接の指し手による前後関係は無いものの、比較のために重要な類似局面を登録します。(先後反転による一手のずれや、端歩や陣形のわずかな違いなど。読み筋に関連性があったり、結論が変わるなど、特筆すべき類似局面を登録。)
+  li パラメータ
+  ol
+    li sfen: 局面をSFENで指定
+    li comment: 類似局面との関係に関する説明コメント

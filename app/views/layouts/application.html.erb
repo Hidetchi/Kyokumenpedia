@@ -15,13 +15,14 @@
 </center>
 <ul class="sidemenu">
 <li><%= link_to 'トップ', '/' %>
-<li>How to use
-<li>Hot positions
-<li>Requested positions
+<li class="new_section"><%= link_to '局面検索', positions_search_path %>
+<li class="new_section">いま注目の局面
+<li>解説リクエスト局面
 <li><%= link_to '新しい局面', '/positions/list/new' %>
 <li><%= link_to '最新の編集', wikiposts_path %>
-<li><%= link_to '局面検索', positions_search_path %>
-<li>Terms of Use
+<li class="new_section">サイトコンセプト
+<li><%= link_to '編集方法ヘルプ', pages_help_path %>
+<li>利用規約
 </ul>
 <% if (notice || alert) %>
 <div id="alert_box">
