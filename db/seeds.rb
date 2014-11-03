@@ -8,6 +8,22 @@
 
 require 'yaml'
 
+def register_strategy(new_node, parent)
+	if (parent)
+		strategy = parent.children.create(:name => new_node["name"])
+	else
+		strategy = Strategy.create(:name => new_node["name"])
+	end
+	new_node["sfens"].each do |sfen|
+		position = Position.find_or_create(sfen)
+		position.update_strategy(strategy)
+	end
+	new_node["children"].each do |child|
+		register_strategy(child, strategy)
+	end
+end
+
+
 GameSource.create(:name => '81Dojo', :pass => 'shogi81', :kifu_url_header => 'http://81dojo.com/kifuviewer_jp.html?kid=', :category => 2)
 Handicap.create(:id => 1, :name => '平手')
 Handicap.create(:id => 2, :name => '香落ち')
@@ -19,30 +35,10 @@ Handicap.create(:id => 7, :name => '四枚落ち')
 Handicap.create(:id => 8, :name => '六枚落ち')
 Handicap.create(:id => 9, :name => '八枚落ち')
 
-js_data = YAML.load_file("./db/strategy_seeds.yml")
-
-js_data["handicaps"].each do |handicap|
-  board0 = ApplicationHelper::Board.new
-  board0.initial(handicap["id"])
-  handicap["families"].each do |family|
-    family_record = StrategyFamily.create(:name => family["name"]) unless family_record = StrategyFamily.find_by(:name => family["name"])
-    group_record = StrategyGroup.create(:name => '-', :strategy_family_id => family_record.id) unless group_record = StrategyGroup.find_by(:name => '-', :strategy_family_id => family_record.id)
-    strategy_record = Strategy.create(:name => '-', :strategy_group_id => group_record.id) unless strategy_record = Strategy.find_by(:name => '-', :strategy_group_id => group_record.id)
-    board1 = board0.do_moves_str(family["moves"])
-    Position.create(:sfen => board1.to_sfen, :csa => board1.to_s, :handicap_id => handicap["id"], :strategy_id => strategy_record.id)
-    
-    family["groups"].each do |group|
-      group_record = StrategyGroup.create(:name => group["name"], :strategy_family_id => family_record.id) unless group_record = StrategyGroup.find_by(:name => group["name"], :strategy_family_id => family_record.id)
-      strategy_record = Strategy.create(:name => '-', :strategy_group_id => group_record.id) unless strategy_record = Strategy.find_by(:name => '-', :strategy_group_id => group_record.id)
-      board2 = board1.do_moves_str(group["moves"])
-      Position.create(:sfen => board2.to_sfen, :csa => board2.to_s, :handicap_id => handicap["id"], :strategy_id => strategy_record.id)
-      
-      group["branches"].each do |branch|
-        strategy_record = Strategy.create(:name => branch["name"], :strategy_group_id => group_record.id) unless strategy_record = Strategy.find_by(:name => branch["name"], :strategy_group_id => group_record.id)
-        board3 = board2.do_moves_str(branch["moves"])
-        Position.create(:sfen => board3.to_sfen, :csa => board3.to_s, :handicap_id => handicap["id"], :strategy_id => strategy_record.id)
-      end
-    end
-  end
+yaml_data = YAML.load_file("./db/strategy_seeds.yml")
+yaml_data["roots"].each do |root|
+	register_strategy(root, nil)
 end
+
+
 

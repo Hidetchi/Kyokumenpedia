@@ -19,13 +19,7 @@ board = position.to_board
 <tr><th rowspan=3 width=70>分類<td>手合割<td width=150><%= position.handicap.name %>
 <tr><td>戦型<td>
 <% if position.strategy %>
-<%= position.strategy.strategy_group.strategy_family.name %>
-<% if position.strategy.strategy_group.name != '-' %>
- / <%= position.strategy.strategy_group.name %>
-<% end %>
-<% if position.strategy.name != '-' %>
-<br><%= position.strategy.name %>
-<% end %>
+<%= position.strategy.name %>
 <% else %>
 -
 <% end %>

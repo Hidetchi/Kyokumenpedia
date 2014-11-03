@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141020155126) do
+ActiveRecord::Schema.define(version: 20141103173234) do
 
   create_table "appearances", force: true do |t|
     t.integer  "game_id"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20141020155126) do
     t.integer  "stat2_total",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "capture",          default: false
   end
 
   create_table "positions", force: true do |t|
@@ -74,21 +75,64 @@ ActiveRecord::Schema.define(version: 20141020155126) do
     t.text     "csa"
     t.integer  "handicap_id"
     t.integer  "strategy_id"
-    t.integer  "stat1_black", default: 0
-    t.integer  "stat1_white", default: 0
-    t.integer  "stat1_draw",  default: 0
-    t.integer  "stat2_black", default: 0
-    t.integer  "stat2_white", default: 0
-    t.integer  "stat2_draw",  default: 0
+    t.integer  "stat1_black",    default: 0
+    t.integer  "stat1_white",    default: 0
+    t.integer  "stat1_draw",     default: 0
+    t.integer  "stat2_black",    default: 0
+    t.integer  "stat2_white",    default: 0
+    t.integer  "stat2_draw",     default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "latest_post_id"
+  end
+
+  add_index "positions", ["sfen"], name: "index_positions_on_sfen", unique: true
+
+  create_table "strategies", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "ancestry"
+  end
+
+  add_index "strategies", ["ancestry"], name: "index_strategies_on_ancestry"
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "username"
+  end
+
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["username"], name: "index_users_on_username", unique: true
+
+  create_table "wikiposts", force: true do |t|
+    t.integer  "position_id"
+    t.integer  "user_id"
+    t.text     "content"
+    t.string   "comment"
+    t.boolean  "minor"
+    t.integer  "prev_post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "strategies", force: true do |t|
-    t.string   "name"
-    t.integer  "parent_strategy_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "wikiposts", ["position_id"], name: "index_wikiposts_on_position_id"
 
 end

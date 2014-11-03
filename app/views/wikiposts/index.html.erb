@@ -9,7 +9,9 @@
 <th class="list">リンク
 <% @wikiposts.each do |w| %>
 <tr>
-<% unless (@without_position) %><td class="list"><%= w.position.to_board.to_html_table("S").html_safe %><% end %>
+<% unless (@without_position) %>
+  <td class="list"><% if (w.position.strategy_id) %><%= w.position.strategy.name %><br><% end %><%= w.position.to_board.to_html_table("S").html_safe %>
+<% end %>
 <td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %>
 <% if (w.minor) %>
   <br><i>(マイナー変更)</i>

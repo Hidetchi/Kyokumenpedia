@@ -51,7 +51,7 @@ class GamesController < ApplicationController
     end
 
     # If the kifu is OK, then update database
-    strategy_id = nil
+    strategy = nil
     unless (@game = Game.api_add(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid), game_source.id))
       @error = 'Duplicate Kifu'
       return
@@ -72,11 +72,7 @@ class GamesController < ApplicationController
         end
 
         unless position_already[sfens[i]]
-          if (@positions[i].strategy_id)
-            strategy_id = @positions[i].strategy_id
-          else
-            @positions[i].strategy_id = strategy_id
-          end
+          strategy = @positions[i].update_strategy(strategy)
           @positions[i].games << @game
           @positions[i].update_stat(game_source.category, @game.result)
 

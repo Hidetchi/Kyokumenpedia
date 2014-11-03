@@ -17,5 +17,4 @@
 
 Gemfile.lock
 *.swp
-/db/schema.rb
 /test

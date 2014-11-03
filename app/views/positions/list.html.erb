@@ -3,7 +3,7 @@
 <% @positions.each do |position| %>
 <div class="tile_position">
 <% if (position.strategy_id) %>
-  <%= Strategy.find(position.strategy_id).name %>
+  <%= position.strategy.name %>
 <% end %>
 <br>
 <div style="padding:3px 0;"><%= position.to_board.to_html_table("S").html_safe %></div>

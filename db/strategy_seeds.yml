@@ -1,22 +1,28 @@
-﻿handicaps:
- - id: 1
-   families:
-     - name: "横歩取り"
-       moves: "+7776FU-3334FU+2726FU-8384FU+2625FU-8485FU+6978KI-4132KI+2524FU-2324FU+2824HI-8586FU+8786FU-8286HI+2434HI"
-       groups:
-         - name: "△４五角戦法"
-           moves: "-2288UM+7988GI-0028FU+3928GI-0045KA"
-           branches:
-             - name: "△６六銀型"
-               moves: "+3424HI-0023FU+0077KA-8688RY+7788KA-2324FU+8811UM-2133KE+0036KY-0066GI"
-             - name: "△８七銀型"
-               moves: "+3424HI-0023FU+0077KA-8688RY+7788KA-2324FU+8811UM-0087GI"
-         - name: "相横歩取り"
-           moves: "-2288UM+7988GI-8676HI"
-           branches: []
-     - name: "ゴキゲン中飛車"
-       moves: "+7776FU-3334FU+2726FU-5354FU+2625FU-8252HI"
-       groups:
-         - name: "▲５八金右超急戦"
-           moves: "+4958KI-5455FU+2524FU-2324FU+2824HI-5556FU"
-           branches: []
+﻿roots:
+  - name: 相居飛車
+    sfens: []
+    children:
+      - name: 横歩取り
+        sfens: [lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p]
+        children:
+          - name: 横歩取り△４五角戦法
+            sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/5b3/1rP6/P2PPPP1P/1SG4S1/LN2KG1NL b B4Pp]
+            children:
+              - name: 横歩取り△４五角戦法 △６六銀型
+                sfens: [lnsgk1s1+B/6g2/p1ppppn1p/7p1/5b3/2Ps2L2/P2PPPP1P/2G4S1/LN2KG1NL b R4Pr]
+                children: []
+              - name: 横歩取り△４五角戦法 △８七銀型
+                sfens: [lnsgk1sn+B/6g2/p1pppp2p/7p1/5b3/2P6/Ps1PPPP1P/2G4S1/LN2KG1NL b RL4Pr]
+                children: []
+          - name: 相横歩取り
+            sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/9/2r6/P2PPPP1P/1SG6/LN2KGSNL b B3Pb3p]
+            children: []
+  - name: 居飛車対振り飛車
+    sfens: []
+    children:
+      - name: ゴキゲン中飛車
+        sfens: [lnsgkgsnl/4r2b1/pppp1p1pp/4p1p2/7P1/2P6/PP1PPPP1P/1B5R1/LNSGKGSNL b -]
+        children:
+          - name: "ゴキゲン中飛車 ▲５八金右超急戦"
+            sfens: [lnsgkgsnl/4r2b1/pppp1p2p/6pR1/9/2P1p4/PP1PPPP1P/1B2G4/LNSGK1SNL b Pp]
+            children: []

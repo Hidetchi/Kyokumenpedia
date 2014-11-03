@@ -40,6 +40,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'therubyracer'
 gem 'devise'
 gem 'slim-rails'
+gem 'ancestry'
 group :development do
   gem 'bullet'
 end

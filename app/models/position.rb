@@ -40,6 +40,16 @@ class Position < ActiveRecord::Base
     save
   end
   
+  def update_strategy(new_strategy)
+    return self.strategy if (!new_strategy)
+    if (!self.strategy_id || self.strategy.descendant_ids.include?(new_strategy.id))
+  	  update_attributes(:strategy_id => new_strategy.id)
+  	  return self.strategy
+  	else
+  	  return new_strategy
+  	end
+  end
+  
   def to_board
     board = Board.new
     board.set_from_sfen(self.sfen)

@@ -40,7 +40,39 @@ RSpec.describe Position, :type => :model do
       end
     end
   end
+  describe "def update_strategy" do
+    before :all do
+      @strategy1 = Strategy.create(:name => "strategy1")
+      @strategy2 = @strategy1.children.create(:name => "strategy2")
+      @strategy3 = Strategy.create(:name => "strategy3")
+    end
+    context "when a strategy is sent for the first time" do
+      it "updates the strategy" do
+        @pos1.update_strategy(@strategy1)
+        expect(@pos1.strategy_id).to eq(@strategy1.id)
+      end
+    end
+    context "when a child strategy is sent" do
+      it "updates the strategy" do
+        @pos1.update_strategy(@strategy2)
+        expect(@pos1.strategy_id).to eq(@strategy2.id)
+      end
+    end
+    context "when a parent strategy is sent" do
+      it "does not update the strategy" do
+        @pos1.update_strategy(@strategy1)
+        expect(@pos1.strategy_id).to eq(@strategy2.id)
+      end
+    end
+    context "when a non-child strategy is sent" do
+      it "does update the strategy" do
+        @pos1.update_strategy(@strategy3)
+        expect(@pos1.strategy_id).to eq(@strategy2.id)
+      end
+    end
+  end
   after :all do
     Position.delete_all
+    Strategy.delete_all
   end
 end

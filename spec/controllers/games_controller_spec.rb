@@ -5,9 +5,7 @@ RSpec.describe GamesController, :type => :controller do
     before do
       GameSource.create(:name => 'KifuProvider', :pass => 'rspec', :kifu_url_header => 'http://xxxxx.com/?kid=', :category => 2)
       Handicap.create(:id => 1, :name => 'Even')
-      family = StrategyFamily.create(name: "Yokofudori")
-      group = StrategyGroup.create(name: "-", strategy_family_id: family.id)
-      strategy = Strategy.create(name: "-", strategy_group_id: group.id)
+      strategy = Strategy.create(name: "Yokofudori")
       lines = ["P1-KY-KE-GI-KI-OU * -GI-KE-KY",
                "P2 *  *  *  *  *  * -KI-KA * ",
                "P3-FU * -FU-FU-FU-FU *  * -FU",
@@ -43,7 +41,7 @@ RSpec.describe GamesController, :type => :controller do
         expect(Appearance.last.num).to eq(18)
       end
       it "gives the same strategy tag to all following positions once a strategy is given" do
-        expect(Position.last.strategy.strategy_group.strategy_family.name).to eq("Yokofudori")
+        expect(Position.last.strategy.name).to eq("Yokofudori")
       end 
     end
     context "with duplicate kifu" do
