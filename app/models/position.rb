@@ -9,6 +9,7 @@ class Position < ActiveRecord::Base
   has_many :next_positions, :through => :next_moves, :source => :next_position
   belongs_to :latest_post, class_name: 'Wikipost', foreign_key: 'latest_post_id'
   has_many :wikiposts, foreign_key: 'position_id'
+  has_many :discussions, foreign_key: 'position_id'
   
   def self.find_or_create(sfen)
     board = Board.new

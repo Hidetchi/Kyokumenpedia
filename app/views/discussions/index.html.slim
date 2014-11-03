@@ -1,0 +1,26 @@
+div#wiki_edit_buttons
+  |[
+  = link_to '局面に戻る', '/positions/' + @position.id.to_s
+  |]
+
+h2 局面のディスカッション
+
+- if (current_user)
+  = form_for :discussion, :url => {:action => 'create'} do |f|
+    = f.hidden_field :position_id, :value => @position.id
+    = f.hidden_field :user_id, :value => current_user.id
+    = f.text_area :content, :size => "50x6"
+    br
+    = f.submit "投稿", data: { confirm: "投稿前に内容をよくご確認下さい。\nこの内容で投稿してもよろしいですか？" }
+
+- @discussions.each do |discussion|
+  div.discussion
+    span.dark_red
+      = discussion.num
+      |:
+    span style="padding-left:15px;"
+      = link_to discussion.user.username, '/users/' + discussion.user_id.to_s
+    span style="padding-left:15px;"
+      = discussion.to_local_time
+    div style="padding-top:5px;"
+      = discussion.content

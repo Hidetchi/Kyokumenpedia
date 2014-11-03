@@ -10,12 +10,16 @@ div#summary {
 
 div#stat_next_moves {
 	max-height: 200px;
+	padding-right: 15px;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 div#stat_appearances {
 	max-height: 200px;
+	padding-right: 15px;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 div#wiki_edit_buttons {

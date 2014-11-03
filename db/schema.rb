@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103173234) do
+ActiveRecord::Schema.define(version: 20141103195932) do
 
   create_table "appearances", force: true do |t|
     t.integer  "game_id"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20141103173234) do
 
   add_index "appearances", ["game_id"], name: "index_appearances_on_game_id"
   add_index "appearances", ["position_id"], name: "index_appearances_on_position_id"
+
+  create_table "discussions", force: true do |t|
+    t.integer  "position_id"
+    t.integer  "user_id"
+    t.text     "content"
+    t.integer  "num"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "game_sources", force: true do |t|
     t.string   "name"

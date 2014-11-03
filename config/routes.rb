@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
   get 'pages/help'
-
   get 'pages/about'
-
   get 'pages/terms'
-
   devise_for :users
   resources :users, :only => [:index, :show]
   get 'positions/search' => 'positions#search'
@@ -12,6 +9,7 @@ Rails.application.routes.draw do
   get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'
   post 'positions/show' => 'positions#show'
   get 'positions/:id/edit' => 'positions#edit'
+  get 'positions/:id/discussion' => 'discussions#index'
   get 'positions/:id/:moves' => 'positions#show'
   resources :positions, :only => [:show]
   get 'newkifu' => 'games#create'
@@ -19,6 +17,8 @@ Rails.application.routes.draw do
   get 'wikiposts/list_pos/:position_id' => 'wikiposts#index'
   get 'wikiposts/list_usr/:user_id' => 'wikiposts#index'
   resources :wikiposts, :only => [:index, :show]
+  get 'discussions/index'
+  post 'discussions/create'
   root :to => 'positions#show', :sfen => 'lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
