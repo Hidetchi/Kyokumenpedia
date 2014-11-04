@@ -10,6 +10,8 @@ class Position < ActiveRecord::Base
   belongs_to :latest_post, class_name: 'Wikipost', foreign_key: 'latest_post_id'
   has_many :wikiposts, foreign_key: 'position_id'
   has_many :discussions, foreign_key: 'position_id'
+  has_many :watches
+  has_many :watchers, :through => :watches, :source => :user
   
   def self.find_or_create(sfen)
     board = Board.new

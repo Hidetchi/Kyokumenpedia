@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103195932) do
+ActiveRecord::Schema.define(version: 20141104180955) do
 
   create_table "appearances", force: true do |t|
     t.integer  "game_id"
@@ -130,6 +130,16 @@ ActiveRecord::Schema.define(version: 20141103195932) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
+
+  create_table "watches", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "position_id"
+    t.boolean  "check_all",   default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "watches", ["user_id", "position_id"], name: "index_watches_on_user_id_and_position_id", unique: true
 
   create_table "wikiposts", force: true do |t|
     t.integer  "position_id"

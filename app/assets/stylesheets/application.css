@@ -229,3 +229,18 @@ a.external {
   background-repeat:no-repeat;
   background-image: url("icon-external-link.png");
 }
+
+input.toggle {
+  border: 1px solid #aaa;
+  height: 22px;
+  margin: 0;
+  border-radius: 7px;
+}
+input.on {
+  background: -moz-linear-gradient(bottom, #ddd, #fff);
+  background: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff));
+}
+input.off {
+  background: -moz-linear-gradient(bottom, #bbf, #eef);
+  background: -webkit-gradient(linear, left bottom, left top, from(#bbf), to(#eef));
+}

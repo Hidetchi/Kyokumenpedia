@@ -28,9 +28,9 @@
 		end %>
 	  <% if (highlight) %></span><% end %>
 	<% when "-" %>
-		<tr class="del"><td class="mark">-<td><span class="del"><%= set[:line].old_element %></span>
+		<tr class="del"><td class="mark">-<td><%= set[:line].old_element %>
 	<% when "+" %>
-		<tr class="add"><td class="mark">+<td><span class="add"><%= set[:line].new_element %></span>
+		<tr class="add"><td class="mark">+<td><%= set[:line].new_element %>
 	<% when "=" %>
 		<tr><td class="mark"><td><%= set[:line].old_element %>
 	<% end %>

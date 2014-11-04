@@ -24,12 +24,12 @@ class Wikipost < ActiveRecord::Base
     lines = self.prev_post ? self.prev_post.content.split("\n") : []
     lines1 = []
     lines.each do |line|
-      lines1 << line.chomp
+      lines1 << (line.chomp == "" ? "　" : line.chomp)
     end
     lines = self.content.split("\n")
     lines2 = []
     lines.each do |line|
-      lines2 << line.chomp
+      lines2 << (line.chomp == "" ? "　" : line.chomp)
     end    
     lineContextChanges = Diff::LCS.sdiff(lines1, lines2)
     lineContextChanges.each do |lcc|

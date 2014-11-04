@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'watches/watch'
+  post 'watches/unwatch'
   get 'pages/help'
   get 'pages/about'
   get 'pages/terms'

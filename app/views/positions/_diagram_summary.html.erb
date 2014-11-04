@@ -14,6 +14,14 @@ board = position.to_board
 
 <td class="invisible">
 
+<div style="text-align:right;line-height:34px;height:34px;">
+<% if (current_user) %>
+<div id="watch_1"><%= watch_button(current_user, @position, "watch_1") %></div>
+<% elsif (position.watchers.length > 0) %>
+<%= @position.latest_post_id ? "ウォッチ" : "解説リクエスト" %>数: <span class="dark_red"><%= position.watchers.length.to_s %></span>
+<% end %>
+</div>
+
 <div id="summary">
 <table  , >
 <tr><th rowspan=3 width=70>分類<td>手合割<td width=150><%= position.handicap.name %>
@@ -40,7 +48,7 @@ board = position.to_board
 </table>
 </div>
 
-<div style="text-align:right;margin-top:10px;">
+<div style="text-align:right;margin-top:7px;">
 エクスポート: 
 <button type="button" onmouseup="prompt('SFEN出力', '<%= position.sfen %>')">SFEN</button>
 <button type="button" onmouseup="alert('Not implemented yet')">BOD</button>
