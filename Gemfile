@@ -43,6 +43,7 @@ gem 'slim-rails'
 gem 'ancestry'
 group :development do
   gem 'bullet'
+  gem 'rack-mini-profiler'
 end
 group :test do
   gem "rspec"

@@ -73,13 +73,8 @@ class GamesController < ApplicationController
 
         unless position_already[sfens[i]]
           strategy = @positions[i].update_strategy(strategy)
-          @positions[i].games << @game
+          @positions[i].appearances.build(:game_id => @game.id, :num => i, :next_move_id => move.id)
           @positions[i].update_stat(game_source.category, @game.result)
-
-          appearance = Appearance.last
-          appearance.num = i
-          appearance.next_move = move
-          appearance.save
         end
         position_already[sfens[i]] = true
       end
