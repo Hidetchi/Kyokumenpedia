@@ -1,16 +1,5 @@
 <h2><%= @list_title %></h2>
-
-<% @positions.each do |position| %>
-<div class="tile_position">
-<% if (position.strategy_id) %>
-  <%= position.strategy.name %>
-<% end %>
 <br>
-<div style="padding:3px 0;"><%= position.to_board.to_html_table("S").html_safe %></div>
-<% if (position.latest_post_id) %>
-  <span class="dark_red"><%= Wikipost.find(position.latest_post_id).to_past_time %></span>
-<% end %>
+<%= @caption %>
 <br>
-<%= link_to '見る', '/positions/' + position.id.to_s %>
-</div>
-<% end %>
+<%= render :partial => 'tile', :locals => { :positions => @positions, :type => @type } %>

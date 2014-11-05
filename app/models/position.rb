@@ -57,5 +57,5 @@ class Position < ActiveRecord::Base
     board = Board.new
     board.set_from_sfen(self.sfen)
     return board
-  end
+  end  
 end

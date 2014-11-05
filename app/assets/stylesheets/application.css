@@ -234,7 +234,7 @@ input.toggle {
   border: 1px solid #aaa;
   height: 22px;
   margin: 0;
-  border-radius: 7px;
+  border-radius: 10px;
 }
 input.on {
   background: -moz-linear-gradient(bottom, #ddd, #fff);

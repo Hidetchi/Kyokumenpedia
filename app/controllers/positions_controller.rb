@@ -4,13 +4,23 @@ class PositionsController < ApplicationController
   
   def list
     if (params[:mode] == "new")
-      @wikiposts = Wikipost.includes(:position).where("prev_post_id IS NULL").order('updated_at desc').limit(100)
+      wikiposts = Wikipost.includes(:position).where("prev_post_id IS NULL").order('updated_at desc').limit(100)
       @positions = []
-      @wikiposts.each do |w|
+      wikiposts.each do |w|
         @positions << w.position
       end
-#      @positions = Position.joins(:latest_post).where("wikiposts.prev_post_id IS NULL").order('updated_at desc').limit(100)
       @list_title = "新しい局面"
+      @caption = "初めての解説が投稿された時間が最も新しい局面を表示しています。"
+      @type = "FIRST_POST"
+    elsif (params[:mode] == "req")
+      sort_hash = Watch.includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
+      @positions = []
+      sort_hash.each do |key, val|
+        @positions << Position.includes(:wikiposts).find_by(id: key)
+      end
+      @list_title = "解説リクエスト局面"
+      @caption = "あなたの解説を待っている局面があります。是非最初の解説を投稿して下さい。"
+      @type = "WATCHERS"
     end
   end
 

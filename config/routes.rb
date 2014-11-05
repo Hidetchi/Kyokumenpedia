@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  post 'watches/watch'
-  post 'watches/unwatch'
   get 'pages/help'
   get 'pages/about'
   get 'pages/terms'
   devise_for :users
+  post 'users/watch'
+  post 'users/unwatch'
+  post 'users/follow'
+  post 'users/unfollow'
   resources :users, :only => [:index, :show]
   get 'positions/search' => 'positions#search'
   get 'positions/list/:mode' => 'positions#list'

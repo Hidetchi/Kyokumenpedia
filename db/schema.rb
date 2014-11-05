@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104180955) do
+ActiveRecord::Schema.define(version: 20141105171406) do
 
   create_table "appearances", force: true do |t|
     t.integer  "game_id"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20141104180955) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "follows", force: true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.boolean  "check_all",   default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "follows", ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id", unique: true
 
   create_table "game_sources", force: true do |t|
     t.string   "name"
