@@ -16,7 +16,7 @@ board = position.to_board
 
 <div style="text-align:right;line-height:34px;height:34px;">
 <% if (current_user) %>
-<div id="watch_1"><%= watch_button(current_user, @position, "watch_1") %></div>
+<div id="watch_1"><%= watch_button(@position, "watch_1") %></div>
 <% elsif (position.watchers.length > 0) %>
 <%= @position.latest_post_id ? "ウォッチ" : "解説リクエスト" %>数: <span class="dark_red"><%= position.watchers.length.to_s %></span>
 <% end %>

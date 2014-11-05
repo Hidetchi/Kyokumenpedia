@@ -241,6 +241,6 @@ input.on {
   background: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff));
 }
 input.off {
-  background: -moz-linear-gradient(bottom, #bbf, #eef);
-  background: -webkit-gradient(linear, left bottom, left top, from(#bbf), to(#eef));
+  background: -moz-linear-gradient(bottom, #eb7, #fec);
+  background: -webkit-gradient(linear, left bottom, left top, from(#eb7), to(#fec));
 }

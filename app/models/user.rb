@@ -11,4 +11,19 @@ class User < ActiveRecord::Base
   def watching?(position_id)
     self.watches.pluck(:position_id).include?(position_id)
   end
+  
+  def watch(position_id)
+    watch = self.watches.create(:position_id => position_id)
+    watch.position
+  end
+
+  def unwatch(position_id)
+    if (watch = self.watches.find_by(:position_id => position_id))
+      position = watch.position
+      watch.destroy
+      position
+    else
+      Position.find_by(:id => position_id)
+    end
+  end
 end
