@@ -35,17 +35,9 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.action_mailer.default_url_options = { host: '27.120.94.96:3000' }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :address => "smtp.gmail.com",
-    :port => 587,
-    :authentication => "plain",
-    :user_name => "iscube@81dojo.com",
-    :password => "iscubewiki",
-    :domain => "81dojo.com",
-    :enable_starttls_auto => true
-   }
+  config.action_mailer.default_url_options = { host: '127.0.0.1:3000' }
+  config.action_mailer.delivery_method = :letter_opener
+  
 	config.after_initialize do
 	  Bullet.enable = false
 	  Bullet.alert = true

@@ -29,4 +29,17 @@ module UsersHelper
 
     button_to button_label, {:controller => 'users', :action => action_name, :user_id => user.id, :div_id => div_id }, :class => class_name, :remote => true
   end
+  
+  def like_button(wikipost)
+    if current_user.liked?(wikipost)
+      action_name = "like"
+      class_name = "toggle off"
+    else
+      action_name = "like"
+      class_name = "toggle on"
+    end
+    button_label = "いいね! | " + wikipost.reputation_for(:likes).to_i.to_s
+
+    button_to button_label, {:controller => 'users', :action => action_name, :wikipost_id => wikipost.id }, :class => class_name, :remote => true
+  end
 end

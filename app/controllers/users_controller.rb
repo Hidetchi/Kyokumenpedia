@@ -29,4 +29,10 @@ class UsersController < ApplicationController
     @div_id = params[:div_id]
     render 'update_follow'
   end
+  
+  def like
+    @wikipost = Wikipost.find(params[:wikipost_id])
+    @wikipost.add_evaluation(:likes, 1, current_user)
+    render 'update_like'
+  end
 end

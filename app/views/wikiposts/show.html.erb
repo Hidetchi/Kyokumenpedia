@@ -1,6 +1,9 @@
 <%= link_to @wikipost.user.username, '/users/' + @wikipost.user.id.to_s %>さんの投稿 (<%= @wikipost.to_local_time %>)
 
 <h2>更新差分</h2>
+<% if (current_user) %>
+<div id="like" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
+<% end %>
 <table class="diff">
 <% @wikipost.diff_sets.each do |set| %>
 	<% case (set[:line].action) %>
