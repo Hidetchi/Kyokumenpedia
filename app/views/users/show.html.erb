@@ -1,27 +1,44 @@
 <h2><%= @user.username %>さんのページ</h2>
+<table class="invisible" style="margin-left:30px;">
+<tr><td class="invisible" style="text-align:left;">
 <% if (current_user) %>
-<div id="follow_1" style="margin-left:30px;margin-top:10px;"><%= follow_button(@user, "follow_1") %></div>
+<div id="follow_1"><%= follow_button(@user, "follow_1") %></div>
 <% end %>
-<ul>
-<li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + @user.id.to_s %>: <%= @user.wikiposts.pluck(:id).length %>件
-<% if (!current_user) %><li>フォロワー: ○○人<% end %>
-<li>編集ポイント(ランク):
-<li>紹介文:
-<li>ウェブサイト:
-<li>棋力:
-<li>得意戦型:
+<ul style="line-height:1.5em;">
+<li>ランク:
+<li>編集ポイント:
+<li>コントリビューション: <%= link_to @user.wikiposts.pluck(:id).length.to_s + '件', '/wikiposts/list_usr/' + @user.id.to_s %>
+<li>フォロワー:
+  <% if (current_user && current_user == @user) %>
+    <%= link_to @user.followers.pluck(:id).length.to_s + '人', '/users/' + @user.id.to_s + '/followers' %>
+  <% else %>
+    <%= @user.followers.pluck(:id).length %>人
+  <% end %>
+<li>棋力: <%= @user.strength %>
+<li>得意戦型: <%= @user.style %>
+<li>ウェブサイト: <%= link_to @user.url, @user.url %>
+<li>自己紹介: <%= @user.description %>
 </ul>
+
+<td class="invisible" style="vertical-align:middle;padding-left:35px;">
+<% if (@user.name81 && @user.name81 != "") %>
+  <script language="javascript">
+  <!--
+  var name_81dojo = "<%= @user.name81 %>";
+  var hide_81dojo = "false";
+  var lan_81dojo = "ja";
+  //-->
+  </script>
+  <script type="text/javascript" src="http://81dojo.com/widget.js"></script>
+<% end %>
+
+</table>
 
 <hr>
 
 <% if (current_user && current_user.id == @user.id) %>
 <h2>フォロー中の相手</h2>
-<table class="invisible" style="margin-left:30px;">
-<% @user.following_users.each do |followed| %>
-<tr><td style="border:0;padding:3px;"><%= link_to followed.username, '/users/' + followed.id.to_s %>
-<td style="border:0;padding:3px;text-align:left;"><div id="follow_<%= followed.id.to_s %>"><%= follow_button(followed, 'follow_' + followed.id.to_s) %></div>
-<% end %>
-</table>
+<%= render :partial => 'list', :locals => { :users => @user.following_users } %>
 
 <h2>ウォッチ中の局面</h2>
 <%= render :partial => 'positions/tile', :locals => { :positions => @user.watching_positions, :type => 'WATCH' } %>

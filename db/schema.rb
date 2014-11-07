@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106203361) do
+ActiveRecord::Schema.define(version: 20141106223128) do
 
   create_table "appearances", force: true do |t|
     t.integer  "game_id"
@@ -180,6 +180,12 @@ ActiveRecord::Schema.define(version: 20141106203361) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "username"
+    t.string   "strength"
+    t.string   "style"
+    t.string   "url"
+    t.string   "description"
+    t.integer  "point",                  default: 0
+    t.string   "name81"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

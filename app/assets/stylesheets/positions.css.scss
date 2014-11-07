@@ -22,11 +22,6 @@ div#stat_appearances {
 	overflow-x: hidden;
 }
 
-div#wiki_edit_buttons {
-	float: right;
-	margin-right: 20px;
-}
-
 div.p {
 	padding-top: 4px;
 	padding-bottom: 4px;
@@ -59,8 +54,5 @@ div.tile_position {
 	text-align: center;
 	float: left;
 	height: 190px;
-}
-
-.dark_red {
-	color :#b00;
+	font-size: 13px;
 }

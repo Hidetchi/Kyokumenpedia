@@ -18,7 +18,7 @@ body#root {
 	margin: 0;
 	width: 100%;
 	height: 100%;
-	font-size: 13px;
+	font-size: 14px;
 	font-family: "メイリオ","Meiryo","Meiryo UI","ヒラギノ角ゴ Pro","Hiragino Kaku Gothic Pro","Takao Pゴシック","TakaoPGothic","sans"
 }
 
@@ -37,6 +37,7 @@ div#side_column {
 	min-height: 1000px;
 	padding-bottom: 10000px;
 	margin-bottom: -10000px;
+	font-size: 12px;
 }
 
 div#alert_box {
@@ -77,6 +78,7 @@ div#header {
 	text-align: right;
 	padding-right: 15px;
 	border-bottom: 1px solid #ccd;
+	font-size: 13px;
 }
 
 div#footer {
@@ -85,7 +87,8 @@ div#footer {
 	width: 100%;
 	clear: both;
 	text-align: center;
-	border-top: solid 1px #ccd
+	border-top: solid 1px #ccd;
+	font-size: 13px;
 }
 
 p.notice {
@@ -98,6 +101,7 @@ p.alert {
 
 h1 {
 color: #026;
+margin-bottom: 10px;
 }
 
 h2 {
@@ -139,10 +143,18 @@ height: 1px;
 background: linear-gradient(to right, rgba(0,0,0,0.25),rgba(0,0,0,1),rgba(0,0,0,0.25));
 }
 
+.dark_red {
+	color :#b00;
+}
+.dark_green {
+	color :#040;
+}
+
 table {
     border-top:1px solid #666666;
     border-left:1px solid #666666;
     border-collapse: collapse;
+	font-size: 13px;
 }
 
 td, th {
@@ -193,6 +205,7 @@ table.board_M td {
     height: 22px;
     border: 1px solid black;
     padding: 0;
+	font-size: 18px;
 }
 
 table.board_S td {
@@ -200,6 +213,7 @@ table.board_S td {
     height: 11px;
     border: 1px solid black;
     padding: 0;
+	font-size: 10px;
 }
 
 td.gote {
@@ -231,16 +245,22 @@ a.external {
 }
 
 input.toggle {
-  border: 1px solid #aaa;
+  border: 1px solid #bbb;
   height: 22px;
   margin: 0;
   border-radius: 10px;
 }
 input.on {
-  background: -moz-linear-gradient(bottom, #ddd, #fff);
+  background: -moz-linear-gradient(bottom, #bdf, #eef);
   background: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff));
 }
 input.off {
   background: -moz-linear-gradient(bottom, #eb7, #fec);
   background: -webkit-gradient(linear, left bottom, left top, from(#eb7), to(#fec));
+}
+
+div#wiki_edit_buttons {
+	float: right;
+	margin-right: 20px;
+	font-size: 13px;
 }

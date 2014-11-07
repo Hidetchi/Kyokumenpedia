@@ -38,4 +38,8 @@ class WikipostsController < ApplicationController
       redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id]
     end
   end
+  
+  def likers
+    @wikipost = Wikipost.includes(:likers).find_by(id: params[:id])
+  end
 end

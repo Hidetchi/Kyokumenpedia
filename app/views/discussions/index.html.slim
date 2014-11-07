@@ -1,7 +1,11 @@
 div#wiki_edit_buttons
   |[
   = link_to '局面に戻る', '/positions/' + @position.id.to_s
-  |]
+  |] 
+  - if (!current_user)
+    |[
+    = link_to '投稿', '/positions/' + @position.id.to_s + '/post'
+    |]
 
 h2 局面のディスカッション
 

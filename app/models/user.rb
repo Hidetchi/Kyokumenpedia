@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :following_relations, class_name: 'Follow', foreign_key: 'follower_id'
   has_many :following_users, :through => :following_relations, :source => :followed
   has_many :followed_relations, class_name: 'Follow', foreign_key: 'followed_id'
+  has_many :followers, :through => :followed_relations, :source => :follower
   has_many :evaluations, class_name: "ReputationSystem::Evaluation", as: :source
   
   def watching?(position_id)
@@ -52,6 +53,7 @@ class User < ActiveRecord::Base
   end  
   
   def liked?(wikipost)
-    evaluations.where(target_type: wikipost.class, reputation_name: :likes, target_id: wikipost.id).present?
+#    evaluations.where(target_type: wikipost.class, reputation_name: :likes, target_id: wikipost.id).present?
+    evaluations.where(target_id: wikipost.id).present?
   end
 end

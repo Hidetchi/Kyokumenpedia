@@ -778,7 +778,7 @@ class Board
   end
 
   def to_html_table(size="M")
-    tag = "<table class='board_wrapper font" + size + "'><tr><td class='komadai gote'>△"
+    tag = "<center><table class='board_wrapper font" + size + "'><tr><td class='komadai gote'>△"
     if (gote_hands.empty?)
       tag += "<br>な<br>し"
     else
@@ -818,7 +818,7 @@ class Board
         tag += "<br>" + key + (value > 1 ? value.to_s : "")
       }
     end
-    tag += "</table>"
+    tag += "</table></center>"
     return tag
   end
   

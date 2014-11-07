@@ -1,10 +1,10 @@
 <% positions.each do |position| %>
 <div class="tile_position">
 <% if (position.strategy_id) %>
-  <%= position.strategy.name %>
+  <span class="dark_green"><%= position.strategy.name %></span>
 <% end %>
 <br>
-<div style="padding:3px 0;"><%= position.to_board.to_html_table("S").html_safe %></div>
+<div style="padding:3px 0;text-align:right;"><%= position.to_board.to_html_table("S").html_safe %></div>
 <% if (type == "FIRST_POST" && position.latest_post_id) %>
   <span class="dark_red"><%= position.wikiposts.first.to_past_time %></span><br>
 <% elsif (type == "WATCHERS") %>
