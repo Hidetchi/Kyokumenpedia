@@ -33,23 +33,19 @@ class PositionsController < ApplicationController
           csa_moves << s
           ""
         end
-        if !rs.empty?
-          @error = 'Invalid moves.'
-          return
-        end
-        if csa_moves.empty?
-          @error = 'No moves specified.'
+        if (!rs.empty? || csa_moves.empty?)
+          render '404'
           return
         end
         board = @position.to_board
         csa_moves.each do |csa_move|
           rt = board.handle_one_move(csa_move)
           unless (rt == :normal)
-            @error = 'Illegal move'
+            render '404'
             return
           end
         end
-        @position = Position.find_by(sfen: board.to_sfen)
+        @position = Position.find_or_create(board.to_sfen)
       end
     else
       board = Board.new
@@ -61,15 +57,11 @@ class PositionsController < ApplicationController
         sfens = [params[:sfen1], params[:sfen2], params[:sfen3], params[:sfen4], params[:sfen5], params[:sfen6], params[:sfen7], params[:sfen8], params[:sfen9]]
         board.set_from_sfen(sfens.join("/"))
       end
-      @position = Position.find_by(sfen: board.to_sfen)
+      @position = Position.find_or_create(board.to_sfen)
     end
     unless (@position)
-      if (board && board.handicap_id)
-        @position = Position.create(:sfen => board.to_sfen, :csa => board.to_s, :handicap_id => board.handicap_id)
-      else
-        render '404'
-        return
-      end
+      render '404'
+      return
     end
     session[:wikiedit] = @position.latest_post ? @position.latest_post.content : ""
     session[:wikicomment] = nil

@@ -99,7 +99,11 @@ class Board
             when "KI"
               PieceKI::new(self, x, y, sente)
             when "OU"
-              PieceOU::new(self, x, y, sente)
+              if (sente)
+                @sente_ou = PieceOU::new(self, x, y, sente)
+              else
+                @gote_ou = PieceOU::new(self, x, y, sente)
+              end
             when "KA"
               PieceKA::new(self, x, y, sente)
             when "HI"
@@ -188,15 +192,19 @@ class Board
 					when "S"
 						PieceGI::new(self, x, y, s == s.upcase, promoted)
 					when "G"
-						PieceKI::new(self, x, y, s == s.upcase, promoted)
+						PieceKI::new(self, x, y, s == s.upcase)
 					when "K"
-						PieceOU::new(self, x, y, s == s.upcase, promoted)
+						if (s == s.upcase)
+							@sente_ou = PieceOU::new(self, x, y, true)
+						else
+							@gote_ou = PieceOU::new(self, x, y, false)
+						end
 					when "B"
 						PieceKA::new(self, x, y, s == s.upcase, promoted)
 					when "R"
 						PieceHI::new(self, x, y, s == s.upcase, promoted)
 					else
-						raise "unkown piece #{s}"
+						return :error # "unkown piece #{s}"
 					end
 					x -= 1
 					promoted = false
@@ -230,14 +238,28 @@ class Board
 					when "R"
 						PieceHI::new(self, 0, 0, s == s.upcase)
 					else
-						raise "unkown piece #{s}"
+						return :error # "unkown piece #{s}"
 					end
 				end
 				num = 0
 			end
 		end
-	end
-
+		return :error unless position_valid?
+		return :normal
+  end
+  
+  def position_valid?
+    return nil unless (handicap_id)
+    for x in 1..9 do
+      for y in 1..9 do
+        next unless (@array[x][y])
+        return nil unless (@array[x][y].room_of_head?(x, y, @array[x][y].to_s[1..2]))
+      end
+    end
+    return nil if (checkmated?(!@teban))
+    true
+  end
+  
   def have_piece?(hands, name)
     piece = hands.find { |i|
       i.name == name
@@ -744,36 +766,27 @@ class Board
   end
 
   def handicap_id
-	num = 0
 	pieces = Hash.new(0)
 	for y in 1..9 do
      for x in 1..9 do
 	    if (@array[x][y])
          pieces[@array[x][y].name] += 1
-         num += 1
        end
      end
 	end
 	(gote_hands + sente_hands).each do |p|
      pieces[p.name] += 1
-     num += 1
    end
-	if (num == 40)
-		return 1
-	elsif (num == 39)
-		return 2 if pieces["KY"] == 3
-		return 3 if pieces["KA"] == 1
-		return 4 if pieces["HI"] == 1
-	elsif (num == 38 && pieces["HI"] == 1)
-		return 5 if pieces["KY"] == 3
-		return 6 if pieces["KA"] == 1
-	elsif (num == 36)
-		return 7 if (pieces["HI"] == 1 && pieces["KA"] == 1 && pieces["KY"] == 2)
-	elsif (num == 34)
-		return 8 if (pieces["HI"] == 1 && pieces["KA"] == 1 && pieces["KY"] == 2 && pieces["KE"] == 2)
-	elsif (num == 32)
-		return 9 if (pieces["HI"] == 1 && pieces["KA"] == 1 && pieces["KY"] == 2 && pieces["KE"] == 2 && pieces["GI"] == 2)
-	end
+   piece_nums = [pieces["OU"], pieces["HI"], pieces["KA"], pieces["KI"], pieces["GI"], pieces["KE"], pieces["KY"], pieces["FU"]]
+	return 1 if (piece_nums == [2, 2, 2, 4, 4, 4, 4, 18])
+	return 2 if (piece_nums == [2, 2, 2, 4, 4, 4, 3, 18])
+	return 3 if (piece_nums == [2, 2, 1, 4, 4, 4, 4, 18])
+	return 4 if (piece_nums == [2, 1, 2, 4, 4, 4, 4, 18])
+	return 5 if (piece_nums == [2, 1, 2, 4, 4, 4, 3, 18])
+	return 6 if (piece_nums == [2, 1, 1, 4, 4, 4, 4, 18])
+	return 7 if (piece_nums == [2, 1, 1, 2, 4, 4, 4, 18])
+	return 8 if (piece_nums == [2, 1, 1, 2, 2, 4, 4, 18])
+	return 9 if (piece_nums == [2, 1, 1, 2, 2, 2, 4, 18])
 	return nil
   end
 

@@ -15,9 +15,9 @@ class Position < ActiveRecord::Base
   
   def self.find_or_create(sfen)
     board = Board.new
-    board.set_from_sfen(sfen)
+    return nil unless (board.set_from_sfen(sfen) == :normal)
     unless (position = Position.find_by(sfen: board.to_sfen))
-      position = Position.create(:sfen => board.to_sfen, :csa => board.to_s, :handicap_id => board.handicap_id)
+      position = Position.create(:sfen => board.to_sfen, :handicap_id => board.handicap_id)
     end
     return position
   end

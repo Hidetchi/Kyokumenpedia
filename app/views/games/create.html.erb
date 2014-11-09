@@ -5,7 +5,7 @@ Error: <%= @error %>
 <% else %>
 Successfully added.<br>
 <% @positions.each do |pos| %>
-<% pos.csa.split("\n").each do |line| %>
+<% pos.to_board.to_s.split("\n").each do |line| %>
 <%= line %>
 <% end %>
 <% end %>

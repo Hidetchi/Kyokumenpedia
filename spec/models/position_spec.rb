@@ -11,7 +11,7 @@ RSpec.describe Position, :type => :model do
   	  	expect(Position.count).to eq(1)
   	  end
   	  it "has correct piece locations on 2nd rank, for example" do
-  	    expect(@pos1.csa.split("\n")[1]).to eq("P2 * -HI *  * -KI-OU * -KA * ")
+  	    expect(@pos1.to_board.to_s.split("\n")[1]).to eq("P2 * -HI *  * -KI-OU * -KA * ")
   	  end
   	end
   	context "when a same position is given as sfen even with wrong hand-piece order" do
