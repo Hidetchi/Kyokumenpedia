@@ -69,8 +69,6 @@ class PositionsController < ApplicationController
       return
     end
     Position.increment_counter(:views, @position.id)
-    session[:wikiedit] = @position.latest_post ? @position.latest_post.content : ""
-    session[:wikicomment] = nil
     @appearances = @position.appearances.select(:game_id, :next_move_id).limit(50).includes(:game => :game_source).includes(:next_move)
     @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
   end
@@ -80,7 +78,11 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
-    @preload_content = params[:content] ? params[:content] : ""
+    unless (params[:preview])
+      session[:wikiedit] = @position.latest_post ? @position.latest_post.content : ""
+      session[:wikicomment] = nil
+      session[:latest_post_id] = @position.latest_post_id
+    end
   end
   
   def search
