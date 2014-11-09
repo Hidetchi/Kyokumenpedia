@@ -1,0 +1,27 @@
+<p><%= @recipient.username %>さん</p>
+
+<p>ウォッチ中の局面にディスカッションが投稿されました。</p>
+
+<% if (@discussion.position.strategy) %>
+  <%= @discussion.position.strategy.name %><br>
+<% end %>
+<tt><pre>
+<%= @discussion.position.to_board.to_s %>
+</tt></pre>
+
+<p>
+投稿者: <%= @discussion.user.username %><br>
+内容: <i><%= @discussion.content %></i>
+</p>
+
+<p><%= link_to 'ディスカッションページへのリンク', '/positions/' + @discussion.position_id.to_s + '/discussion' %></p>
+
+<p>
+この通知は、一定期間ディスカッション投稿が無かった局面に、新たな投稿が行われた場合のみ送信されます。<br>
+この通知をこれ以上受け取りたくない場合は、
+<%= link_to '該当局面のページ', '/positions/' + @discussion.position_id.to_s %>
+より「ウォッチ解除」ボタンを押すか、
+<%= link_to 'マイページ', '/users/mypage' %>
+にてウォッチ中の局面を管理して下さい。</p>
+
+<%= render :partial => 'signature' %>

@@ -42,10 +42,12 @@ gem 'devise'
 gem 'slim-rails'
 gem 'ancestry'
 gem 'activerecord-reputation-system', github: 'NARKOZ/activerecord-reputation-system', branch: 'rails4'
+gem 'delayed_job_active_record'
+gem "daemons"
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'
-  gem 'letter_opener'
+  gem 'letter_opener_web'
 end
 group :test do
   gem "rspec"

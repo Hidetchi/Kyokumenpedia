@@ -1,0 +1,20 @@
+<p><%= @recipient.username %>さん</p>
+
+<p>フォロー中の <%= @wikipost.user.username %>さんが局面の解説を編集しました。</p>
+
+<% if (@wikipost.position.strategy) %>
+  <%= @wikipost.position.strategy.name %><br>
+<% end %>
+<tt><pre>
+<%= @wikipost.position.to_board.to_s %>
+</tt></pre>
+
+<p><%= link_to '編集内容ページへのリンク', '/wikiposts/' + @wikipost.id.to_s %></p>
+
+<p>この通知をこれ以上受け取りたくない場合は、
+<%= link_to @wikipost.user.username + 'さんのページ', '/users/' + @wikipost.user_id.to_s %>
+より「フォロー解除」ボタンを押すか、
+<%= link_to 'マイページ', '/users/mypage' %>
+にてフォロー先を管理して下さい。</p>
+
+<%= render :partial => 'signature' %>

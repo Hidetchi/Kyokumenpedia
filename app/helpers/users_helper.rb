@@ -1,5 +1,6 @@
 module UsersHelper
   def watch_button(position, div_id)
+    return nil unless current_user
     button_label = position.latest_post_id ? "ウォッチ" : "解説リクエスト"
     if current_user.watching?(position.id)
       button_label += "解除"
@@ -15,6 +16,7 @@ module UsersHelper
   end
 
   def follow_button(user, div_id)
+    return nil unless current_user
     button_label = "フォロー"
     if current_user.following?(user.id)
       button_label += "解除"
@@ -31,6 +33,7 @@ module UsersHelper
   end
   
   def like_button(wikipost)
+    return nil unless current_user
     if current_user.liked?(wikipost)
       action_name = "like"
       class_name = "toggle off"

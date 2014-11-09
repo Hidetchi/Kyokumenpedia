@@ -31,5 +31,5 @@ br
         = link_to discussion.user.username, '/users/' + discussion.user_id.to_s
       span style="padding-left:15px;"
         = discussion.to_local_time
-      div style="padding-top:5px;"
-        = discussion.content
+      pre style="margin-left:15px;"
+          = discussion.content

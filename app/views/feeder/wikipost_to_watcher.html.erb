@@ -1,0 +1,18 @@
+<p><%= @recipient.username %>さん</p>
+
+<p>ウォッチ中の局面が <%= @wikipost.user.username %>さんによって編集されました。</p>
+
+<% if (@wikipost.position.strategy) %>
+  <%= @wikipost.position.strategy.name %><br>
+<% end %>
+<tt><pre>
+<%= @wikipost.position.to_board.to_s %>
+</tt></pre>
+
+<p><%= link_to '編集内容ページへのリンク', '/wikiposts/' + @wikipost.id.to_s %></p>
+
+<p>この通知をこれ以上受け取りたくない場合は、上記のリンクより「ウォッチ解除」ボタンを押すか、
+<%= link_to 'マイページ', '/users/mypage' %>
+にてウォッチ中の局面を管理して下さい。</p>
+
+<%= render :partial => 'signature' %>

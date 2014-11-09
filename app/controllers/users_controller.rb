@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, :only => [:mypage]
+  
   def index
   end
   
@@ -12,6 +14,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+  end
+  
+  def mypage
+    @user = current_user
+    render 'show'
   end
   
   def followers

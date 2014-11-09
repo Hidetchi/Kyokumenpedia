@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'users/follow'
   post 'users/unfollow'
   post 'users/like'
+  get 'users/mypage'
   get 'users/:id/followers' => 'users#followers'
   resources :users, :only => [:index, :show, :update]
   get 'positions/search' => 'positions#search'
@@ -28,6 +29,10 @@ Rails.application.routes.draw do
   get 'discussions/index'
   post 'discussions/create'
   root :to => 'positions#show', :sfen => 'lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -'
+  
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

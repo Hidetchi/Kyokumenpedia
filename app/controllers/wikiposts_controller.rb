@@ -30,8 +30,16 @@ class WikipostsController < ApplicationController
     elsif (params[:preview])
       redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id]
     elsif (wikipost = Wikipost.new_post(params[:wikipost].permit(:content, :comment, :position_id, :user_id, :minor, :prev_post_id)))
-      position = Position.find(params[:wikipost][:position_id])
-      position.update_attribute(:latest_post_id, wikipost.id)
+      wikipost.position.update_attribute(:latest_post_id, wikipost.id)
+      unless (params[:wikipost][:minor] == false)
+        wikipost.position.watchers.each do |watcher|
+          Feeder.delay.wikipost_to_watcher(watcher.id, wikipost.id)
+        end
+        watcher_ids = wikipost.position.watchers.pluck(:id)
+        wikipost.user.followers.each do |follower|
+          Feeder.delay.wikipost_to_follower(follower.id, wikipost.id) unless watcher_ids.include?(follower.id)
+        end
+      end
       redirect_to '/positions/' + params[:wikipost][:position_id]
     else
       flash[:alert] = "保存に失敗しました。入力内容を確認して下さい。"
@@ -42,4 +50,5 @@ class WikipostsController < ApplicationController
   def likers
     @wikipost = Wikipost.includes(:likers).find_by(id: params[:id])
   end
+
 end

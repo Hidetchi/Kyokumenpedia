@@ -4,8 +4,9 @@
 <% if (current_user && current_user != @wikipost.user) %>
   <div id="like" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
 <% elsif (@wikipost.reputation_for(:likes).to_i > 0) %>
-  <span class="dark_green">あなたの編集に<b><%= link_to @wikipost.reputation_for(:likes).to_i.to_s + '人', '/wikiposts/' + @wikipost.id.to_s + '/likers' %></b>が「いいね！」と言っています</span>
+  <span class="dark_green">この編集に<b><%= link_to @wikipost.reputation_for(:likes).to_i.to_s + '名', '/wikiposts/' + @wikipost.id.to_s + '/likers' %></b>のユーザが「いいね！」と言っています</span>
 <% end %>
+<div style="margin-top:7px;margin-left:35px;">[<%= link_to '局面ページに移動', '/positions/' + @wikipost.position_id.to_s %>]</div>
 <table class="diff">
 <% @wikipost.diff_sets.each do |set| %>
 	<% case (set[:line].action) %>
