@@ -1,38 +1,46 @@
 <%= link_to @wikipost.user.username, '/users/' + @wikipost.user.id.to_s %>さんの投稿 (<%= @wikipost.to_local_time %>)
 
 <h2>更新差分</h2>
-<% if (current_user && current_user != @wikipost.user) %>
-  <div id="like" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
-<% elsif (@wikipost.reputation_for(:likes).to_i > 0) %>
-  <span class="dark_green">この編集に<b><%= link_to @wikipost.reputation_for(:likes).to_i.to_s + '名', '/wikiposts/' + @wikipost.id.to_s + '/likers' %></b>のユーザが「いいね！」と言っています</span>
-<% end %>
+<% if current_user %><% if (current_user != @wikipost.user) %>
+    <div id="like" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
+  <% elsif (@wikipost.reputation_for(:likes).to_i > 0) %>
+    <span class="dark_green">あなたの編集に<b><%= link_to @wikipost.reputation_for(:likes).to_i.to_s + '名', '/wikiposts/' + @wikipost.id.to_s + '/likers' %></b>のユーザが「いいね！」と言っています</span>
+<% end %><% end %>
 <div style="margin-top:7px;margin-left:35px;">[<%= link_to '局面ページに移動', '/positions/' + @wikipost.position_id.to_s %>]</div>
 <table class="diff">
 <% @wikipost.diff_sets.each do |set| %>
 	<% case (set[:line].action) %>
 	<% when "!" %>
+	  <% actions = []
+	     set[:chars].each do |change|
+	       actions << change.action
+	     end
+	     enable_highlight = actions.include?("=") %>
+
 		<tr class="del"><td class="mark">-<td>
 		<% highlight = false
 		set[:chars].each do |change|
 			if (change.action == "+")
-			elsif (change.action == "-" || change.action == "!")
+			elsif (enable_highlight && (change.action == "-" || change.action == "!"))
 				if (!highlight) %><span class="del"><% end %><%= change.old_element %><% highlight = true
 			else
 				if (highlight) %></span><% end %><%= change.old_element %><% highlight = false
 			end
 		end %>
 	  <% if (highlight) %></span><% end %>
+	  
 		<tr class="add"><td class="mark">+<td>
 		<% highlight = false
 		set[:chars].each do |change|
 			if (change.action == "-")
-			elsif (change.action == "+" || change.action == "!")
+			elsif (enable_highlight && (change.action == "+" || change.action == "!"))
 				if (!highlight) %><span class="add"><% end %><%= change.new_element %><% highlight = true
 			else
-				if (highlight) %></span><% end %><%= change.old_element %><% highlight = false
+				if (highlight) %></span><% end %><%= change.new_element %><% highlight = false
 			end
 		end %>
 	  <% if (highlight) %></span><% end %>
+	 
 	<% when "-" %>
 		<tr class="del"><td class="mark">-<td><%= set[:line].old_element %>
 	<% when "+" %>

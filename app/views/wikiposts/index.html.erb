@@ -3,20 +3,27 @@
 <table class="list">
 <tr>
 <% unless (@without_position) %><th class="list" style="width:120px;">局面<% end %>
-<th class="list">編集内容の説明
+<th class="list">編集内容
 <% unless (@without_user) %><th class="list">編集者<% end %>
+<th class="list">いいね！
 <th class="list">投稿日時
 <th class="list">リンク
 <% @wikiposts.each do |w| %>
 <tr>
 <% unless (@without_position) %>
-  <td class="list"><% if (w.position.strategy_id) %><%= w.position.strategy.name %><br><% end %><%= w.position.to_board.to_html_table("S").html_safe %>
+  <td class="list"><%= w.position.to_board.to_html_table("S").html_safe %>
 <% end %>
-<td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %>
+<td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %><br>
+　<i><% if (w.adds && w.adds > 0) %><span style="color:blue;">+<%= w.adds %></span><% end %>
+     <% if (w.dels && w.dels > 0) %><span style="color:red;">-<%= w.dels %></span><% end %>
 <% if (w.minor) %>
-  <br><i>(マイナー変更)</i>
+ (マイナー変更)
+<% end %></i>
+<% if (!@without_position && w.position.strategy_id) %>
+  <br><br><%= w.position.strategy.name %>
 <% end %>
 <% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><% end %>
+<td class="list"><% if (w.likes > 0) %><span class="dark_green"><%= w.likes.to_s %>名</span><% end %>
 <td class="list"><%= w.to_past_time %>
 <td class="list"><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
 <% unless (@without_position) %><br><br><%= link_to '局面', '/positions/' + w.position.id.to_s %><% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141109153345) do
+ActiveRecord::Schema.define(version: 20141109221205) do
 
   create_table "appearances", force: true do |t|
     t.integer  "game_id"
@@ -228,6 +228,9 @@ ActiveRecord::Schema.define(version: 20141109153345) do
     t.integer  "prev_post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "adds"
+    t.integer  "dels"
+    t.integer  "likes",        default: 0
   end
 
   add_index "wikiposts", ["position_id"], name: "index_wikiposts_on_position_id"

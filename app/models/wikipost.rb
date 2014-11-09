@@ -19,6 +19,7 @@ class Wikipost < ActiveRecord::Base
     rescue
       return false
     end
+    wikipost.save_diff_nums
     return wikipost
   end
   
@@ -65,5 +66,32 @@ class Wikipost < ActiveRecord::Base
     else
       return diff.to_i.to_s + "秒前"
     end
+  end
+
+  def save_diff_nums
+    add = 0
+    del = 0
+    diff_sets.each do |set|
+      case (set[:line].action)
+      when "!"
+        set[:chars].each do |change|
+          if (change.action == "+")
+            add += 1
+          elsif (change.action == "-")
+            del += 1
+          elsif (change.action == "!")
+            add += 1
+            del += 1
+          end
+        end
+      when "+"
+        add += set[:line].new_element.length
+      when "-"
+        del += set[:line].old_element.length
+      end
+    end
+    self.adds = add
+    self.dels = del
+    save
   end
 end

@@ -8,6 +8,8 @@ div#wiki_edit_buttons
     |]
 
 h2 局面のディスカッション
+div style="width:200px;margin:13px 0;"
+  = @position.to_board.to_html_table("S").html_safe
 
 - if (current_user)
   = form_for :discussion, :url => {:action => 'create'} do |f|
@@ -17,7 +19,6 @@ h2 局面のディスカッション
     br
     = f.submit "投稿", data: { confirm: "投稿前に内容をよくご確認下さい。\nこの内容で投稿してもよろしいですか？" }
 
-br
 - if (@discussions.length == 0)
   span.dark_red
     |この局面のディスカッションはまだありません。
