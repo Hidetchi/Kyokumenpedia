@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get 'users/mypage'
   get 'users/:id/followers' => 'users#followers'
   resources :users, :only => [:index, :show, :update]
-  get 'positions/search' => 'positions#search'
+  get 'positions/search'
   get 'positions/list/:mode' => 'positions#list'
   get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'
   post 'positions/show' => 'positions#show'

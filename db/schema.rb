@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141109095417) do
+ActiveRecord::Schema.define(version: 20141109153345) do
 
   create_table "appearances", force: true do |t|
     t.integer  "game_id"
@@ -107,7 +107,6 @@ ActiveRecord::Schema.define(version: 20141109095417) do
 
   create_table "positions", force: true do |t|
     t.string   "sfen"
-    t.text     "csa"
     t.integer  "handicap_id"
     t.integer  "strategy_id"
     t.integer  "stat1_black",    default: 0
@@ -119,6 +118,7 @@ ActiveRecord::Schema.define(version: 20141109095417) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "latest_post_id"
+    t.integer  "views",          default: 0
   end
 
   add_index "positions", ["sfen"], name: "index_positions_on_sfen", unique: true

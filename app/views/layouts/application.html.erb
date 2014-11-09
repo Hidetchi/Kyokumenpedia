@@ -16,7 +16,7 @@
 <ul class="sidemenu">
 <li><%= link_to 'トップ', '/' %>
 <li class="new_section"><%= link_to '局面検索', positions_search_path %>
-<li class="new_section">いま注目の局面
+<li class="new_section"><%= link_to 'いま注目の局面', '/positions/list/hot' %>
 <li><%= link_to '解説リクエスト局面', '/positions/list/req' %>
 <li><%= link_to '新しい局面', '/positions/list/new' %>
 <li><%= link_to '最新の編集', wikiposts_path %>

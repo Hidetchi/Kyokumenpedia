@@ -11,6 +11,8 @@
   <span class="dark_red"><b><%= position.watches.count %></b> リクエスト</span><br>
 <% elsif (type == "WATCH") %>
   <div id="watch_<%= position.id.to_s %>"><%= watch_button(position, 'watch_' + position.id.to_s) %></div>
+<% elsif (type == "VIEWS") %>
+  <span class="dark_red">注目指数 <b><%= position.views %></b></span><br>
 <% end %>
 <%= link_to '見る', '/positions/' + position.id.to_s %>
 </div>

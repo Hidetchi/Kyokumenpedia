@@ -2,91 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Move, :type => :model do
   before :all do
-    lines = ["P1-KY-KE-GI-KI-OU-KI-GI-KE-KY",
-             "P2 * -HI *  *  *  *  * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  *  *  *  *  *  *  *  * ",
-             "P7+FU+FU+FU+FU+FU+FU+FU+FU+FU",
-             "P8 * +KA *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY", "+"]
-    @pos_initial = Position.create(handicap_id: 1, sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -", csa: lines.join("\n"))
-    lines = ["P1-KY-KE-GI-KI-OU-KI-GI-KE-KY",
-             "P2 * -HI *  *  *  *  * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  * +FU *  *  *  *  *  * ",
-             "P7+FU+FU * +FU+FU+FU+FU+FU+FU",
-             "P8 * +KA *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY", "-"]
-    @pos_7776FU = Position.create(handicap_id: 1, sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/2P6/PP1PPPPPP/1B5R1/LNSGKGSNL w -", csa: lines.join("\n"))
-    lines = ["P1-KY-KE-GI * -OU-KI-GI-KE-KY",
-             "P2 * -HI *  * -KI *  * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU-FU-FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  * +FU *  *  *  *  *  * ",
-             "P7+FU+FU * +FU+FU+FU+FU+FU+FU",
-             "P8 * +KA *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY", "+"]
-    @pos_6152KI = Position.create(handicap_id: 1, sfen: "lns1kgsnl/1r2g2b1/ppppppppp/9/9/2P6/PP1PPPPPP/1B5R1/LNSGKGSNL b -", csa: lines.join("\n"))
-    lines = ["P1-KY-KE-GI * -OU-KI-GI-KE-KY",
-             "P2 * -HI *  * -KI *  * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU+KA-FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  * +FU *  *  *  *  *  * ",
-             "P7+FU+FU * +FU+FU+FU+FU+FU+FU",
-             "P8 *  *  *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY",
-             "P+00FU", "-"]
-    @pos_8833KA = Position.create(handicap_id: 1, sfen: "lns1kgsnl/1r2g2b1/ppppppBpp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL w P", csa: lines.join("\n"))
-    lines = ["P1-KY-KE-GI * -OU-KI * -KE-KY",
-             "P2 * -HI *  * -KI-GI * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU+KA-FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  * +FU *  *  *  *  *  * ",
-             "P7+FU+FU * +FU+FU+FU+FU+FU+FU",
-             "P8 *  *  *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY",
-             "P+00FU", "+"]
-    @pos_3142GI = Position.create(handicap_id: 1, sfen: "lns1kg1nl/1r2gs1b1/ppppppBpp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL b P", csa: lines.join("\n"))
-    lines = ["P1-KY-KE-GI * -OU-KI * -KE-KY",
-             "P2 * -HI *  * -KI+UM * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU * -FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  * +FU *  *  *  *  *  * ",
-             "P7+FU+FU * +FU+FU+FU+FU+FU+FU",
-             "P8 *  *  *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY",
-             "P+00FU00GI", "-"]
-    @pos_3342UM = Position.create(handicap_id: 1, sfen: "lns1kg1nl/1r2g+B1b1/pppppp1pp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL b SP", csa: lines.join("\n"))
-    lines = ["P1-KY-KE-GI *  * -KI * -KE-KY",
-             "P2 * -HI *  * -KI-OU * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU * -FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  * +FU *  *  *  *  *  * ",
-             "P7+FU+FU * +FU+FU+FU+FU+FU+FU",
-             "P8 *  *  *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY",
-             "P+00FU00GI", "P-00KA", "+"]
-    @pos_5142OU = Position.create(handicap_id: 1, sfen: "lns2g1nl/1r2gk1b1/pppppp1pp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL b SPb", csa: lines.join("\n"))
-    lines = ["P1-KY-KE-GI *  * -KI * -KE-KY",
-             "P2 * -HI *  * -KI-OU * -KA * ",
-             "P3-FU-FU-FU-FU-FU-FU * -FU-FU",
-             "P4 *  *  *  *  *  *  *  *  * ",
-             "P5 *  *  *  *  *  *  *  *  * ",
-             "P6 *  * +FU *  *  *  *  *  * ",
-             "P7+FU+FU * +FU+FU+FU+FU+FU+FU",
-             "P8 * +GI *  *  *  *  * +HI * ",
-             "P9+KY+KE+GI+KI+OU+KI+GI+KE+KY",
-             "P+00FU", "P-00KA", "-"]
-    @pos_0088GI = Position.create(handicap_id: 1, sfen: "lns2g1nl/1r2gk1b1/pppppp1pp/9/9/2P6/PP1PPPPPP/1S5R1/LNSGKGSNL b Pb", csa: lines.join("\n"))
+    @pos_initial = Position.create(handicap_id: 1, sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -")
+    @pos_7776FU = Position.create(handicap_id: 1, sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/2P6/PP1PPPPPP/1B5R1/LNSGKGSNL w -")
+    @pos_6152KI = Position.create(handicap_id: 1, sfen: "lns1kgsnl/1r2g2b1/ppppppppp/9/9/2P6/PP1PPPPPP/1B5R1/LNSGKGSNL b -")
+    @pos_8833KA = Position.create(handicap_id: 1, sfen: "lns1kgsnl/1r2g2b1/ppppppBpp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL w P")
+    @pos_3142GI = Position.create(handicap_id: 1, sfen: "lns1kg1nl/1r2gs1b1/ppppppBpp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL b P")
+    @pos_3342UM = Position.create(handicap_id: 1, sfen: "lns1kg1nl/1r2g+B1b1/pppppp1pp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL b SP")
+    @pos_5142OU = Position.create(handicap_id: 1, sfen: "lns2g1nl/1r2gk1b1/pppppp1pp/9/9/2P6/PP1PPPPPP/7R1/LNSGKGSNL b SPb")
+    @pos_0088GI = Position.create(handicap_id: 1, sfen: "lns2g1nl/1r2gk1b1/pppppp1pp/9/9/2P6/PP1PPPPPP/1S5R1/LNSGKGSNL b Pb")
 
     @move_7776FU = Move.create(:prev_position_id => @pos_initial.id, :next_position_id => @pos_7776FU.id, :csa => "+7776FU")
     @move_7776FU.analyze

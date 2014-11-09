@@ -19,8 +19,13 @@ class PositionsController < ApplicationController
         @positions << Position.includes(:wikiposts).find_by(id: key)
       end
       @list_title = "解説リクエスト局面"
-      @caption = "あなたの解説を待っている局面があります。是非最初の解説を投稿して下さい。"
+      @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
       @type = "WATCHERS"
+    elsif (params[:mode] == "hot")
+      @positions = Position.order('views desc').limit(20)
+      @list_title = "注目の局面"
+      @caption = "現在注目を集めている局面を表示しています。"
+      @type = "VIEWS"
     end
   end
 
@@ -63,6 +68,7 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
+    Position.increment_counter(:views, @position.id)
     session[:wikiedit] = @position.latest_post ? @position.latest_post.content : ""
     session[:wikicomment] = nil
     @appearances = @position.appearances.select(:game_id, :next_move_id).limit(50).includes(:game => :game_source).includes(:next_move)

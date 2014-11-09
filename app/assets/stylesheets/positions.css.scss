@@ -50,9 +50,12 @@ table.wiki td.left {
 }
 
 div.tile_position {
-	padding-top: 8px;
+	padding: 4px;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	background-color: #f3f9ff;
 	text-align: center;
 	float: left;
-	height: 190px;
+	height: 185px;
 	font-size: 13px;
 }

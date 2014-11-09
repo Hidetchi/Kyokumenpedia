@@ -1,6 +1,3 @@
 <h2><%= @list_title %></h2>
-<br>
-<%= @caption %>
-<br>
-<br>
+<p style="font-size:15px"><%= @caption %></p>
 <%= render :partial => 'tile', :locals => { :positions => @positions, :type => @type } %>
