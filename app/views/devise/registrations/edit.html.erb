@@ -7,7 +7,7 @@
   <div>棋力<br><%= f.text_field :strength %></div>
   <div>棋風や得意戦型<br><%= f.text_field :style %></div>
   <div>ホームページ<br><%= f.text_field :url %></div>
-  <div>自己紹介<br><%= f.text_field :description, :size => "70" %></div>
+  <div>自己紹介 <i>(140字以内)</i><br><%= f.text_field :description, :size => "70", :maxlength => 140 %></div>
   <div>81道場アカウント <i>(マイページに81道場ウィジェットが表示されます)</i><br><%= f.text_field :name81 %></div>
   <br>
   <div><%= f.submit "登録情報更新" %></div>

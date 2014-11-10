@@ -33,6 +33,7 @@ class WikipostsController < ApplicationController
     else
       session[:latest_post_id] = Position.find(params[:wikipost][:position_id]).latest_post_id
       params[:wikipost][:prev_post_id] = session[:latest_post_id]
+      params[:wikipost][:minor] = false unless (params[:wikipost][:prev_post_id])
       if (session[:latest_post_id] != nil && session[:latest_post_id] != params[:wikipost][:latest_post_id].to_i)
         flash[:alert] = "他ユーザが編集を行ったため、編集内容の競合が発生しました。編集規模が小さい場合は、最新の記事を確認後、改めて編集を実施して下さい。そのまま投稿を続ける場合は、後から他ユーザの編集を確認し調整を実施して下さい。"
         redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id], :preview => true
@@ -47,6 +48,7 @@ class WikipostsController < ApplicationController
             Feeder.delay.wikipost_to_follower(follower.id, wikipost.id) unless watcher_ids.include?(follower.id)
           end
         end
+        wikipost.reward_user
         redirect_to '/positions/' + params[:wikipost][:position_id]
       else
         flash[:alert] = "保存に失敗しました。入力内容を確認して下さい。"

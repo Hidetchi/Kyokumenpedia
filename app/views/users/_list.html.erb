@@ -1,6 +1,7 @@
 <table class="invisible" style="margin-left:30px;">
 <% users.each do |user| %>
 <tr><td style="border:0;padding:3px;"><%= link_to user.username, '/users/' + user.id.to_s %>
+<td style="border:0;padding:3px;"><%= user.to_stars %>
 <td style="border:0;padding:3px;text-align:left;"><div id="follow_<%= user.id.to_s %>"><%= follow_button(user, 'follow_' + user.id.to_s) %></div>
 <% end %>
 </table>

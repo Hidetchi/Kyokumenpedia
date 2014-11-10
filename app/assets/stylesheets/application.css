@@ -264,3 +264,7 @@ div#wiki_edit_buttons {
 	margin-right: 20px;
 	font-size: 13px;
 }
+
+img.star {
+	vertical-align: baseline;
+}

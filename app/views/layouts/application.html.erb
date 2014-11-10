@@ -32,7 +32,7 @@
 <% end %>
 <% if user_signed_in? %>
 <div id="user_panel">
-<strong><%= current_user.username %></strong>さん<br>
+<strong>ユーザメニュー</strong><br>
 <ul class="sidemenu">
 <li>タイムライン
 <li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + current_user.id.to_s %>
@@ -48,7 +48,7 @@
 
 <div id="header">
 <% if user_signed_in? %>
-  <strong><span style="color:blue;"><%= current_user.email %></span></strong>でログイン中 | 
+  <strong><%= current_user.username %></strong>さん<%= current_user.to_stars %> ログイン中 | 
   <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 <% else %>
  | <%= link_to "アカウント登録", new_user_registration_path %> |

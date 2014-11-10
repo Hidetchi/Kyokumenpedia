@@ -56,4 +56,34 @@ class User < ActiveRecord::Base
 #    evaluations.where(target_type: wikipost.class, reputation_name: :likes, target_id: wikipost.id).present?
     evaluations.where(target_id: wikipost.id).present?
   end
+  
+  def to_rank
+    if (self.point == 0)
+      return 0
+    elsif (self.point < 10)
+      return 1
+    elsif (self.point < 50)
+      return 2
+    elsif (self.point < 200)
+      return 3
+    elsif (self.point < 500)
+      return 4
+    elsif (self.point < 1000)
+      return 5
+    else
+      return 6
+    end
+  end
+  
+  def to_rank_name
+    ["一般読者", "編集見習い", "初級エディター", "中級エディター", "上級エディター", "編集長", "局面博士"][self.to_rank]
+  end
+  
+  def to_stars
+    tag = ""
+    self.to_rank.times do
+      tag += "<img class='star' src='/assets/star.gif'>"
+    end
+    tag.html_safe
+  end
 end

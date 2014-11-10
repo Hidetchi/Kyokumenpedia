@@ -22,7 +22,7 @@ class PositionsController < ApplicationController
       @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
       @type = "WATCHERS"
     elsif (params[:mode] == "hot")
-      @positions = Position.includes(:strategy).order('views desc').limit(20)
+      @positions = Position.where('views > 0').includes(:strategy).order('views desc').limit(20)
       @list_title = "注目の局面"
       @caption = "現在注目を集めている局面を表示しています。"
       @type = "VIEWS"

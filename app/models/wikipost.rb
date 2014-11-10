@@ -94,4 +94,18 @@ class Wikipost < ActiveRecord::Base
     self.dels = del
     save
   end
+  
+  def reward_user
+    if (self.prev_post_id == nil)
+      point = 3
+    elsif (!self.minor)
+      point = 1
+    elsif (Wikipost.find(self.prev_post_id).user_id == self.user_id)
+      point = 0
+    else
+      point = 2
+    end
+    self.user.point += point
+    self.user.save
+  end
 end

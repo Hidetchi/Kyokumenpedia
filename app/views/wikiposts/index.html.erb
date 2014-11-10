@@ -22,7 +22,7 @@
 <% if (!@without_position && w.position.strategy_id) %>
   <br><br><%= w.position.strategy.name %>
 <% end %>
-<% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><% end %>
+<% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><br><%= w.user.to_stars %><% end %>
 <td class="list"><% if (w.likes > 0) %><span class="dark_green"><%= w.likes.to_s %>名</span><% end %>
 <td class="list"><%= w.to_past_time %>
 <td class="list"><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
