@@ -1,4 +1,6 @@
 class Discussion < ActiveRecord::Base
+  include PublicActivity::Common
+  
   belongs_to :user
   belongs_to :position
   
@@ -7,6 +9,7 @@ class Discussion < ActiveRecord::Base
     last_post = Discussion.where(position_id: hash[:position_id]).last
     hash[:num] = last_post ? (last_post.num + 1) : 1
     discussion = Discussion.create(hash.permit(:user_id, :position_id, :content, :num))
+    discussion.create_activity(action: 'create', owner: discussion.user, recipient: discussion.position)
     if (!last_post || ((Time.now - last_post.created_at) > 60*60*24))
       discussion.position.watchers.each do |watcher|
         Feeder.delay.discussion_to_watcher(watcher.id, discussion.id)

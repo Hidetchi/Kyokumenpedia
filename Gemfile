@@ -44,6 +44,7 @@ gem 'ancestry'
 gem 'activerecord-reputation-system', github: 'NARKOZ/activerecord-reputation-system', branch: 'rails4'
 gem 'delayed_job_active_record'
 gem "daemons"
+gem 'public_activity'
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'

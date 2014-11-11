@@ -11,12 +11,13 @@ Rails.application.routes.draw do
   get 'users/mypage'
   get 'users/:id/followers' => 'users#followers'
   resources :users, :only => [:index, :show, :update]
+  get 'positions/start'
   get 'positions/search'
   get 'positions/list/:mode' => 'positions#list'
   get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'
   post 'positions/show' => 'positions#show'
   get 'positions/:id/edit' => 'positions#edit'
-  get 'positions/:id/discussion' => 'discussions#index'
+  get 'positions/:id/discussions' => 'discussions#index'
   get 'positions/:id/post' => 'discussions#post'
   get 'positions/:id/:moves' => 'positions#show'
   resources :positions, :only => [:show]
@@ -28,7 +29,7 @@ Rails.application.routes.draw do
   resources :wikiposts, :only => [:index, :show]
   get 'discussions/index'
   post 'discussions/create'
-  root :to => 'positions#show', :sfen => 'lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -'
+  root :to => 'activities#index'
   
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

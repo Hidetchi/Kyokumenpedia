@@ -51,13 +51,13 @@ div#alert_box {
 }
 
 div#user_panel {
-	border: 1px solid #ccc;
+	border: 2px ridge #ccc;
 	background-color: white;
-	padding-left: 3px;
+	padding-left: 6px;
 	padding-top: 8px;
 	margin-top: 30px;
 	margin-left: 3px;
-	width: 131px;
+	width: 125px;
 	overflow: hidden;
 }
 

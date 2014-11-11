@@ -24,7 +24,7 @@
 <% end %>
 <% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><br><%= w.user.to_stars %><% end %>
 <td class="list"><% if (w.likes > 0) %><span class="dark_green"><%= w.likes.to_s %>名</span><% end %>
-<td class="list"><%= w.to_past_time %>
+<td class="list"><%= created_time_ago(w) %>
 <td class="list"><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
 <% unless (@without_position) %><br><br><%= link_to '局面', '/positions/' + w.position.id.to_s %><% end %>
 <% end %>

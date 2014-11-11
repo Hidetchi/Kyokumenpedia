@@ -1,6 +1,8 @@
 require 'diff/lcs'
 
 class Wikipost < ActiveRecord::Base
+  include PublicActivity::Common
+
   belongs_to :user
   belongs_to :position
   belongs_to :prev_post, class_name: 'Wikipost', foreign_key: 'prev_post_id'
@@ -20,6 +22,7 @@ class Wikipost < ActiveRecord::Base
       return false
     end
     wikipost.save_diff_nums
+    wikipost.create_activity(action: 'create', owner: wikipost.user, recipient: wikipost.position)
     return wikipost
   end
   
@@ -49,23 +52,6 @@ class Wikipost < ActiveRecord::Base
   def to_local_time
   	time = self.created_at.localtime
   	time.strftime("%Y年%m月%d日 %H時%M分")
-  end
-  
-  def to_past_time
-    diff = Time.new - self.created_at
-    if (diff > 3*365*24*60*60)
-      return diff.div(365*24*60*60).to_s + "年前"
-    elsif (diff > 2*30*24*60*60)
-      return diff.div(24*60*60).to_s + "ヶ月前"
-    elsif (diff > 24*60*60)
-      return diff.div(24*60*60).to_s + "日前"
-    elsif (diff > 60*60)
-      return diff.div(60*60).to_s + "時間前"
-    elsif (diff > 60)
-      return diff.div(60).to_s + "分前"
-    else
-      return diff.to_i.to_s + "秒前"
-    end
   end
 
   def save_diff_nums
@@ -107,5 +93,11 @@ class Wikipost < ActiveRecord::Base
     end
     self.user.point += point
     self.user.save
+  end
+  
+  def like(liker)
+    self.add_evaluation(:likes, 1, liker)
+    self.update_attributes(:likes => self.reputation_for(:likes).to_i)
+    self.create_activity(action: 'like', owner: liker, recipient: self.user)
   end
 end

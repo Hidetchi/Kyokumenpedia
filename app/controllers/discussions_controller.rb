@@ -3,7 +3,7 @@ class DiscussionsController < ApplicationController
 
   def index
     @position = Position.find_by(id: params[:id])
-    @discussions = Discussion.where(:position_id => params[:id]).order('created_at desc')
+    @discussions = Discussion.where(:position_id => params[:id]).includes(:user).order('created_at desc')
   end
   
   def post

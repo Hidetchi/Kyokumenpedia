@@ -1,0 +1,48 @@
+h1
+  |局面ペディア
+h2 style="margin-bottom:10px;"
+  = current_user.username
+  |さんのタイムライン
+- if (@activities.length == 0)
+  |現在、アクティビティはまだありません。
+- @activities.each do |activity|
+  - if (activity.owner_id == current_user.id)
+    |<div class="feed self">
+  - else
+    |<div class="feed others">
+
+  div.dark_green style="float:right;padding-left:15px;"
+    = created_time_ago(activity)
+  = link_to activity.owner.username, '/users/' + activity.owner.id.to_s
+  |さんが、
+  - if (activity.key == 'wikipost.create')
+    |局面の解説を
+    = link_to '編集', '/wikiposts/' + activity.trackable_id.to_s
+    |しました
+    - unless (activity.trackable.minor)
+      div style="width:200px;margin-top:10px;"
+        = activity.recipient.to_board.to_html_table("S").html_safe
+  - elsif (activity.key == 'wikipost.like')
+    = link_to activity.recipient.username, '/users/' + activity.recipient.id.to_s
+    |さんによる
+    = link_to '編集', '/wikiposts/' + activity.trackable_id.to_s
+    |に「いいね！」と言っています
+  - elsif (activity.key == 'follow.create')
+    = link_to activity.recipient.username, '/users/' + activity.recipient.id.to_s
+    |さんをフォローしました
+  - elsif (activity.key == 'discussion.create')
+    |局面の
+    = link_to 'ディスカッション', '/positions/' + activity.recipient_id.to_s + '/discussions'
+    |に投稿しました。
+    div style="margin-top:5px;"
+      span.dark_red
+        = activity.trackable.num
+        |: 
+      i
+        = activity.trackable.content
+  
+
+
+
+
+  |</div>

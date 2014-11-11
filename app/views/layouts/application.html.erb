@@ -34,9 +34,8 @@
 <div id="user_panel">
 <strong>ユーザメニュー</strong><br>
 <ul class="sidemenu">
-<li>タイムライン
-<li><%= link_to "コントリビューション", '/wikiposts/list_usr/' + current_user.id.to_s %>
 <li><%= link_to "マイページ", '/users/' + current_user.id.to_s %>
+<li><%= link_to "編集履歴", '/wikiposts/list_usr/' + current_user.id.to_s %>
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 </ul>
@@ -49,6 +48,7 @@
 <div id="header">
 <% if user_signed_in? %>
   <strong><%= current_user.username %></strong>さん<%= current_user.to_stars %> ログイン中 | 
+  <%= link_to "開始局面へ", '/positions/start' %> | 
   <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 <% else %>
  | <%= link_to "アカウント登録", new_user_registration_path %> |

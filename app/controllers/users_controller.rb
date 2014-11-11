@@ -52,8 +52,7 @@ class UsersController < ApplicationController
   
   def like
     @wikipost = Wikipost.find(params[:wikipost_id])
-    @wikipost.add_evaluation(:likes, 1, current_user) if (current_user)
-    @wikipost.update_attributes(:likes => @wikipost.reputation_for(:likes).to_i)
+    @wikipost.like(current_user) if (current_user)
     render 'update_like'
   end
 end

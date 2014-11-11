@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
   
   def follow(user_id)
     follow = self.following_relations.create(:followed_id => user_id)
+    follow.create_activity(action: 'create', owner: self, recipient: follow.followed) if follow.id
     follow.followed
   end
 

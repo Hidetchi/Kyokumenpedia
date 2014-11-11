@@ -6,7 +6,7 @@
 <br>
 <div style="padding:3px 0;text-align:right;"><%= position.to_board.to_html_table("S").html_safe %></div>
 <% if (type == "FIRST_POST" && position.latest_post_id) %>
-  <span class="dark_red"><%= position.wikiposts.first.to_past_time %></span><br>
+  <span class="dark_red"><%= created_time_ago(position.wikiposts.first) %></span><br>
 <% elsif (type == "WATCHERS") %>
   <span class="dark_red"><b><%= position.watches.count %></b> リクエスト</span><br>
 <% elsif (type == "WATCH") %>
