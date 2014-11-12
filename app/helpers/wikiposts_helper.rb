@@ -8,6 +8,10 @@ module WikipostsHelper
 		com_evals = []
 		level = 2
 		ref_num = 0
+		# interpret #REDIRECT [[sfen]] as identical(symmetric) position link
+		if (lines[0] =~ /^\s*#REDIRECT\s*$/)
+			return identical_position_template(position_id)
+		end
 		lines.each do |line|
 			line.chomp!
 			# interpret {{Resemble|sfen|comment}} as resembling position object
@@ -66,6 +70,16 @@ module WikipostsHelper
 				else
 					'<a class="external" href="' + match + '" target="_blank">' + match + '</a>'
 				end
+			}
+			# interpret '''text''' as bold font
+			line = line.gsub(/'''(.+?)'''/) {
+				match = $1
+				'<strong>' + match + '</strong>'
+			}
+			# interpret '''text''' as bold font
+			line = line.gsub(/''(.+?)''/) {
+				match = $1
+				'<i>' + match + '</i>'
 			}
 
 			# interpret ===title=== as <h#> tag
@@ -202,5 +216,9 @@ module WikipostsHelper
 		end
 
 		return new_lines.join("\n")
+	end
+	
+	def identical_position_template(position_id)
+	  "<div class='notify'>この局面は、先後入れ替わりによって発生する、他との同一局面です。<br>解説は" + link_to('もう一方の局面', '/positions/' + Position.find(position_id).to_board.reversed_board.to_sfen) + "をご覧下さい。</div>"
 	end
 end

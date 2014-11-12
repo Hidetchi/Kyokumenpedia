@@ -847,4 +847,21 @@ class Board
   	@array[x][y] ? @array[x][y].to_s : ""
   end
 
+  def reversed_board
+    new_board = Board.new
+    for y in 1..9 do
+      for x in 1..9 do
+        if (@array[10-x][10-y])
+          new_board.array[x][y] = @array[10-x][10-y]
+          new_board.array[x][y].sente = !@array[10-x][10-y].sente
+        end
+      end
+    end
+    new_board.gote_hands = sente_hands
+    new_board.gote_hands.each {|p| p.sente = !p.sente}
+    new_board.sente_hands = gote_hands
+    new_board.sente_hands.each {|p| p.sente = !p.sente}
+    new_board.teban = !@teban
+    new_board
+  end
 end

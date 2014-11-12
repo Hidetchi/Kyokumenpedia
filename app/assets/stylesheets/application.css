@@ -171,6 +171,10 @@ th {
 	font-weight: normal;
 }
 
+dt {
+	font-weight: bold;
+}
+
 ul.sidemenu {
 	padding-left: 20px;
 }

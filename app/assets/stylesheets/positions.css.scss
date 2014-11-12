@@ -29,15 +29,25 @@ div.p {
 
 div.level2 {
 	padding-left: 15px;
+	padding-right: 10px;
 }
 div.level3 {
 	padding-left: 25px;
+	padding-right: 10px;
 }
 div.level4 {
 	padding-left: 35px;
+	padding-right: 10px;
 }
 div.level5 {
 	padding-left: 45px;
+	padding-right: 10px;
+}
+div.notify {
+	margin: 20px 80px;
+	border: 1px solid #f88;
+	background-color: #ffd;
+	padding: 10px 30px;
 }
 
 table.wiki {
