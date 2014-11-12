@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141112211757) do
+ActiveRecord::Schema.define(version: 20141112215759) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -66,6 +66,9 @@ ActiveRecord::Schema.define(version: 20141112211757) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "discussions", ["created_at"], name: "index_discussions_on_created_at"
+  add_index "discussions", ["position_id"], name: "index_discussions_on_position_id"
 
   create_table "follows", force: true do |t|
     t.integer  "follower_id"
@@ -123,6 +126,10 @@ ActiveRecord::Schema.define(version: 20141112211757) do
     t.boolean  "capture",          default: false
   end
 
+  add_index "moves", ["next_position_id"], name: "index_moves_on_next_position_id"
+  add_index "moves", ["prev_position_id", "next_position_id"], name: "index_moves_on_prev_position_id_and_next_position_id", unique: true
+  add_index "moves", ["prev_position_id"], name: "index_moves_on_prev_position_id"
+
   create_table "positions", force: true do |t|
     t.string   "sfen"
     t.integer  "handicap_id"
@@ -140,6 +147,7 @@ ActiveRecord::Schema.define(version: 20141112211757) do
   end
 
   add_index "positions", ["sfen"], name: "index_positions_on_sfen", unique: true
+  add_index "positions", ["views"], name: "index_positions_on_views"
 
   create_table "rs_evaluations", force: true do |t|
     t.string   "reputation_name"
@@ -224,6 +232,7 @@ ActiveRecord::Schema.define(version: 20141112211757) do
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["point"], name: "index_users_on_point"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
 
@@ -235,7 +244,9 @@ ActiveRecord::Schema.define(version: 20141112211757) do
     t.datetime "updated_at"
   end
 
+  add_index "watches", ["position_id"], name: "index_watches_on_position_id"
   add_index "watches", ["user_id", "position_id"], name: "index_watches_on_user_id_and_position_id", unique: true
+  add_index "watches", ["user_id"], name: "index_watches_on_user_id"
 
   create_table "wikiposts", force: true do |t|
     t.integer  "position_id"
@@ -251,6 +262,8 @@ ActiveRecord::Schema.define(version: 20141112211757) do
     t.integer  "likes",        default: 0
   end
 
+  add_index "wikiposts", ["created_at"], name: "index_wikiposts_on_created_at"
   add_index "wikiposts", ["position_id"], name: "index_wikiposts_on_position_id"
+  add_index "wikiposts", ["user_id"], name: "index_wikiposts_on_user_id"
 
 end

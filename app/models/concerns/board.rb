@@ -813,7 +813,7 @@ class Board
           tag += @array[x][y].sente ? "<td>" : "<td class='gote'>"
           tag += @array[x][y].to_diag
         else
-          tag += "<td>"
+          tag += "<td>　"
         end
       end
     end
