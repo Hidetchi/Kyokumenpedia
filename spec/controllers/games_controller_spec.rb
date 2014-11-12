@@ -9,6 +9,7 @@ RSpec.describe GamesController, :type => :controller do
       Position.create(handicap_id: 1, sfen: "lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p", strategy_id: strategy.id)
 
       get :create, black_name: "player1", white_name: "player2", date: "2014-11-07", result: 1, handicap_id: 1, csa: "+7776FU-3334FU+2726FU-8384FU+2625FU-8485FU+6978KI-4132KI+2524FU-2324FU+2824HI-8586FU+8786FU-8286HI+2434HI-2233KA+3436HI-3122GI%TORYO", game_source_pass: "rspec"
+      Game.update_relations(Game.last.id)
     end
     
     context "with Yokofudori until -2233KA+3436HI-3122GI" do

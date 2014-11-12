@@ -33,57 +33,43 @@ class GamesController < ApplicationController
       @error = 'No moves specified.'
       return
     end
-    @board = Board.new
-    @board.initial(params[:handicap_id].to_i)
+    board = Board.new
+    board.initial(params[:handicap_id].to_i)
 
-    sfens = [] # sfen for each move, which is used to identify/register Position model.
-    @positions = [] # Position models
     rt = nil
+	@sfens = [] # sfen for each move
 
-    sfens << @board.to_sfen
+    @sfens << board.to_sfen
     csa_moves.each do |csa_move|
-      rt = @board.handle_one_move(csa_move)
-      unless (rt == :normal || rt == :toryo)
+      if (rt == :sennichite)  # if there is a move when sennichite is already output
         @error = 'Illegal move'
         return
       end
-      sfens << @board.to_sfen
+      rt = board.handle_one_move(csa_move)
+      unless (rt == :normal || rt == :toryo || rt == :sennichite)  # any other output than these indicate illegal move etc.
+        @error = 'Illegal move'
+        return
+      end
+      @sfens << board.to_sfen
     end
-
-    # If the kifu is OK, then update database
-    strategy = nil
-    unless (@game = Game.api_add(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid), game_source.id))
+    if (rt == :normal)  # if there is no result output even after the last move, it's invalid
+      @error = 'No result'
+      return
+    elsif (rt == :sennnichite)
+      result_code = 2
+    else
+      result_code = board.teban ? 1 : 0
+    end
+    if (params[:result].to_i != result_code) # when the result does not match
+      @error = 'Result does not match'
+      return
+    end
+    # If the kifu is OK, then save the game to record
+    unless (game = Game.api_add(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid), game_source.id))
       @error = 'Duplicate Kifu'
       return
     end
-    for i in 0..(sfens.length - 1) do
-      @positions << Position.find_or_create(sfens[i])
-    end
-    position_already = Hash::new(false)
-    move_already = Hash::new(false)
-    begin
-      for i in 0..(@positions.length - 1) do
-        unless (i >= @positions.length - 1)
-          move = Move.find_or_new(@positions[i].id, @positions[i+1].id, csa_moves[i])
-          unless move_already[sfens[i]+sfens[i+1]]
-            move.update_stat(game_source.category)
-          end
-          move_already[sfens[i]+sfens[i+1]] = true
-        end
-
-        unless position_already[sfens[i]]
-          strategy = @positions[i].update_strategy(strategy)
-          @positions[i].appearances.build(:game_id => @game.id, :num => i, :next_move_id => move.id)
-          @positions[i].update_stat(game_source.category, @game.result)
-        end
-        position_already[sfens[i]] = true
-      end
-    rescue
-      @game.destroy
-      @error = 'Database error.'
-      return
-    end
-
+    # Update relations between positions, moves, etc in background
+    Game.delay.update_relations(game.id)
   end
-
 end
