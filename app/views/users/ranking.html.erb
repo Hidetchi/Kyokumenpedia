@@ -1,0 +1,25 @@
+<h2>編集ランキング</h2>
+<h3>総合部門</h3>
+<table style="margin-left:60px;">
+<tr><th width="40">順位<th>ユーザ<th width="70">編集EXP
+<% i = 0 %>
+<% @users.each do |user| %>
+<% if (i==0) %>
+  <tr style="font-size:17px;font-weight:bold;">
+<% elsif (i<=2) %>
+  <tr style="font-size:15px;">
+<% else %>
+  <tr>
+<% end %>
+<td><%= i = i + 1 %>
+<% if (current_user && current_user == user) %>
+<td style="padding:3px 8px;background-color:#ffb;">
+<% else %>
+<td style="padding:3px 8px;">
+<% end %>
+<%= link_to user.username, '/users/' + user.id.to_s %>
+<td style="text-align:right;padding-right:10px;"><%= user.point %>
+<% end %>
+</table>
+<h3>戦型別</h3>
+<p style="margin-left:25px;"><span class="dark_red">このセクションは現在準備中です</span></p>

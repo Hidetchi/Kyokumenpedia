@@ -4,6 +4,10 @@ class UsersController < ApplicationController
   def index
   end
   
+  def ranking
+    @users = User.order('point desc').limit(30)
+  end
+  
   def update
     if (current_user)
       @user = current_user

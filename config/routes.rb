@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'users/unfollow'
   post 'users/like'
   get 'users/mypage'
+  get 'users/ranking'
   get 'users/:id/followers' => 'users#followers'
   resources :users, :only => [:index, :show, :update]
   get 'positions/start'
