@@ -4,8 +4,6 @@ class CreateAppearances < ActiveRecord::Migration
       t.references :game, index: true
       t.references :position, index: true
       t.integer :index
-
-      t.timestamps
     end
   end
 end
