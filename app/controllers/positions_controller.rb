@@ -28,6 +28,17 @@ class PositionsController < ApplicationController
       @type = "VIEWS"
     end
   end
+  
+  def keyword
+    @keyword = params[:keyword]
+    escaped_keyword = @keyword.gsub(/[\\%_]/){|m| "\\#{m}"}
+    if (@keyword.length <= 1)
+      flash[:alert] = "キーワードが短すぎます"
+      redirect_to :back
+    end
+    @positions = Position.joins(:latest_post).where('content LIKE ?', "%#{escaped_keyword}%").limit(100)
+    @positions = @positions.sort_by{|p| p.views}.reverse
+  end
 
   def show
     if (params[:id])

@@ -100,4 +100,28 @@ class Wikipost < ActiveRecord::Base
     self.update_attributes(:likes => self.reputation_for(:likes).to_i)
     self.create_activity(action: 'like', owner: liker, recipient: self.user)
   end
+  
+  def keyword_neighbors(keyword)
+    distance = 70
+    i = self.content.index(keyword)
+    return ["", ""] unless i
+    if (i == 0)
+      left = ""
+    else
+      i_min = i - distance
+      i_min = 0 if (i_min < 0)
+      left = self.content[i_min..(i-1)]
+      left = "..... " + left if (i_min > 0)
+    end
+    i += (keyword.length - 1)
+    if (i == self.content.length - 1)
+      right == ""
+    else
+      i_max = i + distance
+      i_max = self.content.length - 1 if (i_max >= self.content.length)
+      right = self.content[(i+1)..i_max]
+      right = right + " ....." if (i_max < self.content.length - 1)
+    end
+    [left, right]
+  end    
 end

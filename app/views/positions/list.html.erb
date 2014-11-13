@@ -1,3 +1,7 @@
 <h2><%= @list_title %></h2>
-<p style="font-size:15px"><%= @caption %></p>
-<%= render :partial => 'tile', :locals => { :positions => @positions, :type => @type } %>
+<% if @positions.length == 0 %>
+  <p><span class="dark_red">該当局面がありません</span></p>
+<% else %>
+  <p style="font-size:15px"><%= @caption %></p>
+  <%= render :partial => 'tile', :locals => { :positions => @positions, :type => @type } %>
+<% end %>

@@ -1,4 +1,10 @@
 <h2>局面検索</h2>
+<h3>解説記事検索</h3>
+<div style="margin-left:35px;">
+<%= form_tag 'keyword' do %>
+<%= text_field_tag :keyword, '', :size => "30" %><%= submit_tag '検索' %>
+<% end %>
+</div>
 <h3>SFEN検索</h3>
 <div style="margin-left:35px;">
 <%= form_tag 'show' do %>
@@ -12,3 +18,4 @@
 <%= text_area_tag :bod, '', :size => "35x15" %>
 <% end %>
 </div>
+
