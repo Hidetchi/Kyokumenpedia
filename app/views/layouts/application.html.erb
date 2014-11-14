@@ -21,9 +21,9 @@
 <li><%= link_to '新しい局面', '/positions/list/new' %>
 <li><%= link_to '最新の編集', wikiposts_path %>
 <li class="new_section"><%= link_to '編集ランキング', '/users/ranking' %>
-<li class="new_section">サイトコンセプト
+<li class="new_section"><%= link_to 'サイトコンセプト', pages_about_path %>
 <li><%= link_to 'ヘルプ', pages_help_path %>
-<li>利用規約
+<li><%= link_to '利用規約', pages_terms_path %>
 </ul>
 <% if (notice || alert) %>
 <div id="alert_box">
@@ -34,7 +34,7 @@
 <% if user_signed_in? %>
 <div id="user_panel">
 <strong>ユーザメニュー</strong><br>
-<ul class="sidemenu">
+<ul class="my_menu">
 <li><%= link_to "マイページ", '/users/' + current_user.id.to_s %>
 <li><%= link_to "編集履歴", '/wikiposts/list_usr/' + current_user.id.to_s %>
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
