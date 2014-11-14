@@ -1,6 +1,6 @@
 <h2>解説</h2>
 <% if (content) %>
-<%= interpret_wiki(position_id, content).html_safe %>
+<%= interpret_wiki(position_id, content, current_user != nil).html_safe %>
 <% else %>
 <div class="level2"><span class="dark_red">この局面はまだ解説が投稿されていません。[編集]をクリックして解説を書き込んで下さい。</span></div>
 <% end %>

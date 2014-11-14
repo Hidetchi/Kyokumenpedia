@@ -1,5 +1,5 @@
 module WikipostsHelper
-	def interpret_wiki(position_id, content)
+	def interpret_wiki(position_id, content, logged_in = false)
 		lines = content.split("\n")
 		new_lines = []
 		hash = Hash.new(0)
@@ -190,10 +190,14 @@ module WikipostsHelper
 		new_line += "</div>" if (hash[:p] > 0)
 		new_lines << new_line
 		
-		new_lines << "<h2>参考データ</h2>" if (famous_games.length > 0 || com_evals.length > 0 || resembles.length > 0)
+		if (famous_games.length > 0 || com_evals.length > 0 || resembles.length > 0)
+		  new_lines << "<h2>参考データ</h2>"
+		  new_lines << "<span class='dark_red'>以下のデータを表示するにはログインして下さい</span>" unless logged_in
+		end
 		if (famous_games.length > 0)
 			table_html = "<h3>有名局</h3><table class='wiki'><tr><th>先手<th>後手<th>棋戦<th>対局日<th>勝敗<th>コメント<th>リンク"
 			famous_games.each do |r|
+				r = {sente: "?", gote: "?", event: "?", date: "?", result: "?", comment: "?", url: nil} unless logged_in
 				table_html += "<tr><td>" + r[:sente] + "<td>" + r[:gote] + "<td>" + r[:event] + "<td>" + r[:date] + "<td>" + r[:result] + "<td class='left'>" + r[:comment] + "<td>"
 				table_html += "<a class='external' href='" + r[:url] + "' target='_blank'>棋譜</a>" if (r[:url] && r[:url] =~ /^http/)
 			end
@@ -203,6 +207,7 @@ module WikipostsHelper
 		if (com_evals.length > 0)
 			table_html = "<h3>ソフト評価値</h3><table class='wiki'><tr><th>評価値<th>ソフト名<th>確認日<th>確認環境"
 			com_evals.each do |r|
+				r = {cp: "?", name: "?", date: "?", condition: "?"} unless logged_in
 				table_html += "<tr><td>" + r[:cp] + "<td>" + r[:name] + "<td>" + r[:date] + "<td class='left'>" + r[:condition]
 			end
 			table_html += "</table>"
@@ -211,7 +216,9 @@ module WikipostsHelper
 		if (resembles.length > 0)
 			table_html = "<h3>類似局面</h3><table class='wiki'><tr><th>変化点<th width=60>リンク"
 			resembles.each do |r|
-				table_html += "<tr><td class='left'>" + r[:comment] + "<td><a href='/positions/" + r[:sfen] + "'>Go</a>"
+				r = {comment: "?", sfen: nil} unless logged_in
+				table_html += "<tr><td class='left'>" + r[:comment] + "<td>"
+				table_html += "<a href='/positions/" + r[:sfen] + "'>Go</a>" if (r[:sfen])
 			end
 			table_html += "</table>"
 			new_lines << table_html

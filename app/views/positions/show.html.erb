@@ -29,12 +29,12 @@
 <% @appearances.each do |appearance| %>
 <% game = appearance.game %>
 <tr>
-<td style="border-right: 0;"><%= game.black_name %><td><%= game.to_result_mark(true) %>
-<td style="border-right: 0;"><%= game.to_result_mark(false) %><td><%= game.white_name %>
+<td style="border-right: 0;"><% if current_user %><%= game.black_name %><% else %>???<% end %><td><%= game.to_result_mark(true) %>
+<td style="border-right: 0;"><%= game.to_result_mark(false) %><td><% if current_user %><%= game.white_name %><% else %>???<% end %>
 <td><%= game.date %>
 <td><%= game.game_source.name %>
 <td><%= appearance.next_move.to_kif %>
-<td><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s, :target=>["_blank"], :class=>"external" %>
+<td><% if current_user %><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s, :target=>["_blank"], :class=>"external" %><% end %>
 <% end %>
 </table>
 </div>
