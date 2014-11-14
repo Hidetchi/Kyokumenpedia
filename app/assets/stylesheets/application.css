@@ -19,7 +19,11 @@ body#root {
 	width: 100%;
 	height: 100%;
 	font-size: 14px;
-	font-family: "メイリオ","Meiryo","Meiryo UI","ヒラギノ角ゴ Pro","Hiragino Kaku Gothic Pro","Takao Pゴシック","TakaoPGothic","sans"
+	font-family: "メイリオ","Meiryo","Meiryo UI","ヒラギノ角ゴ Pro","Hiragino Kaku Gothic Pro","Takao Pゴシック","TakaoPGothic","sans";
+}
+
+a:visited {
+	color: #5522cc;
 }
 
 div#wrapper {
@@ -67,8 +71,9 @@ div#main {
 
 div#contents {
 	margin-left: 150px;
-	padding-left:20px;
+	padding-left:10px;
 	padding-bottom: 10px;
+	line-height: 1.5;
 }
 
 div#header {
@@ -125,9 +130,10 @@ font-size: 15px;
 }
 
 h4 {
-margin: 0 0 10px 15px;
-padding: 3px 5px;
+margin: 0 0 12px 18px;
+padding: 2px 4px;
 font-size: 14px;
+border-left: 6px solid #b00;
 text-decoration: underline;
 }
 
@@ -155,6 +161,7 @@ table {
     border-left:1px solid #666666;
     border-collapse: collapse;
 	font-size: 13px;
+    line-height: 1.4;
 }
 
 td, th {
@@ -233,7 +240,7 @@ ul.my_menu a {
 table.board_wrapper {
 	border: 0;
 	font-family: "游明朝","Yu Mincho","ヒラギノ明朝 Pro","Hiragino Mincho Pro","Takao明朝","TakaoMincho","ＭＳ 明朝","serif";
-	line-height: 1.1em;
+	line-height: 1.1;
 }
 
 table.fontM {
@@ -249,6 +256,7 @@ table.board_M td {
     border: 1px solid black;
     padding: 0;
 	font-size: 18px;
+	line-height: 1.1;
 }
 
 table.board_S td {
@@ -257,6 +265,7 @@ table.board_S td {
     border: 1px solid black;
     padding: 0;
 	font-size: 10px;
+	line-height: 1.1;
 }
 
 td.gote {

@@ -14,6 +14,8 @@ module WikipostsHelper
 		end
 		lines.each do |line|
 			line.chomp!
+			# interpret {{Conclusion|text}} and ignore
+			next if (line =~ /^\s*\{\{Conclusion\|.+\}\}\s*$/)
 			# interpret {{Resemble|sfen|comment}} as resembling position object
 			if (line =~ /^\s*\{\{Resemble\|(.+)\|(.+)\}\}\s*$/)
 				record = Hash.new

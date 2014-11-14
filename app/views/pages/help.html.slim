@@ -42,25 +42,31 @@ table class="help" style="width:90%;"
     td
       |[[lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p|横歩取りの局面]]
       br
+      span style="color:grey;"
+        |　[[ (SFEN) | (リンク化するテキスト) ]]
+      br
       br
       |[[-2288UM+7988GI-0028FU+3928GI-0045KA|5手先の局面]]
+      br
+      span style="color:grey;"
+        |　[[ (CSA形式の指し手) | (リンク化するテキスト) ]]
     td
       = link_to '横歩取りの局面', '/positions/lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p'
       br
       span style="color:grey;"
-       |　(※SFENで指定された局面へ)
+       |　(※SFENで指定された局面へのリンク)
       br
       br
       = link_to '5手先の局面', '/positions/lnsgk1snl/6g2/p1pppp2p/6R2/5b3/1rP6/P2PPPP1P/1SG4S1/LN2KG1NL b B4Pp'
       br
       span style="color:grey;"
-        |　(※現ページのテーマ局面から、指定の指し手を進めた局面へ)
+        |　(※現ページのテーマ局面から、指定の指し手を進めた局面へのリンク)
   tr
     td 外部リンク
     td
       |[http://www.shogi.or.jp]
       br
-      |[http://www.shogi.or.jp/ 日本将棋連盟]
+      |[http://www.shogi.or.jp 日本将棋連盟]
     td
       |<a class="external" href="http://www.shogi.or.jp" target="_blank">http://www.shogi.or.jp</a>
       br
@@ -117,8 +123,20 @@ table class="help" style="width:90%;"
         |この局面は、先後入れ替わりによって発生する、他との同一局面です。
         br 解説はもう一方の局面をご覧下さい。
         
-h3 参考データ用テンプレート
+h3 テンプレート
+h4 結論テンプレート
+h5
+  |{{Conclusion|text|comment}}
 div.level2
+  ul style="padding-left:60px;"
+    li 画面上部に表示される局面評価サマリーの「現在の結論」欄に取り込まれます。解説文中には表示されません。(場所は問いませんが、原稿の１行目か、解説文の後に挿入することを推奨します。一行の中にはテンプレートのみ記入して下さい。)
+    li パラメータ
+    ol
+      li text: 定跡や、最新のプロの見解などに基づき、「先手やや良し」「形勢不明」などの形勢を完結に書いて下さい
+      li comment: 結論の根拠(出典など)をコメントとして追記できます。記入は任意で、直前の「|」を含めて省略可能です。コメントは原稿のみに残され、ページ上にはどこにも表示されません。
+
+h4 参考データセクション用テンプレート
+div.level3
   |これらのテンプレートを原稿中のどこかに入れると、自動的に各参考データのセクションに集められ、最後にまとめて表示されます。原稿の視認性のため、テンプレートはできるだけ原稿の最後に書いて下さい。テンプレートは一つずつ改行が必要で、一行内に他の文章と共存できません。
   br
   br
@@ -149,7 +167,7 @@ ul style="padding-left:60px;"
   li パラメータ
   ol
     li sfen: 局面をSFENで指定
-    li comment: 類似局面との関係に関する説明コメント
+    li comment: 類似局面との関係に関する説明コメント (例: <i>「☖５四歩の代わりに☖６四歩が突いてある場合。角打ちが無いため結論が変わる。」</i>)
     
 h2 よくあるご質問(FAQ)
 div.level2

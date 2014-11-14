@@ -2,6 +2,8 @@
 <% if @positions.length == 0 %>
   <p><span class="dark_red">該当局面がありません</span></p>
 <% else %>
-  <p style="font-size:15px"><%= @caption %></p>
+  <p style="font-size:15px;margin-left:10px;"><%= @caption %></p>
+  <div style="margin-left:5px;">
   <%= render :partial => 'tile', :locals => { :positions => @positions, :type => @type } %>
+  </div>
 <% end %>

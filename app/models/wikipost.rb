@@ -123,5 +123,32 @@ class Wikipost < ActiveRecord::Base
       right = right + " ....." if (i_max < self.content.length - 1)
     end
     [left, right]
-  end    
+  end
+  
+  def conclusion
+    lines = self.content.split("\n")
+    lines.each do |line|
+      if (line =~ /^\s*\{\{Conclusion\|([^\|]+).*\}\}\s*$/)
+        return $1
+      end
+    end
+    return ""
+  end
+  
+  def average_cp
+    n = 0
+    sum = 0
+    lines = self.content.split("\n")
+    lines.each do |line|
+      if (line =~ /^\s*\{\{ComEval\|(.+)\|.+\|.+\|.*\}\}\s*$/)
+        n += 1
+        sum += $1.to_i
+      end
+    end
+    if (n > 0)
+      return (sum > 0 ? "+" : "") + (sum/n).to_s 
+    else
+      return ""
+    end
+  end
 end
