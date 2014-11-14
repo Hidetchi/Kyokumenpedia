@@ -59,4 +59,14 @@ class Game < ActiveRecord::Base
     end
     game.update_attributes(:relation_updated => true)
   end
+  
+  def to_result_mark(sente)
+    if (self.result == 0)
+      sente ? "○" : "●"
+    elsif (self.result == 1)
+      sente ? "●" : "○"
+    else
+      "△"
+    end
+  end      
 end

@@ -25,15 +25,16 @@
 
 <div id="stat_appearances">
 <table>
-<tr><th colspan=2>先手<th colspan=2>後手<th width=60>棋戦<th width=60>次の手<th width=30>棋譜
+<tr><th colspan=2>先手<th colspan=2>後手<th>対局日<th width=60>棋戦<th width=60>次の手<th width=30>リンク
 <% @appearances.each do |appearance| %>
 <% game = appearance.game %>
 <tr>
-<td style="border-right: 0;"><%= game.black_name %><td><%= game.result == 0 ? "○" : "●" %>
-<td style="border-right: 0;"><%= game.result == 0 ? "●" : "○" %><td><%= game.white_name %>
+<td style="border-right: 0;"><%= game.black_name %><td><%= game.to_result_mark(true) %>
+<td style="border-right: 0;"><%= game.to_result_mark(false) %><td><%= game.white_name %>
+<td><%= game.date %>
 <td><%= game.game_source.name %>
 <td><%= appearance.next_move.to_kif %>
-<td><%= link_to 'LINK', game.game_source.kifu_url_header + game.native_kid.to_s, :target=>["_blank"] %>
+<td><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s, :target=>["_blank"], :class=>"external" %>
 <% end %>
 </table>
 </div>
