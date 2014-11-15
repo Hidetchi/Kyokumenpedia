@@ -45,6 +45,7 @@ gem 'activerecord-reputation-system', github: 'NARKOZ/activerecord-reputation-sy
 gem 'delayed_job_active_record'
 gem "daemons"
 gem 'public_activity'
+gem 'asin'
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'

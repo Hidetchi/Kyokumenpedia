@@ -1,7 +1,7 @@
 h2 編集コマンド一覧
 p 編集コマンドは、ウィキペディアと同様のものを採用しています。
 h3 マークアップ
-table class="help" style="width:90%;"
+table class="help" style="width:90%;margin-bottom:30px;"
   tr
     th style="width:70px"
       |種類
@@ -124,6 +124,8 @@ table class="help" style="width:90%;"
         br 解説はもう一方の局面をご覧下さい。
         
 h3 テンプレート
+p style="margin-left:10px;"
+  |特定のキーワードを{{ }}で囲んだものがテンプレートとして認識されます。一番左のみが既定のキーワードで、二番目以降は自由に入力できるパラメータです。
 h4 結論テンプレート
 h5
   |{{Conclusion|text|comment}}
@@ -137,7 +139,7 @@ div.level2
 
 h4 参考データセクション用テンプレート
 div.level3
-  |これらのテンプレートを原稿中のどこかに入れると、自動的に各参考データのセクションに集められ、最後にまとめて表示されます。原稿の視認性のため、テンプレートはできるだけ原稿の最後に書いて下さい。テンプレートは一つずつ改行が必要で、一行内に他の文章と共存できません。
+  |これらのテンプレートを原稿中のどこかに入れると、自動的に各参考データのセクションに集められ、最後にまとめて表示されます。原稿の視認性のため、テンプレートはできるだけ原稿の最後に書いて下さい。テンプレートは一つずつ改行が必要で、一行内に他の文章と共存できません。内部の「|」の本数は省略できません。
   br
   br
 h5 有名局テンプレート: {{FamousGame|sente|gote|date|event|result|comment|url}}
@@ -149,9 +151,17 @@ ul style="padding-left:60px;"
     li gote: 後手の名前
     li date: 対局日
     li event: 棋戦名
-    li result: 結果(0:先手勝, 1:後手勝, 2:引分)
-    li comment: 説明コメント
-    li url: 棋譜閲覧用の外部リンク
+    li result: 結果(0:先手勝, 1:後手勝, 2:引分) [※省略可]
+    li comment: 説明コメント [※省略可]
+    li url: 棋譜閲覧用の外部リンク [※省略可]
+h5 掲載棋書テンプレート: {{Book|ISBN|page|evaluation}}
+ul style="padding-left:60px;"
+  li 参考データとして、現テーマ局面が掲載されている棋書と、その中での形勢評価や結論・見解を登録します。
+  li パラメータ
+  ol
+    li ISBN: 該当する本のISBN10またはISBN13を入力
+    li page: 局面が掲載されているページ番号
+    li evaluation: 形勢評価や著者の見解を完結に記入 [※省略可]
 h5 ソフト評価値テンプレート: {{ComEval|cp|name|date|condition}}
 ul style="padding-left:60px;"
   li 参考データとして、現テーマ局面に対するソフトの評価値を確認した結果を登録します。
@@ -160,7 +170,7 @@ ul style="padding-left:60px;"
     li cp: 評価値(単位はcp。先手は＋、後手は－で記載)
     li name: ソフトの名称やバージョン
     li date: 評価値の確認日
-    li condition: 解析した環境や条件(CPU、探索深さ、探索時間など)
+    li condition: 解析した環境や条件(CPU、探索深さ、探索時間など) [※省略可]
 h5 類似局面テンプレート: {{Resemble|sfen|comment}}
 ul style="padding-left:60px;"
   li 参考データとして、現テーマ局面と直接の指し手による前後関係は無いものの、比較のために重要な類似局面を登録します。(先後反転による一手のずれや、端歩や陣形のわずかな違いなど。読み筋に関連性があったり、結論が変わるなど、特筆すべき類似局面を登録。)

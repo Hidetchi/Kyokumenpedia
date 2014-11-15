@@ -6,6 +6,7 @@ module WikipostsHelper
 		resembles = []
 		famous_games = []
 		com_evals = []
+		book_appearances = []
 		level = 2
 		ref_num = 0
 		# interpret #REDIRECT [[sfen]] as identical(symmetric) position link
@@ -46,6 +47,22 @@ module WikipostsHelper
 				record[:condition] = $4 ? $4 : ""
 				com_evals << record 
 				next
+			end
+			# interpret {{Book|isbn10/13|page|evaluation}} as book coverage
+			if (line =~ /^\s*\{\{Book\|([\d\-X]+)\|(\d+)\|(.*)\}\}\s*$/)
+				number = $1
+				page = $2
+				evaluation = $3 ? $3 : ""
+				number.gsub!(/\-/,"")
+				if (ISBN.asin_valid?(number) || ISBN.isbn13_valid?(number))
+					record = Hash.new
+					record[:isbn13] = number.length == 13 ? number : ISBN.asin_to_isbn13(number)
+					record[:page] = page
+					record[:evaluation] = evaluation
+					Book.load_info(record)
+					book_appearances << record
+					next
+				end
 			end
 			# interpret <ref> tag
 			line = line.gsub(/<ref>(.+?)<\/ref>/) {
@@ -200,6 +217,18 @@ module WikipostsHelper
 				r = {sente: "?", gote: "?", event: "?", date: "?", result: "?", comment: "?", url: nil} unless logged_in
 				table_html += "<tr><td>" + r[:sente] + "<td>" + r[:gote] + "<td>" + r[:event] + "<td>" + r[:date] + "<td>" + r[:result] + "<td class='left'>" + r[:comment] + "<td>"
 				table_html += "<a class='external' href='" + r[:url] + "' target='_blank'>棋譜</a>" if (r[:url] && r[:url] =~ /^http/)
+			end
+			table_html += "</table>"
+			new_lines << table_html
+		end
+		if (book_appearances.length > 0)
+			table_html = "<h3>本局面が掲載されている棋書</h3><table class='wiki'><tr><th colspan=2>タイトル<th>著者<th>出版社<th>発行<th>掲載ページ<th>局面評価"
+			book_appearances.each do |r|
+				r = {isbn13: "?", title: "?", author: "?", publisher: "?", date: "?", page: "?", evaluation: "?"} unless logged_in
+				r[:publisher] = "毎コミ" if (r[:publisher] == "毎日コミュニケーションズ")
+				table_html += "<tr><td style='border-right:0'>" + r[:title] + "<td>"
+				table_html += "<a class='external' href='http://www.amazon.co.jp/gp/product/" + ISBN.isbn13_to_asin(r[:isbn13]) + "/ref=as_li_tf_tl?tag=iscube-22' target='_blank'>amz</a>" if (logged_in && r[:author] != "-")
+				table_html += "<td>" + r[:author] + "<td>" + r[:publisher] + "<td>" + r[:date].split("-")[0] + "<td>" + r[:page] + "<td>" + r[:evaluation]
 			end
 			table_html += "</table>"
 			new_lines << table_html
