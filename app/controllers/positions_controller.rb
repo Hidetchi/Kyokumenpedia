@@ -80,7 +80,7 @@ class PositionsController < ApplicationController
       return
     end
     Position.increment_counter(:views, @position.id)
-    @appearances = @position.appearances.select(:game_id, :next_move_id).limit(50).includes(:game => :game_source).includes(:next_move)
+    @appearances = @position.appearances.includes(:game => :game_source).includes(:next_move).order('games.date').limit(50)
     @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
   end
 
