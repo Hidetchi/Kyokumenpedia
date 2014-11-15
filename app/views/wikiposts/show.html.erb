@@ -6,8 +6,11 @@
   <% elsif (@wikipost.reputation_for(:likes).to_i > 0) %>
     <span class="dark_green">あなたの編集に<b><%= link_to @wikipost.reputation_for(:likes).to_i.to_s + '名', '/wikiposts/' + @wikipost.id.to_s + '/likers' %></b>のユーザが「いいね！」と言っています</span>
 <% end %><% end %>
-<div style="margin-top:7px;margin-left:35px;">[<%= link_to '局面ページに移動', '/positions/' + @wikipost.position_id.to_s %>]</div>
-<table class="diff">
+<div style="padding-left:35px;padding-top:7px;"><a href="https://twitter.com/share" class="twitter-share-button" data-text="【<%= SITE_NAME %>】 <%= @wikipost.user.username %>さんによる編集差分: <%= @wikipost.position.handicap.name %><% if @wikipost.position.strategy %>、<%= @wikipost.position.strategy.name %><% end %>" data-count="none" data-lang="ja" data-hashtags="shogi"></a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+<div style="margin-top:0;margin-left:35px;">[<%= link_to '局面ページに移動', '/positions/' + @wikipost.position_id.to_s %>]</div>
+<table class="diff"
 <% @wikipost.diff_sets.each do |set| %>
 	<% case (set[:line].action) %>
 	<% when "!" %>
