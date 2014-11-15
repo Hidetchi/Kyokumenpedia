@@ -46,6 +46,7 @@ gem 'delayed_job_active_record'
 gem "daemons"
 gem 'public_activity'
 gem 'asin'
+gem 'simple_captcha2', git: 'https://github.com/pludoni/simple-captcha.git', require: true
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'

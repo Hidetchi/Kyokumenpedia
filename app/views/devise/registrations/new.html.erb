@@ -9,13 +9,19 @@
   <div><%= f.label :email %><br />
   <%= f.email_field :email, autofocus: true %></div>
 
+  <div style="display:none;"><%= f.label 'メールアドレス再入力' %><br />
+  <%= text_field_tag :email2 %></div>
+
   <div><%= f.label :password %> <% if @validatable %><i>(<%= @minimum_password_length %>文字以上)</i><% end %><br />
     <%= f.password_field :password, autocomplete: "off" %></div>
 
   <div><%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
+  <div style="margin: 15px 0;"><%= show_simple_captcha(:label => "画像に表示された文字を入力して下さい", :placeholder => "(ここに入力)", :refresh_button_text => "") %></div>
+      
   <div><%= f.submit "登録" %></div>
 <% end %>
 <br>
 <%= render "devise/shared/links" %>
+
