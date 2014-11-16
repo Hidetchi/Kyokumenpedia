@@ -1,5 +1,5 @@
 class Feeder < ActionMailer::Base
-  default from: "iscube@81dojo.com"
+  default from: "kyokumenpedia@iscube.com"
   SUBJECT_HEADER = "【" + SITE_NAME + "】"
   
   def wikipost_to_watcher(recipient_id, wikipost_id)
