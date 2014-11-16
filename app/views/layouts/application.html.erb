@@ -40,6 +40,10 @@
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 </ul>
+<div style="padding-right:7px;padding-bottom:5px;text-align:right;">
+<b><span class="dark_red"><%= current_user.point * 10 %></span></b> EXP<br>
+<%= current_user.to_rank_name %>
+</div>
 </div>
 <% end %>
 </div>

@@ -12,7 +12,7 @@ class Position < ActiveRecord::Base
   has_many :discussions, foreign_key: 'position_id'
   has_many :watches
   has_many :watchers, :through => :watches, :source => :user
-  
+
   def self.find_or_create(sfen)
     board = Board.new
     return nil unless (board.set_from_sfen(sfen) == :normal)

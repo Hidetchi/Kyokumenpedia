@@ -1,5 +1,49 @@
+div.stat_info
+  |収録局面数:
+  b
+    = @positions_count
+  |局面
+  br
+  |収録棋譜数: 
+  b
+    = @games_count
+  |局
+  br
+  |解説投稿件数: 
+  b
+    = @wikiposts_count
+  |件
 h1
   =SITE_NAME
+  |にようこそ
+h2 局面ヘッドライン
+table.invisible style="margin-left:20px;"
+  tr
+    td.invisible style="padding:5px 10px;"
+      center
+        = link_to 'いま注目の局面', '/positions/list/hot', :class => "headline"
+      - if (pos = Headline.get_position("hot"))
+        = pos.to_board.to_html_table.html_safe
+      - else
+        span.dark_red
+          |情報がありません
+    td.invisible style="padding:5px 10px;"
+      center
+        = link_to '解説リクエスト', '/positions/list/req', :class => "headline"
+      - if (pos = Headline.get_position("req"))
+        = pos.to_board.to_html_table.html_safe
+      - else
+        span.dark_red
+          |情報がありません
+    td.invisible style="padding:5px 10px;"
+      center
+        = link_to '新しい局面', '/positions/list/new', :class => "headline"
+      - if (pos = Headline.get_position("new"))
+        = pos.to_board.to_html_table.html_safe
+      - else
+        span.dark_red
+          |情報がありません
+  
 h2 style="margin-bottom:10px;"
   = current_user.username
   |さんのタイムライン
@@ -21,7 +65,7 @@ h2 style="margin-bottom:10px;"
     |しました
     - unless (activity.trackable.minor)
       div style="width:200px;margin-top:10px;"
-        = activity.recipient.to_board.to_html_table("S").html_safe
+        = activity.recipient.to_board.to_html_table.html_safe
   - elsif (activity.key == 'wikipost.like')
     = link_to activity.recipient.username, '/users/' + activity.recipient.id.to_s
     |さんによる
@@ -40,9 +84,4 @@ h2 style="margin-bottom:10px;"
         |: 
       i
         = activity.trackable.content
-  
-
-
-
-
   |</div>

@@ -9,7 +9,7 @@ div#wiki_edit_buttons
 
 h2 局面のディスカッション
 div style="width:200px;margin:13px 0;"
-  = @position.to_board.to_html_table("S").html_safe
+  = @position.to_board.to_html_table.html_safe
 
 - if (current_user)
   = form_for :discussion, :url => {:action => 'create'} do |f|

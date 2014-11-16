@@ -18,7 +18,7 @@
 <td style="padding:3px 8px;">
 <% end %>
 <%= link_to user.username, '/users/' + user.id.to_s %>
-<td style="text-align:right;padding-right:10px;"><%= user.point %>
+<td style="text-align:right;padding-right:10px;"><%= user.point * 10 %>
 <% end %>
 </table>
 <h3>戦型別</h3>

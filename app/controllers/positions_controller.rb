@@ -12,6 +12,7 @@ class PositionsController < ApplicationController
       @list_title = "新しい局面"
       @caption = "初めての解説が投稿された時間が最も新しい局面を表示しています。"
       @type = "FIRST_POST"
+      Headline.update(params[:mode], @positions[0].id)
     elsif (params[:mode] == "req")
       sort_hash = Watch.includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
       @positions = []
@@ -21,11 +22,13 @@ class PositionsController < ApplicationController
       @list_title = "解説リクエスト局面"
       @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
       @type = "WATCHERS"
+      Headline.update(params[:mode], @positions[0].id)
     elsif (params[:mode] == "hot")
       @positions = Position.where('views > 0').includes(:strategy).order('views desc').limit(20)
       @list_title = "注目の局面"
       @caption = "現在注目を集めている局面を表示しています。"
       @type = "VIEWS"
+      Headline.update(params[:mode], @positions[0].id)
     end
   end
   

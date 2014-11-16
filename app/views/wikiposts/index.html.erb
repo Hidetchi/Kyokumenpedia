@@ -11,7 +11,7 @@
 <% @wikiposts.each do |w| %>
 <tr>
 <% unless (@without_position) %>
-  <td class="list"><%= w.position.to_board.to_html_table("S").html_safe %>
+  <td class="list"><%= w.position.to_board.to_html_table.html_safe %>
 <% end %>
 <td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %><br>
 　<i><% if (w.adds && w.adds > 0) %><span style="color:blue;">+<%= w.adds %></span><% end %>

@@ -790,7 +790,7 @@ class Board
 	return nil
   end
 
-  def to_html_table(size="M")
+  def to_html_table(size="S")
     tag = "<center><table class='board_wrapper font" + size + "'><tr><td class='komadai gote'>△"
     if (gote_hands.empty?)
       tag += "<br>な<br>し"

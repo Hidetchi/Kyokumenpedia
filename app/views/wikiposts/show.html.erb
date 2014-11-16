@@ -60,7 +60,7 @@
 <% if (@wikipost.position.strategy_id) %><span class="dark_green">戦型: <%= @wikipost.position.strategy.name %></span><% end %>　
 [<%= link_to '局面ページに移動', '/positions/' + @wikipost.position_id.to_s %>]
 </div>
-<div style="width:200px;text-align:left;"><%= @wikipost.position.to_board.to_html_table("S").html_safe %></div>
+<div style="width:200px;text-align:left;"><%= @wikipost.position.to_board.to_html_table.html_safe %></div>
 <% if (current_user && current_user != @wikipost.user) %>
   <div id="like" style="margin-left:35px;margin-top:10px;"><%= like_button(@wikipost) %></div>
 <% end %>
