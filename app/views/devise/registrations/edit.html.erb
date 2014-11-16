@@ -10,6 +10,9 @@
   <div>自己紹介 <i>(140字以内)</i><br><%= f.text_field :description, :size => "70", :maxlength => 140 %></div>
   <div>81道場アカウント <i>(マイページに81道場ウィジェットが表示されます)</i><br><%= f.text_field :name81 %></div>
   <br>
+  <div><%= f.check_box :receive_watching %>ウォッチ中の局面の編集通知をメールで受け取る</div>
+  <div><%= f.check_box :receive_following %>フォロー中のユーザによる編集通知をメールで受け取る</div>
+  <br>
   <div><%= f.submit "登録情報更新" %></div>
 <% end %>
 

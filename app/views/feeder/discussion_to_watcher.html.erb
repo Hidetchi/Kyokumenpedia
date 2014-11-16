@@ -15,11 +15,12 @@
 </p>
 
 <p><%= link_to 'ディスカッションページへのリンク', ROOT_PATH + '/positions/' + @discussion.position_id.to_s + '/discussion' %></p>
-
+<br>
 <p>
 この通知は、一定期間ディスカッション投稿が無かった局面に、新たな投稿が行われた場合のみ送信されます。<br>
-この通知をこれ以上受け取りたくない場合は、
-<%= link_to '該当局面のページ', ROOT_PATH + '/positions/' + @discussion.position_id.to_s %>
+この通知をこれ以上受け取りたくない場合は、<%= link_to '登録情報変更ページ', ROOT_PATH + '/users/edit' %>
+よりメール受信を解除して下さい。(ホームページ上のタイムラインにのみ新着情報が表示されるようになります)<br>
+また、この局面のウォッチを解除する場合は、<%= link_to '該当局面のページ', ROOT_PATH + '/positions/' + @discussion.position_id.to_s %>
 より「ウォッチ解除」ボタンを押すか、
 <%= link_to 'マイページ', ROOT_PATH + '/users/mypage' %>
 にてウォッチ中の局面を管理して下さい。</p>

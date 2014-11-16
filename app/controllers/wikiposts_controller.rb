@@ -41,11 +41,13 @@ class WikipostsController < ApplicationController
         wikipost.position.update_attribute(:latest_post_id, wikipost.id)
         unless (params[:wikipost][:minor] == false)
           wikipost.position.watchers.each do |watcher|
-            Feeder.delay.wikipost_to_watcher(watcher.id, wikipost.id)
+            Feeder.delay.wikipost_to_watcher(watcher.id, wikipost.id) if watcher.receive_watching
           end
           watcher_ids = wikipost.position.watchers.pluck(:id)
           wikipost.user.followers.each do |follower|
-            Feeder.delay.wikipost_to_follower(follower.id, wikipost.id) unless watcher_ids.include?(follower.id)
+            unless watcher_ids.include?(follower.id)
+              Feeder.delay.wikipost_to_follower(follower.id, wikipost.id) if follower.receive_following
+            end
           end
         end
         wikipost.reward_user

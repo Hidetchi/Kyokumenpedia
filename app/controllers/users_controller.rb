@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def update
     if (current_user)
       @user = current_user
-      @user.update_attributes(params[:user].permit(:strength, :style, :url, :description, :name81))
+      @user.update_attributes(params[:user].permit(:strength, :style, :url, :description, :name81, :receive_watching, :receive_following))
     end
     render 'show'
   end

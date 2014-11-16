@@ -10,8 +10,11 @@
 </tt></pre>
 
 <p><%= link_to '編集内容ページへのリンク', ROOT_PATH + '/wikiposts/' + @wikipost.id.to_s %></p>
-
+<br>
 <p>この通知をこれ以上受け取りたくない場合は、
+<%= link_to '登録情報変更ページ', ROOT_PATH + '/users/edit' %>
+よりメール受信を解除して下さい。(ホームページ上のタイムラインにのみ新着情報が表示されるようになります)<br>
+なお、フォローを解除するには
 <%= link_to @wikipost.user.username + 'さんのページ', ROOT_PATH + '/users/' + @wikipost.user_id.to_s %>
 より「フォロー解除」ボタンを押すか、
 <%= link_to 'マイページ', ROOT_PATH + '/users/mypage' %>
