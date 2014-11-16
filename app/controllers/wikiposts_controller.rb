@@ -39,7 +39,9 @@ class WikipostsController < ApplicationController
         redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id], :preview => true
       elsif (wikipost = Wikipost.new_post(params[:wikipost].permit(:content, :comment, :position_id, :user_id, :minor, :prev_post_id)))
         wikipost.position.update_attribute(:latest_post_id, wikipost.id)
-        unless (params[:wikipost][:minor] == false)
+puts "-----"
+puts params[:wikipost][:minor]
+        unless (params[:wikipost][:minor].to_i == 1)
           wikipost.position.watchers.each do |watcher|
             Feeder.delay.wikipost_to_watcher(watcher.id, wikipost.id) if watcher.receive_watching
           end

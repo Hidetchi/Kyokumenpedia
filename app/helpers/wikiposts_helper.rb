@@ -90,12 +90,17 @@ module WikipostsHelper
 					'<a class="external" href="' + match + '" target="_blank">' + match + '</a>'
 				end
 			}
+			# interpret '''''text''''' as bold italic font
+			line = line.gsub(/'''''(.+?)'''''/) {
+				match = $1
+				'<strong><i>' + match + '</i></strong>'
+			}
 			# interpret '''text''' as bold font
 			line = line.gsub(/'''(.+?)'''/) {
 				match = $1
 				'<strong>' + match + '</strong>'
 			}
-			# interpret '''text''' as bold font
+			# interpret ''text'' as italic font
 			line = line.gsub(/''(.+?)''/) {
 				match = $1
 				'<i>' + match + '</i>'
