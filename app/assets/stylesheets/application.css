@@ -42,7 +42,19 @@ div#side_column {
 	padding-bottom: 10000px;
 	margin-bottom: -10000px;
 	font-size: 12px;
+  perspective: 50px;
 }
+
+img#logo {
+  transform: perspective(200);
+  animation: load 1.5s linear 0s infinite;
+}
+@keyframes load {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
 
 div#alert_box {
 	border: 1px solid #ccc;
