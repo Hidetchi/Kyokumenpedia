@@ -4,3 +4,4 @@ $(document).on 'page:fetch', ->
 $(document).on 'page:change', ->
   $("img#logo").css("animation", "none")
   $("img#logo").css("-webkit-animation", "none")
+  twttr.widgets.load();

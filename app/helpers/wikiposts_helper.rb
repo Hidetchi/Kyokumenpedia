@@ -76,9 +76,9 @@ module WikipostsHelper
 				match1 = $1
 				match2 = $2
 				if (match1 =~ /^[\+\-]\d{4}[A-Z]{2}/)
-					'<a href="/positions/' + position_id.to_s + '/' + match1 + '" target="_blank">' + match2 + '</a>'
+					'<a href="/positions/' + position_id.to_s + '/' + match1 + '">' + match2 + '</a>'
 				else
-					'<a href="/positions/' + match1 + '" target="_blank">' + match2 + '</a>'
+					'<a href="/positions/' + match1 + '">' + match2 + '</a>'
 				end
 			}
 			# interpret [url( text)] as <a> tag link to an outside web

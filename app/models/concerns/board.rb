@@ -657,11 +657,11 @@ class Board
     
     if (sg == "+")
       sente = true if sente == nil           # deprecated
-      return :illegal unless sente == true   # black player's move must be black
+      return :illegal unless (sente == true && @teban == true)  # black player's move must be black
       hands = @sente_hands
     else
       sente = false if sente == nil          # deprecated
-      return :illegal unless sente == false  # white player's move must be white
+      return :illegal unless (sente == false && @teban == false)  # white player's move must be white
       hands = @gote_hands
     end
 

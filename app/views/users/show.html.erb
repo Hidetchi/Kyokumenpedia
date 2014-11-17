@@ -25,14 +25,7 @@
 
 <td class="invisible" style="vertical-align:middle;padding-left:35px;">
 <% if (@user.name81 && @user.name81 != "") %>
-  <script language="javascript">
-  <!--
-  var name_81dojo = "<%= @user.name81 %>";
-  var hide_81dojo = "false";
-  var lan_81dojo = "ja";
-  //-->
-  </script>
-  <script type="text/javascript" src="http://81dojo.com/widget.js"></script>
+<embed src="http://81dojo.com/dojo/EightyOneWidget.swf" FlashVars="name=<%= @user.name81 %>&hide=false&lan=ja" wmode="transparent" type="application/x-shockwave-flash" bgcolor="#ffffff" pluginspage="http://www.adobe.com/go/getflashplayer_jp" height="185" width="160">
 <% end %>
 
 </table>

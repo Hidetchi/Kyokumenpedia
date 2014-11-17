@@ -12,7 +12,7 @@ RSpec.describe WikipostsController, :type => :controller do
       hash[:comment] = "sample comment"
       hash[:position_id] = @pos1.id
       hash[:user_id] = @user1.id
-      hash[:minor] = false
+      hash[:minor] = 0
       hash[:latest_post_id] = ""
       get 'create', :wikipost => hash
       @wikipost1 = Wikipost.last
@@ -35,7 +35,7 @@ RSpec.describe WikipostsController, :type => :controller do
         hash[:comment] = "sample comment"
         hash[:position_id] = @pos1.id
         hash[:user_id] = @user1.id
-        hash[:minor] = false
+        hash[:minor] = 0 
         hash[:latest_post_id] = @wikipost1.id
         get 'create', :wikipost => hash
       end

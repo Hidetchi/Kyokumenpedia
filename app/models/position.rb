@@ -47,10 +47,8 @@ class Position < ActiveRecord::Base
     return self.strategy if (!new_strategy)
     if (!self.strategy_id || self.strategy.descendant_ids.include?(new_strategy.id))
   	  update_attributes(:strategy_id => new_strategy.id)
-  	  return self.strategy
-  	else
-  	  return new_strategy
-  	end
+    end
+  	return self.strategy
   end
   
   def to_board

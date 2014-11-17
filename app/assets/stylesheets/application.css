@@ -61,12 +61,24 @@ img#logo {
 
 div#alert_box {
 	border: 1px solid #ccc;
-	background-color: #ffd;
+  background-color: #ffd;
 	padding-left: 3px;
 	padding-top: 3px;
 	margin-top: 20px;
 	margin-left: 2px;
-	width: 132px;
+	width: 130px;
+  animation: flash 0.5s ease-in 1s 6 alternate;
+  -webkit-animation: flash 0.5s easy-in 1s 6 alternate;
+}
+@keyframes flash {
+  0% { background-color: #ffd; }
+  50% { background-color: #ffd; }
+  100% { background-color: #ff6; }
+}
+@-webkit-keyframes flash {
+  0% { background-color: #ffd; }
+  50% { background-color: #ffd; }
+  100% { background-color: #ff6; }
 }
 
 div#user_panel {
@@ -320,12 +332,12 @@ input.toggle {
 input.on {
   background: -ms-linear-gradient(bottom, #bdf, #eef);
   background: -moz-linear-gradient(bottom, #bdf, #eef);
-  background: -webkit-gradient(linear, bottom, top, from(#bdf), to(#eef));
+  background: -webkit-gradient(linear, left bottom, left top, from(#bdf), to(#eef));
 }
 input.off {
   background: -ms-linear-gradient(bottom, #eb7, #fec);
   background: -moz-linear-gradient(bottom, #eb7, #fec);
-  background: -webkit-gradient(linear, bottom, top, from(#eb7), to(#fec));
+  background: -webkit-gradient(linear, left bottom, left top, from(#eb7), to(#fec));
 }
 
 div#wiki_edit_buttons {
