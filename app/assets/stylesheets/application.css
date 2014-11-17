@@ -42,14 +42,17 @@ div#side_column {
 	padding-bottom: 10000px;
 	margin-bottom: -10000px;
 	font-size: 12px;
-  perspective: 50px;
 }
 
 img#logo {
-  transform: perspective(200);
-  animation: load 1.5s linear 0s infinite;
+  border: 0;
 }
 @keyframes load {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+@-webkit-keyframes load {
   0% { transform: rotateY(0deg); }
   50% { transform: rotateY(180deg); }
   100% { transform: rotateY(360deg); }
@@ -315,12 +318,14 @@ input.toggle {
   border-radius: 10px;
 }
 input.on {
+  background: -ms-linear-gradient(bottom, #bdf, #eef);
   background: -moz-linear-gradient(bottom, #bdf, #eef);
-  background: -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#fff));
+  background: -webkit-gradient(linear, bottom, top, from(#bdf), to(#eef));
 }
 input.off {
+  background: -ms-linear-gradient(bottom, #eb7, #fec);
   background: -moz-linear-gradient(bottom, #eb7, #fec);
-  background: -webkit-gradient(linear, left bottom, left top, from(#eb7), to(#fec));
+  background: -webkit-gradient(linear, bottom, top, from(#eb7), to(#fec));
 }
 
 div#wiki_edit_buttons {
