@@ -47,14 +47,11 @@ board = position.to_board
 </table>
 </div>
 
-<div style="text-align:right;margin-top:7px;">
+<div style="text-align:left;margin-top:7px;">
+<input type="button" onclick="window.open('/positions/<%= position.id %>/export','局面エクスポート','width=600,height=700,top='+(screen.height/2-350)+',left='+(screen.width/2-300))" value="エクスポート">　
 <a href="https://twitter.com/share" class="twitter-share-button" data-text="
 【<%= SITE_NAME %>】 <%= position.handicap.name %><% if position.strategy %>、<%= position.strategy.name %><% end %>、<% if num == 0 %>開始局面<% elsif (prev_moves_sorted[0]) %><%= num %>手目<%= prev_moves_sorted[0].to_kif %>まで<% end %> (<%= board.to_teban_text %>)" data-lang="ja" data-hashtags="shogi"></a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
-<button type="button" onmouseup="prompt('SFEN出力', '<%= position.sfen %>')">SFEN</button>
-<button type="button" onmouseup="alert('Not implemented yet')">BOD</button>
-<button type="button" onmouseup="alert('Not implemented yet')">CSA</button>
 </div>
 </table>
 

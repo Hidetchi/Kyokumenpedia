@@ -1,0 +1,11 @@
+div style="text-align:center;"
+  h3 style="margin: 5px 0 0 0;"
+    |SFEN
+  = text_field_tag 'sfen', @position.sfen, :size => "70", :class => "select", :onmouseover => "this.select();"
+  h3 style="margin: 5px 0 0 0;"
+    |BOD
+  = text_area_tag 'bod', @position.to_board.to_bod, :size =>"32x17", :onmouseover => "this.select();"
+  h3 style="margin: 5px 0 0 0;"
+    |CSA
+  = text_area_tag 'csa', @position.to_board.to_s, :size =>"32x12", :onmouseover => "this.select();"
+

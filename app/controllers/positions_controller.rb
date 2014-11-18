@@ -102,6 +102,11 @@ class PositionsController < ApplicationController
   def search
   end
   
+  def export
+    @position = Position.find(params[:id])
+    render :layout => 'export'
+  end
+  
   def start
     params[:sfen] = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -"
     show

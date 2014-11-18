@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'positions/:id/edit' => 'positions#edit'
   get 'positions/:id/discussions' => 'discussions#index'
   get 'positions/:id/post' => 'discussions#post'
+  get 'positions/:id/export' => 'positions#export'
   get 'positions/:id/:moves' => 'positions#show'
   resources :positions, :only => [:show]
   get 'newkifu' => 'games#create'

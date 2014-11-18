@@ -145,6 +145,10 @@ class Piece
   def to_sfen
     (@promoted ? "+" : "") + (@sente ? @sfen_name : @sfen_name.downcase)
   end
+  
+  def to_bod
+    (@sente ? " " : "v") + to_diag
+  end
 
   def to_diag
     @promoted ? @promoted_name_jp : @name_jp

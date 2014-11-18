@@ -765,6 +765,64 @@ class Board
     return sfen
   end
 
+  def to_bod
+    if (handicap_id == 1)
+      black = "先手"
+      white = "後手"
+    else
+      black = "下手"
+      white = "上手"
+    end
+    bod = white + "の持駒："
+    if (gote_hands.empty?)
+      bod += "なし\n"
+    else
+      hand_pieces = Hash.new
+      hand_pieces = {"飛" => 0, "角" => 0, "金" => 0, "銀" => 0, "桂" => 0, "香" => 0, "歩" => 0}
+      gote_hands.each do |p|
+        hand_pieces[p.to_diag] += 1
+      end
+      hand_pieces.each{|key, value|
+        next if (value == 0)
+        bod += key
+        bod += ["", "", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八"][value] + "　"
+      }
+      bod += "\n"
+    end
+    bod += "  ９ ８ ７ ６ ５ ４ ３ ２ １\n"
+    bod += "+---------------------------+\n"
+    for y in 1..9 do
+      bod += "|"
+      for x in 9.downto(1) do
+        if (array[x][y])
+          bod += array[x][y].to_bod
+        else
+          bod += " ・"
+        end
+      end
+      bod += "|" + ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"][y] + "\n"
+    end
+    bod += "+---------------------------+\n"
+    bod += black + "の持駒："
+    if (gote_hands.empty?)
+      bod += "なし\n"
+    else
+      hand_pieces = Hash.new
+      hand_pieces = {"飛" => 0, "角" => 0, "金" => 0, "銀" => 0, "桂" => 0, "香" => 0, "歩" => 0}
+      sente_hands.each do |p|
+        hand_pieces[p.to_diag] += 1
+      end
+      hand_pieces.each{|key, value|
+        next if (value == 0)
+        bod += key
+        bod += ["", "", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八"][value] + "　"
+      }
+      bod += "\n"
+    end
+    bod += (@teban ? black : white) + "番"
+    return bod
+  end
+
   def handicap_id
 	pieces = Hash.new(0)
 	for y in 1..9 do
