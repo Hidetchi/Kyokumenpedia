@@ -17,6 +17,7 @@
 
 Gemfile.lock
 *.swp
+*.swo
 /test
 
 config/initializers/asin.rb

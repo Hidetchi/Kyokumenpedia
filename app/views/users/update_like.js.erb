@@ -1,1 +1,6 @@
+$("body").spin(false);
 $("div#like").html("<%= j like_button(@wikipost) %>");
+$("input.toggle").click (function(){
+  topY = ($(window).height()/2 + $(window).scrollTop()) + 'px';
+  $("body").spin({top:topY,left:'55%',length:16,radius:16,width:6,shadow:true,color:'#038'});
+});

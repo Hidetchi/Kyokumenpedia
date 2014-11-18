@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require spin
+//= require jquery.spin
 //= require_tree .

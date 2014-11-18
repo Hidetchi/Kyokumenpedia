@@ -1,1 +1,6 @@
+$("body").spin(false);
 $("div#<%= @div_id %>").html("<%= j watch_button(@position, @div_id) %>");
+$("input.toggle").click (function(){
+  topY = ($(window).height()/2 + $(window).scrollTop()) + 'px';
+  $("body").spin({top:topY,left:'55%',length:16,radius:16,width:6,shadow:true,color:'#038'});
+});
