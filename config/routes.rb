@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'api/kifu_post' => 'games#create'
   get 'pages/help'
   get 'pages/about'
   get 'pages/terms'
