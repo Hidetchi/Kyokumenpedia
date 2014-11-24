@@ -83,8 +83,6 @@ class PositionsController < ApplicationController
       return
     end
     Position.increment_counter(:views, @position.id)
-    @appearances = @position.appearances.includes(:game => :game_source).includes(:next_move).order('games.date desc').limit(50)
-    @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
   end
 
   def edit
@@ -111,5 +109,12 @@ class PositionsController < ApplicationController
     params[:sfen] = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -"
     show
     render 'show'
+  end
+
+  def statistics
+    # Action for Ajax
+    @position = Position.find(params[:id])
+    @appearances = @position.appearances.includes(:game => :game_source).includes(:next_move).order('games.date desc').limit(50)
+    @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
   end
 end

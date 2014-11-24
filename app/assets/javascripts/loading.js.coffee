@@ -11,4 +11,5 @@ $(document).on 'page:change', ->
     $("body").spin({top:topY,left:'55%',length:16,radius:16,width:6,shadow:true,color:'#038'});
   $("img#logo").css("animation", "none")
   $("img#logo").css("-webkit-animation", "none")
+$(document).on 'page:load', ->
   twttr.widgets.load()

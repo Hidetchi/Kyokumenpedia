@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'positions/list/:mode' => 'positions#list'
   get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'
   post 'positions/show' => 'positions#show'
+  get 'positions/:id/statistics' => 'positions#statistics'
   get 'positions/:id/edit' => 'positions#edit'
   get 'positions/:id/discussions' => 'discussions#index'
   get 'positions/:id/post' => 'discussions#post'

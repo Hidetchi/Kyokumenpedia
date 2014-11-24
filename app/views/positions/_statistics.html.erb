@@ -1,0 +1,39 @@
+<table class="invisible">
+<tr><td class="invisible" style="padding-top:0">
+
+<div id="stat_next_moves">
+<table>
+<tr><th width=60>次の手<th width=50>採用数<th colspan=3 width=150>次の局面
+<% moves.each do |move| %>
+<tr>
+<td><%= move.to_kif %>
+<td><%= move.stat2_total %>
+<td style="border-right:0;">
+<% unless (move.next_position_id == @position.id) %>
+▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝<td style="border-right:0;"><%= image_tag "icon-pen.png", :style => "vertical-align:middle;", :title => "解説記事あり" if (move.next_position.latest_post_id) %><td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
+<% else %>
+<td style="border-right:0;"><td>
+<% end %>
+<% end %>
+</table>
+</div>
+
+<td class="invisible" style="padding-top:0">
+
+<div id="stat_appearances">
+<table>
+<tr><th colspan=2>先手<th colspan=2>後手<th>対局日<th width=60>棋戦<th width=60>次の手<th width=30>リンク
+<% appearances.each do |appearance| %>
+<% game = appearance.game %>
+<tr>
+<td style="border-right: 0;"><% if current_user %><%= game.black_name %><% else %>???<% end %><td><%= game.to_result_mark(true) %>
+<td style="border-right: 0;"><%= game.to_result_mark(false) %><td><% if current_user %><%= game.white_name %><% else %>???<% end %>
+<td><%= game.date %>
+<td><%= game.game_source.name %>
+<td><%= appearance.next_move.to_kif %>
+<td><% if current_user %><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s, :target=>["_blank"], :class=>"external" %><% end %>
+<% end %>
+</table>
+</div>
+
+</table>
