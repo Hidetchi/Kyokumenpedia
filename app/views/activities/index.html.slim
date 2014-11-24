@@ -57,7 +57,7 @@ h2 style="margin-bottom:10px;"
 
   div.dark_green style="float:right;padding-left:15px;"
     = created_time_ago(activity)
-  = link_to activity.owner.username, '/users/' + activity.owner.id.to_s
+  = link_to activity.owner.username, '/users/' + activity.owner_id.to_s
   |さんが、
   - if (activity.key == 'wikipost.create')
     |局面の解説を
