@@ -4,6 +4,7 @@ RSpec.describe WikipostsController, :type => :controller do
   before do
     @pos1 = FactoryGirl.create(:position)
     @user1 = FactoryGirl.create(:user)
+    sign_in @user1
   end
   describe "#create" do
     before do
@@ -11,7 +12,6 @@ RSpec.describe WikipostsController, :type => :controller do
       hash[:content] = "test1 content"
       hash[:comment] = "sample comment"
       hash[:position_id] = @pos1.id
-      hash[:user_id] = @user1.id
       hash[:minor] = 0
       hash[:latest_post_id] = ""
       get 'create', :wikipost => hash
@@ -34,7 +34,6 @@ RSpec.describe WikipostsController, :type => :controller do
         hash[:content] = "test2 content"
         hash[:comment] = "sample comment"
         hash[:position_id] = @pos1.id
-        hash[:user_id] = @user1.id
         hash[:minor] = 0 
         hash[:latest_post_id] = @wikipost1.id
         get 'create', :wikipost => hash
@@ -45,6 +44,9 @@ RSpec.describe WikipostsController, :type => :controller do
       it "gives no prev_post_id" do
         expect(Wikipost.last.prev_post_id).to eq(@wikipost1.id)
       end
-	end
+    end
+  end
+  after do
+    sign_out @user1
   end
 end

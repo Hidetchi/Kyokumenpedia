@@ -8,7 +8,6 @@
 <%= form_for :wikipost, :url => {:controller => 'wikiposts', :action => 'create'} do |f| %>
 <%= f.hidden_field :position_id, :value => @position.id %>
 <%= f.hidden_field :latest_post_id, :value => session[:latest_post_id] %>
-<%= f.hidden_field :user_id, :value => current_user.id %>
 <%= f.text_area :content, :size => "80x18", :value => session[:wikiedit] %><br>
 <%= f.submit 'プレビュー', :name => "preview" %>
 　編集内容の説明: <%= f.text_field :comment, :size => 38, :placeholder => "(必須)", :value => session[:wikicomment] %>

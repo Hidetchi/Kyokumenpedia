@@ -14,7 +14,6 @@ div style="width:200px;margin:13px 0;"
 - if (current_user)
   = form_for :discussion, :url => {:action => 'create'} do |f|
     = f.hidden_field :position_id, :value => @position.id
-    = f.hidden_field :user_id, :value => current_user.id
     = f.text_area :content, :size => "50x6"
     br
     = f.submit "投稿", data: { confirm: "投稿前に内容をよくご確認下さい。\nこの内容で投稿してもよろしいですか？" }

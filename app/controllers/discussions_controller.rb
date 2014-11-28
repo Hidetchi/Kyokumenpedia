@@ -12,7 +12,10 @@ class DiscussionsController < ApplicationController
   end
 
   def create
-    Discussion.post(params[:discussion]) if (params[:discussion])
+    if (params[:discussion])
+      params[:discussion][:user_id] = current_user.id
+      Discussion.post(params[:discussion])
+    end
     redirect_to :action => 'index', :id => params[:discussion][:position_id]
   end
 end
