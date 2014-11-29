@@ -64,8 +64,10 @@ module WikipostsHelper
 					next
 				end
 			end
+      # html_escape "<" and """
+      line = line.gsub(/\"/, "&quot;").gsub(/</, "&lt;")
 			# interpret <ref> tag
-			line = line.gsub(/<ref>(.+?)<\/ref>/) {
+			line = line.gsub(/&lt;ref>(.+?)&lt;\/ref>/) {
 			  lines << "==脚注==" if (ref_num == 0)
 			  ref_num += 1
 			  lines << "#" + $1
@@ -105,6 +107,8 @@ module WikipostsHelper
 				match = $1
 				'<i>' + match + '</i>'
 			}
+      # interpret $br; as <br> tag
+      line = line.gsub(/&lt;br>/,"<br>")
 
 			# interpret ===title=== as <h#> tag
 			if (line =~ /^(=+)(.+?)(=+)$/)
