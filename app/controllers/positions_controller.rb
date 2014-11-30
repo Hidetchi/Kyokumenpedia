@@ -5,10 +5,8 @@ class PositionsController < ApplicationController
   def list
     if (params[:mode] == "new")
       wikiposts = Wikipost.includes(:position).where("prev_post_id IS NULL").order('updated_at desc').limit(100)
-      @positions = []
-      wikiposts.each do |w|
-        @positions << w.position
-      end
+      @positions = wikiposts.map(&:position) 
+
       @list_title = "新しい局面"
       @caption = "初めての解説が投稿された時間が最も新しい局面を表示しています。"
       @type = "FIRST_POST"
