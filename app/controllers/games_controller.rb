@@ -65,17 +65,17 @@ class GamesController < ApplicationController
     if (@error_message)
       @response["result"] = "Error: " + @error_message
     else
-      @response.merge! {
+      @response.merge!({
                          result: "Success",
-                         moves: @sfens.length
-                         winner: @winner
-                         positions: @sfens
-                         player_sente: params[:black_name]
-                         player_gote: params[:white_name]
-                         date: params[:date]
-                         handicap: @handicap.name
+                         moves: @sfens.length,
+                         winner: @winner,
+                         positions: @sfens,
+                         player_sente: params[:black_name],
+                         player_gote: params[:white_name],
+                         date: params[:date],
+                         handicap: @handicap.name,
                          identification: @game_source.name
-                       }
+                       })
     end
     render :xml => @response.to_xml(:root => 'api_response')
   end
