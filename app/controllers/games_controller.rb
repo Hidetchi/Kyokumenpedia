@@ -4,6 +4,7 @@ class GamesController < ApplicationController
 
   def create
     @error_message = nil
+    #TODO ブロックが長過ぎるのでメソッドに分ける＆なにかのモデルに持って言った方が良いと思います。
     @error_message = catch :error_msg do
       # Check game source password. Give error if invalid. Any trusted kifu provider can post kifu (for example 81Dojo) with its unique password.
       unless (@game_source = GameSource.find_by(pass: params[:game_source_pass]))
@@ -14,6 +15,7 @@ class GamesController < ApplicationController
         throw :error_msg, 'No proper handicap specified.'
       end
 
+      #TODO ここの一連の処理をどこか別の場所でもみたので処理を共通化するといいと思います
       # parse moves from the continuous CSA move string
       csa_moves = []
       rs = params[:csa].gsub %r{[\+\-]\d{4}\w{2}} do |s|
@@ -63,15 +65,17 @@ class GamesController < ApplicationController
     if (@error_message)
       @response["result"] = "Error: " + @error_message
     else
-      @response["result"] = "Success"
-      @response["moves"] = @sfens.length
-      @response["winner"] = @winner
-      @response["positions"] = @sfens
-      @response["player_sente"] = params[:black_name]
-      @response["player_gote"] = params[:white_name]
-      @response["date"] = params[:date]
-      @response["handicap"] = @handicap.name
-      @response["identification"] = @game_source.name
+      @response.merge! {
+                         result: "Success",
+                         moves: @sfens.length
+                         winner: @winner
+                         positions: @sfens
+                         player_sente: params[:black_name]
+                         player_gote: params[:white_name]
+                         date: params[:date]
+                         handicap: @handicap.name
+                         identification: @game_source.name
+                       }
     end
     render :xml => @response.to_xml(:root => 'api_response')
   end
