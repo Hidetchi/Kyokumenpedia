@@ -20,6 +20,7 @@
 
   <div style="margin: 15px 0;"><%= show_simple_captcha(:label => "画像に表示された文字を入力して下さい", :placeholder => "(ここに入力)", :refresh_button_text => "") %></div>
       
+  <div>ご登録前に<%= link_to '利用規約', '/pages/terms', :target => '_blank' %>(別ウインドウが開きます)をご確認下さい</div>
   <div><%= f.submit "登録" %></div>
 <% end %>
 <br>
