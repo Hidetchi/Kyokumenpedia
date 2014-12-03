@@ -9,16 +9,16 @@
 <ul style="line-height:1.5em;">
 <li><span class="dark_red"><%= @user.to_rank_name %></span> <%= @user.to_stars %>
 <li>編集EXP: <b><%= @user.point * 10 %></b> ポイント
-<li>コントリビューション: <b><%= link_to @user.wikiposts.pluck(:id).length.to_s + '件', '/wikiposts/list_usr/' + @user.id.to_s %></b>
+<li>コントリビューション: <b><%= link_to @user.wikiposts.pluck(:id).length.to_s + '件', user_wikiposts_path(@user.id) %></b>
 <li>フォロワー: <b>
   <% if (current_user && current_user == @user) %>
-    <%= link_to @user.followers.pluck(:id).length.to_s + '人', '/users/' + @user.id.to_s + '/followers' %>
+    <%= link_to @user.followers.pluck(:id).length.to_s + '人', followers_user_path(@user.id) %>
   <% else %>
     <%= @user.followers.pluck(:id).length %>人
   <% end %></b>
 <li>棋力: <%= @user.strength %>
 <li>得意戦型: <%= @user.style %>
-<li>サイト: <%= link_to @user.url, @user.url %>
+<li>サイト: <% if @user.url %><%= link_to @user.url, @user.url %><% end %>
 <% if (@user.description) %><li><%= @user.description %><% end %>
 </ul>
 </div>

@@ -10,6 +10,11 @@ class UsersController < ApplicationController
   
   def update
     if (current_user)
+      params[:user][:strength] = cut_length(params[:user][:strength], 40)
+      params[:user][:style] = cut_length(params[:user][:style], 40)
+      params[:user][:description] = cut_length(params[:user][:description], 140)
+      params[:user][:url] = "" if (!params[:user][:url].match(/\Ahttps?:\/\/.+\z/))
+      params[:user][:name81] = "" if (!params[:user][:name81].match(/\A[a-zA-Z0-9_]{3,32}\z/))
       @user = current_user
       @user.update_attributes(params[:user].permit(:strength, :style, :url, :description, :name81, :receive_watching, :receive_following))
     end
@@ -58,5 +63,11 @@ class UsersController < ApplicationController
     @wikipost = Wikipost.find(params[:wikipost_id])
     @wikipost.like(current_user) if (current_user)
     render 'update_like'
+  end
+
+  protected
+  def cut_length(str, len)
+    str = str[0..(len-1)] if str.length > len
+    str
   end
 end

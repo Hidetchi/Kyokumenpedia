@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,# :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
   validates_uniqueness_of :username, :case_sensitive => false
-  validates :username, length: {minimum: 3}
+  validates :username, length: {minimum: 3, maximum: 32}, format: {with: /\A[a-zA-Z0-9_]+\z/}
   has_many :wikiposts
   has_many :watches
   has_many :watching_positions, :through => :watches, :source => :position

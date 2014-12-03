@@ -13,6 +13,8 @@ ja:
             username:
               taken: "が既に登録されています"
               too_short: "が短すぎます"
+              too_long: "が長すぎます"
+              invalid: "に不正な文字が含まれています"
               blank: "を入力して下さい"
             email:
               taken: "が既に登録されています"

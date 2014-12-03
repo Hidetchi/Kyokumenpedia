@@ -24,19 +24,18 @@ class WikipostsController < ApplicationController
   def create
     session[:wikiedit] = params[:wikipost][:content]
     session[:wikicomment] = params[:wikipost][:comment]
-    if (params[:wikipost][:content] =~ /<(img\s|font\s|hr>|h\d>|ul>|ol>|li>|a\s|table|span\s|b>|u>|i>|strong>)/)
-      flash[:alert] = "禁止タグが含まれています。(許可されているタグは<br><ref>のみです)"
-      redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id], :preview => true
-    elsif (params[:preview])
-      redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id], :preview => true
+    session[:latest_post_id] = params[:wikipost][:latest_post_id]
+    if (params[:preview])
+      redirect_to edit_position_path(id: params[:position_id], preview: true)
     else
-      session[:latest_post_id] = Position.find(params[:wikipost][:position_id]).latest_post_id
+      session[:latest_post_id] = Position.find(params[:position_id]).latest_post_id
       params[:wikipost][:prev_post_id] = session[:latest_post_id]
       params[:wikipost][:minor] = 0 unless (params[:wikipost][:prev_post_id])
+      params[:wikipost][:position_id] = params[:position_id]
       params[:wikipost][:user_id] = current_user.id
       if (session[:latest_post_id] != nil && session[:latest_post_id] != params[:wikipost][:latest_post_id].to_i)
         flash[:alert] = "他ユーザが編集を行ったため、編集内容の競合が発生しました。編集規模が小さい場合は、最新の記事を確認後、改めて編集を実施して下さい。そのまま投稿を続ける場合は、後から他ユーザの編集を確認し調整を実施して下さい。"
-        redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id], :preview => true
+        redirect_to edit_position_path(id: params[:position_id], preview: true)
       elsif (wikipost = Wikipost.new_post(params[:wikipost].permit(:content, :comment, :position_id, :user_id, :minor, :prev_post_id)))
         wikipost.position.update_attribute(:latest_post_id, wikipost.id)
         unless (params[:wikipost][:minor].to_i == 1)
@@ -51,10 +50,10 @@ class WikipostsController < ApplicationController
           end
         end
         wikipost.reward_user
-        redirect_to '/positions/' + params[:wikipost][:position_id]
+        redirect_to position_path(params[:position_id])
       else
         flash[:alert] = "保存に失敗しました。入力内容を確認して下さい。"
-        redirect_to :controller => 'positions', :action => 'edit', :id => params[:wikipost][:position_id], :preview => true
+        redirect_to edit_position_path(id: params[:position_id], preview: true)
       end
     end
   end

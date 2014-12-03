@@ -5,18 +5,14 @@ class PositionsController < ApplicationController
   def list
     if (params[:mode] == "new")
       wikiposts = Wikipost.includes(:position).where("prev_post_id IS NULL").order('updated_at desc').limit(100)
-      @positions = wikiposts.map(&:position) 
-
+      @positions = wikiposts.map(&:position)
       @list_title = "新しい局面"
       @caption = "初めての解説が投稿された時間が最も新しい局面を表示しています。"
       @type = "FIRST_POST"
       Headline.update(params[:mode], @positions[0].id)
     elsif (params[:mode] == "req")
       sort_hash = Watch.includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
-      @positions = []
-      sort_hash.each do |key, val|
-        @positions << Position.includes(:wikiposts).find_by(id: key)
-      end
+      @positions = sort_hash.map{|key, val| Position.includes(:wikiposts).find_by(id: key)}
       @list_title = "解説リクエスト局面"
       @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
       @type = "WATCHERS"
@@ -27,6 +23,9 @@ class PositionsController < ApplicationController
       @caption = "現在注目を集めている局面を表示しています。"
       @type = "VIEWS"
       Headline.update(params[:mode], @positions[0].id)
+    else
+      @list_title = "局面リスト"
+      @positions = []
     end
   end
   
@@ -66,7 +65,7 @@ class PositionsController < ApplicationController
       end
     else
       board = Board.new
-      if (params[:bod])
+      if (params[:bod] && params[:bod] =~ /の持駒：/)
         board.set_from_bod(params[:bod])
       elsif (params[:sfen])
         board.set_from_sfen(params[:sfen])

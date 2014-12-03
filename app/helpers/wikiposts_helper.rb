@@ -77,19 +77,23 @@ module WikipostsHelper
 			line = line.gsub(/\[{2}(.+?)\|(.+?)\]{2}/) {
 				match1 = $1
 				match2 = $2
-				if (match1 =~ /^[\+\-]\d{4}[A-Z]{2}/)
-					'<a href="/positions/' + position_id.to_s + '/' + match1 + '">' + match2 + '</a>'
+				if (match1 =~ /^([\+\-]\d{4}[A-Z]{2})+/)
+          link_to(match2, moves_position_path(id: position_id, moves: match1))
+				elsif (match1 =~ /\A([\+1-9krbgsnlp]+\/){8}[\+1-9krbgsnlp]+\s[bw]\s[0-9rbgsnlp\-]+\z/i)
+          '<a href="/positions/' + match1 + '">' + match2 + '</a>'
 				else
-					'<a href="/positions/' + match1 + '">' + match2 + '</a>'
-				end
+          '<span class="dark_red"><i>SFENエラー</i></span>'
+        end
 			}
 			# interpret [url( text)] as <a> tag link to an outside web
-			line = line.gsub(/\[(http.+?)\]/) {
+			line = line.gsub(/\[(https?:\/\/.+?)\]/) {
 				match = $1
 				if (match =~ /^(.+?)\s(.+)$/)
-					'<a class="external" href="' + $1 + '" target="_blank">' + $2 + '</a>'
+          link_to($2, $1, :class => 'external', :target => '_blank')
+#					'<a class="external" href="' + $1 + '" target="_blank">' + $2 + '</a>'
 				else
-					'<a class="external" href="' + match + '" target="_blank">' + match + '</a>'
+          link_to(match, match, :class => 'external', :target => '_blank')
+#					'<a class="external" href="' + match + '" target="_blank">' + match + '</a>'
 				end
 			}
 			# interpret '''''text''''' as bold italic font
@@ -224,8 +228,11 @@ module WikipostsHelper
 			table_html = "<h3>有名局</h3><table class='wiki'><tr><th>先手<th>後手<th>棋戦<th>対局日<th>勝敗<th>コメント<th>リンク"
 			famous_games.each do |r|
 				r = {sente: "?", gote: "?", event: "?", date: "?", result: "?", comment: "?", url: nil} unless logged_in
+        r[:result] = "先手勝" if r[:result] == "0"
+        r[:result] = "後手勝" if r[:result] == "1"
+        r[:result] = "引分" if r[:result] == "2"
 				table_html += "<tr><td>" + r[:sente] + "<td>" + r[:gote] + "<td>" + r[:event] + "<td>" + r[:date] + "<td>" + r[:result] + "<td class='left'>" + r[:comment] + "<td>"
-				table_html += "<a class='external' href='" + r[:url] + "' target='_blank'>棋譜</a>" if (r[:url] && r[:url] =~ /^http/)
+				table_html += link_to('棋譜', r[:url], :class => 'external', :target => '_blank') if (r[:url] && r[:url] =~ /^https?:\/\//)
 			end
 			table_html += "</table>"
 			new_lines << table_html
@@ -256,8 +263,14 @@ module WikipostsHelper
 			resembles.each do |r|
 				r = {comment: "?", sfen: nil} unless logged_in
 				table_html += "<tr><td class='left'>" + r[:comment] + "<td>"
-				table_html += "<a href='/positions/" + r[:sfen] + "'>Go</a>" if (r[:sfen])
-			end
+        if (r[:sfen])
+          if (r[:sfen] =~ /\A([\+1-9krbgsnlp]+\/){8}[\+1-9krbgsnlp]+\s[bw]\s[0-9rbgsnlp\-]+\z/i)
+            table_html += "<a href='/positions/" + r[:sfen] + "'>Go</a>"
+          else
+            table_html += "<span class='dark_red'><i>SFENエラー</i></span>"
+          end
+        end
+      end
 			table_html += "</table>"
 			new_lines << table_html
 		end

@@ -11,7 +11,7 @@
 <div id="wiki_edit_buttons">
 [<%= link_to '編集', {:action => 'edit', :id => @position.id} %>]
 [<%= link_to '履歴', {:controller => 'wikiposts', :action => 'index', :position_id => @position.id} %>]
-[<%= link_to 'ディスカッション', {:controller => 'discussions', :action => 'index', :id => @position.id} %> ] 
+[<%= link_to 'ディスカッション', position_discussions_path(@position.id) %> ] 
 </div>
 
 <%= render :partial => 'wikiposts/interpreter', :locals => { :position_id => @position.id, :content => @position.latest_post ? @position.latest_post.content : nil } %>

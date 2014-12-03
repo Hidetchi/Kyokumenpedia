@@ -1,39 +1,51 @@
 Rails.application.routes.draw do
   post 'api/kifu_post' => 'games#create'
+  get 'newkifu' => 'games#create'
+
   get 'pages/help'
   get 'pages/about'
   get 'pages/terms'
+  
   devise_for :users, controllers: { registrations: 'users/registrations' }
   post 'users/watch'
   post 'users/unwatch'
   post 'users/follow'
   post 'users/unfollow'
   post 'users/like'
-  get 'users/mypage'
-  get 'users/ranking'
-  get 'users/:id/followers' => 'users#followers'
-  resources :users, :only => [:index, :show, :update]
-  get 'positions/start'
-  get 'positions/search'
-  post 'positions/keyword'
-  get 'positions/list/:mode' => 'positions#list'
-  get 'positions/:sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show'
-  post 'positions/show' => 'positions#show'
-  get 'positions/:id/statistics' => 'positions#statistics'
-  get 'positions/:id/edit' => 'positions#edit'
-  get 'positions/:id/discussions' => 'discussions#index'
-  get 'positions/:id/post' => 'discussions#post'
-  get 'positions/:id/export' => 'positions#export'
-  get 'positions/:id/:moves' => 'positions#show'
-  resources :positions, :only => [:show]
-  get 'newkifu' => 'games#create'
-  post 'wikiposts/create' => 'wikiposts#create'
-  get 'wikiposts/list_pos/:position_id' => 'wikiposts#index'
-  get 'wikiposts/list_usr/:user_id' => 'wikiposts#index'
-  get 'wikiposts/:id/likers' => 'wikiposts#likers'
+  resources :users, :only => [:index, :show, :update] do
+    collection do
+      get 'ranking'
+      get 'mypage'
+    end
+    get 'followers', on: :member
+    resources :wikiposts, :only => [:index]
+  end
+
+  resources :positions, :only => [:show] do
+    collection do
+      get 'start'
+      get 'search'
+      post 'keyword'
+      post 'show'
+      get 'list/:mode' => 'positions#list', mode: /[a-z]+/
+      get ':sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show', sfen1: /[1-9krbgsnlp\+]+/i, sfen9: /[1-9krbgsnlp\+]+%20[bw]%20[0-9rbgsnlp\-]+/i
+      get ':sfen' => 'positions#show', sfen: /([1-9KRBGSNLPkrbgsnlp\+]+\/){8}[1-9krbgsnlp\+]+\s[bw]\s[0-9rbgsnlp\-]+/i
+    end
+    member do
+      get 'statistics'
+      get 'edit'
+      get 'export'
+      get ':moves' => 'positions#show', moves: /([\+\-]\d{4}[A-Z]{2})+/, as: :moves
+    end
+    resources :wikiposts, :only => [:index, :create]
+    resources :discussions, :only => [:index, :create] do
+      get 'post', on: :collection
+    end
+  end
+
   resources :wikiposts, :only => [:index, :show]
-  get 'discussions/index'
-  post 'discussions/create'
+  get 'wikiposts/:id/likers' => 'wikiposts#likers'
+
   root :to => 'activities#index'
   
   if Rails.env.development?
