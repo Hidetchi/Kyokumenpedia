@@ -45,7 +45,7 @@ class GamesController < ApplicationController
       end
       # if there is no result output even after the last move, it's invalid
       throw :error_msg, 'No result' if (rt == :normal)
-      if (rt == :sennnichite)
+      if (rt == :sennichite)
         result_code = 2
       else
         result_code = board.teban ? 1 : 0
