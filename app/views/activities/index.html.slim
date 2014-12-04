@@ -50,7 +50,7 @@ h2 style="margin-bottom:10px;"
 - if (@activities.length == 0)
   |現在、アクティビティはまだありません。
 - @activities.each do |activity|
-  - if (activity.owner_id == current_user.id)
+  - if (activity.owner_id == current_user.id || (activity.recipient_type == 'User' && activity.recipient.id == current_user.id))
     |<div class="feed self">
   - else
     |<div class="feed others">
