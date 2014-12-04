@@ -49,6 +49,7 @@ gem 'asin'
 gem 'simple_captcha2', git: 'https://github.com/pludoni/simple-captcha.git', require: true
 gem 'unicorn'
 gem 'spinjs-rails'
+gem 'rails_admin'
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'

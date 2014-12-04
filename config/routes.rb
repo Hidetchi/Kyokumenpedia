@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'pages/terms'
   
   devise_for :users, controllers: { registrations: 'users/registrations' }
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   post 'users/watch'
   post 'users/unwatch'
   post 'users/follow'
