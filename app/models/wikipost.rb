@@ -96,6 +96,7 @@ class Wikipost < ActiveRecord::Base
   end
   
   def like(liker)
+    return if liker.liked?(self)
     self.add_evaluation(:likes, 1, liker)
     self.update_attributes(:likes => self.reputation_for(:likes).to_i)
     self.create_activity(action: 'like', owner: liker, recipient: self.user)

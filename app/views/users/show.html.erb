@@ -2,7 +2,7 @@
 <table class="invisible" style="margin-left:30px;">
 <tr><td class="invisible" style="text-align:left;white-space:normal;">
 <% if (current_user) %>
-<div id="follow_<%= current_user.id %>"><%= follow_button(@user, "follow_1") %></div>
+<div id="follow_<%= @user.id %>"><%= follow_button(@user) %></div>
 <% end %>
 
 <div style="width:300px;">

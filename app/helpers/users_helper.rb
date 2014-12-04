@@ -1,5 +1,5 @@
 module UsersHelper
-  def watch_button(position, div_id)
+  def watch_button(position)
     return nil unless current_user
     button_label = position.latest_post_id ? "ウォッチ" : "解説リクエスト"
     if current_user.watching?(position.id)
@@ -12,10 +12,10 @@ module UsersHelper
     end
     button_label += " | " + position.watchers.pluck(:id).length.to_s
 
-    button_to button_label, {:controller => 'users', :action => action_name, :position_id => position.id, :div_id => div_id }, :class => class_name, :remote => true
+    button_to button_label, {:controller => 'users', :action => action_name, :position_id => position.id, :div_id => 'watch_' + position.id.to_s }, :class => class_name, :remote => true
   end
 
-  def follow_button(user, div_id)
+  def follow_button(user)
     return nil unless current_user
     button_label = "フォロー"
     if current_user.following?(user.id)
@@ -29,7 +29,7 @@ module UsersHelper
     end
     button_label += " | " + user.followed_relations.pluck(:id).length.to_s
 
-    button_to button_label, {:controller => 'users', :action => action_name, :user_id => user.id, :div_id => div_id }, :class => class_name, :remote => true
+    button_to button_label, {:controller => 'users', :action => action_name, :user_id => user.id, :div_id => 'follow_' + user.id.to_s }, :class => class_name, :remote => true
   end
   
   def like_button(wikipost)
