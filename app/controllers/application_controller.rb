@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   if !Rails.env.development?
-    rescue_from ActionController::RoutingError, with: :render_404
     rescue_from ActiveRecord::RecordNotFound, Exception, with: :render_500
+    rescue_from ActionController::RoutingError, with: :render_404
   end
 
   def routing_error

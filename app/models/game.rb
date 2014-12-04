@@ -18,6 +18,7 @@ class Game < ActiveRecord::Base
   
   def self.update_relations(game_id)
     game = self.find(game_id)
+    return if game.relation_updated
     # There is no validation of csa moves anymore as it is already validated in GamesController#create
     csa_moves = []
     rs = game.csa.gsub %r{[\+\-]\d{4}\w{2}} do |s|
