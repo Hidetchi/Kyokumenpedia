@@ -35,8 +35,8 @@
 <div id="user_panel">
 <strong>ユーザメニュー</strong><br>
 <ul class="my_menu">
-<li><%= link_to "マイページ", '/users/' + current_user.id.to_s %>
-<li><%= link_to "編集履歴", '/wikiposts/list_usr/' + current_user.id.to_s %>
+<li><%= link_to "マイページ", user_path(current_user.id) %>
+<li><%= link_to "編集履歴", user_wikiposts_path(current_user.id) %>
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 </ul>

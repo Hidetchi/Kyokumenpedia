@@ -19,6 +19,7 @@ ja:
             email:
               taken: "が既に登録されています"
               blank: "を入力して下さい"
+              invalid: "の形式が正しくありません"
             password_confirmation:
               confirmation: "を確認して下さい"
               blank: "を入力して下さい"
