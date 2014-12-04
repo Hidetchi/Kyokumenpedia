@@ -1,7 +1,7 @@
 <h2><%= @user.username %>さんのページ</h2>
 <table class="invisible" style="margin-left:30px;">
 <tr><td class="invisible" style="text-align:left;white-space:normal;">
-<% if (current_user) %>
+<% if (current_user && current_user != @user) %>
 <div id="follow_<%= @user.id %>"><%= follow_button(@user) %></div>
 <% end %>
 
