@@ -37,6 +37,3 @@ ja:
       user:
         remember_me: ログイン状態をキープする
         current_password: 現在のパスワード
-  date:
-    formats:
-      long: "%Y-%m-%d"
