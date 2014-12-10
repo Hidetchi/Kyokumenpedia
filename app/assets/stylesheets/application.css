@@ -35,7 +35,7 @@ div#wrapper {
 div#side_column {
 	background-color: #e6f2fb;
 	border-right: 1px solid #ccd;
-	padding: 5px 0;
+	padding: 10px 0;
 	width: 140px;
 	float: left;
 	min-height: 1000px;
@@ -114,7 +114,7 @@ div#header {
 }
 
 div#footer {
-	padding: 5px 0;
+	padding: 5px 0 0 0;
 	background-color: #eee;
 	width: 100%;
 	clear: both;

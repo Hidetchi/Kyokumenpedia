@@ -11,7 +11,7 @@
 
 <div id="side_column">
 <center>
-<%= link_to image_tag('logo.png', :width => 100, :id => 'logo'), '/' %>
+<%= link_to image_tag('logo-off.png', :id => 'logo'), '/' %>
 </center>
 <ul class="sidemenu">
 <li><%= link_to 'トップ', '/' %>
@@ -69,7 +69,12 @@
 
 </div>
 <div id="footer">
-(c) Team ISCube, All rights reserved.<br>Innovative Shogi Information System Initiation Scheme
+<center>
+<table class="invisible">
+<tr><td style="border:0;padding:0 15px 0 0;"><%= image_tag 'is3-logo-small.png' %>
+<td style="border:0;padding:0;text-align:left;">(c) Team ISCube, All rights reserved.<br>Innovative Shogi Information System Initiation Scheme
+</table>
+</center>
 </div>
 </body>
 </html>
