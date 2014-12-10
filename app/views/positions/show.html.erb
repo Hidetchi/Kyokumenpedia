@@ -14,13 +14,16 @@ SFEN=<%= @position.sfen %>
 <div id="wiki_edit_buttons">
 [<%= link_to '編集', {:action => 'edit', :id => @position.id} %>]
 [<%= link_to '履歴', {:controller => 'wikiposts', :action => 'index', :position_id => @position.id} %>]
-[<%= link_to 'ディスカッション', position_discussions_path(@position.id) %> ] 
+[<%= link_to 'ディスカッション', position_discussions_path(@position.id) %>] 
+<% if current_user && current_user.can_access_strategy? %>
+[<%= link_to '戦型の変更', position_strategies_path(@position.id) %>]
+<% end %>
 </div>
 
 <%= render :partial => 'wikiposts/interpreter', :locals => { :position_id => @position.id, :content => @position.latest_post ? @position.latest_post.content : nil } %>
 
 <script type="text/javascript">
 $(function(){
-  $.get('/positions/<%= @position.id.to_s %>/statistics'); 
+  $.get('<%= statistics_position_path(@position.id) %>'); 
 });
 </script>

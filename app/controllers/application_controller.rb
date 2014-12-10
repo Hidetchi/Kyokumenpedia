@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   if !Rails.env.development?
     rescue_from ActiveRecord::RecordNotFound, Exception, with: :render_500
     rescue_from ActionController::RoutingError, with: :render_404
+    rescue_from UserException::AccessDenied, with: :render_403
   end
 
   def routing_error
@@ -26,6 +27,19 @@ class ApplicationController < ActionController::Base
     @header = "ページが見つかりません"
     @caption = "お探しのページは見つかりませんでした。"
     render template: 'pages/error', status: 404, layout: 'application', content_type: 'text/html'
+  end
+  
+  def render_403(e=nil)
+    if e
+      logger.info "Rendering 403 with exception: #{e.message}"
+      e.backtrace.each do |line|
+        logger.info "---#{line}" unless (line =~ /\/rbenv\/versions\//)
+      end
+    end
+    @title = "認証エラー"
+    @header = "アクセス権がありません"
+    @caption = "お使いのアカウントはこの機能へのアクセス権がありません。"
+    render template: 'pages/error', status: 403, layout: 'application', content_type: 'text/html'
   end
   
   def render_500(e=nil)

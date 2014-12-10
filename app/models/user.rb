@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  ROLE_USER = 0
+  ROLE_SUPER_USER = 1
+  ROLE_ADMIN = 2
+  ROLE_SUPERVISOR = 3
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,# :confirmable,
@@ -86,5 +90,13 @@ class User < ActiveRecord::Base
       tag += "<img class='star' src='/assets/star.gif'>"
     end
     tag.html_safe
+  end
+
+  def can_access_strategy?
+    self.role == ROLE_ADMIN || self.role == ROLE_SUPER_USER
+  end
+
+  def is_admin?
+    self.role == ROLE_ADMIN
   end
 end

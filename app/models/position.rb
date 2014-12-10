@@ -50,6 +50,10 @@ class Position < ActiveRecord::Base
     end
   	return self.strategy
   end
+
+  def overwrite_strategy(new_strategy)
+    update_attributes(:strategy_id => new_strategy.id)
+  end
   
   def to_board
     board = Board.new

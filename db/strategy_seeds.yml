@@ -1,28 +1,32 @@
 ﻿roots:
-  - name: 相居飛車
-    sfens: []
+  - name: 平手
     children:
-      - name: 横歩取り
-        sfens: [lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p]
+      - name: 相居飛車
         children:
-          - name: 横歩取り△４五角戦法
-            sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/5b3/1rP6/P2PPPP1P/1SG4S1/LN2KG1NL b B4Pp]
+          - name: 横歩取り
+            sfens: [lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p]
             children:
-              - name: 横歩取り△４五角戦法 △６六銀型
-                sfens: [lnsgk1s1+B/6g2/p1ppppn1p/7p1/5b3/2Ps2L2/P2PPPP1P/2G4S1/LN2KG1NL b R4Pr]
-                children: []
-              - name: 横歩取り△４五角戦法 △８七銀型
-                sfens: [lnsgk1sn+B/6g2/p1pppp2p/7p1/5b3/2P6/Ps1PPPP1P/2G4S1/LN2KG1NL b RL4Pr]
-                children: []
-          - name: 相横歩取り
-            sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/9/2r6/P2PPPP1P/1SG6/LN2KGSNL b B3Pb3p]
-            children: []
-  - name: 居飛車対振り飛車
-    sfens: []
-    children:
-      - name: ゴキゲン中飛車
-        sfens: [lnsgkgsnl/4r2b1/pppp1p1pp/4p1p2/7P1/2P6/PP1PPPP1P/1B5R1/LNSGKGSNL b -]
+              - name: 横歩取り△４五角戦法
+                sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/5b3/1rP6/P2PPPP1P/1SG4S1/LN2KG1NL b B4Pp]
+                children:
+                  - name: 横歩取り△４五角戦法 △６六銀型
+                    sfens: [lnsgk1s1+B/6g2/p1ppppn1p/7p1/5b3/2Ps2L2/P2PPPP1P/2G4S1/LN2KG1NL b R4Pr]
+                  - name: 横歩取り△４五角戦法 △８七銀型
+                    sfens: [lnsgk1sn+B/6g2/p1pppp2p/7p1/5b3/2P6/Ps1PPPP1P/2G4S1/LN2KG1NL b RL4Pr]
+              - name: 相横歩取り
+                sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/9/2r6/P2PPPP1P/1SG6/LN2KGSNL b B3Pb3p]
+      - name: 居飛車対振り飛車
         children:
-          - name: "ゴキゲン中飛車 ▲５八金右超急戦"
-            sfens: [lnsgkgsnl/4r2b1/pppp1p2p/6pR1/9/2P1p4/PP1PPPP1P/1B2G4/LNSGK1SNL b Pp]
-            children: []
+          - name: ゴキゲン中飛車
+            sfens: [lnsgkgsnl/4r2b1/pppp1p1pp/4p1p2/7P1/2P6/PP1PPPP1P/1B5R1/LNSGKGSNL b -]
+            children:
+              - name: ゴキゲン中飛車 ▲５八金右超急戦
+                sfens: [lnsgkgsnl/4r2b1/pppp1p2p/6pR1/9/2P1p4/PP1PPPP1P/1B2G4/LNSGK1SNL b Pp]
+  - name: 香落ち
+  - name: 角落ち
+  - name: 飛車落ち
+  - name: 飛香落ち
+  - name: 二枚落ち
+  - name: 四枚落ち
+  - name: 六枚落ち
+  - name: 八枚落ち

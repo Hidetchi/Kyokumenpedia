@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :discussions, :only => [:index, :create] do
       get 'post', on: :collection
     end
+    resources :strategies, :only => [:index, :create, :update]
   end
 
   resources :wikiposts, :only => [:index, :show]

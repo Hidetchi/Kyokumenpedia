@@ -14,17 +14,23 @@ def register_strategy(new_node, parent)
 	else
 		strategy = Strategy.create(:name => new_node["name"])
 	end
-	new_node["sfens"].each do |sfen|
-		position = Position.find_or_create(sfen)
-		position.update_strategy(strategy)
-	end
-	new_node["children"].each do |child|
-		register_strategy(child, strategy)
-	end
+  if new_node["sfens"]
+    new_node["sfens"].each do |sfen|
+      position = Position.find_or_create(sfen)
+      position.overwrite_strategy(strategy)
+    end
+  end
+  if new_node["children"]
+    new_node["children"].each do |child|
+      register_strategy(child, strategy)
+    end
+  end
 end
 
 
 GameSource.create(:name => '81Dojo', :pass => 'shogi81', :kifu_url_header => 'http://81dojo.com/kifuviewer_jp.html?kid=', :category => 2)
+GameSource.create(:name => 'JSA', :pass => 'jsa', :kifu_url_header => '', :category => 1)
+GameSource.create(:name => 'floodgate', :pass => 'flood', :category => 3)
 Handicap.create(:id => 1, :name => '平手')
 Handicap.create(:id => 2, :name => '香落ち')
 Handicap.create(:id => 3, :name => '角落ち')

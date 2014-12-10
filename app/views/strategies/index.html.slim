@@ -1,0 +1,22 @@
+h2 戦型の編集
+p.dark_red この機能はスーパーユーザのみに与えられた機能で、局面に対する戦型を上書き修正することができます。戦型を修正すると、この局面を経由した全ての棋譜を解析しなおし、以降の局面全ての戦型を書き換えます。(指定した戦型の下位に属する戦型が既に指定されている局面は除く) データへの影響をご理解の上、慎重に修正を行って下さい。
+hr
+p.dark_green 下記のリストより戦型をクリックすると、確認ダイアログが現れた後、この局面以降のすべての局面で戦型更新が行われます。(データ更新には時間がかかります。連続してリンクをクリックしないで下さい。)
+div style="width:250px;"
+  = @position.to_board.to_html_table.html_safe
+ul
+  - @root_strategies.each do |root|
+    = render_tree(root, @position.id).html_safe
+
+h2 戦型の登録
+p.dark_red この機能は管理者専用です。
+
+- if (current_user && current_user.is_admin?)
+  = form_for :strategy, :url => position_strategies_path  do |f|
+    |新しい戦型名:
+    = f.text_field :name
+    br
+    |親の戦型ID:
+    = f.text_field :parent_id
+    br
+    = f.submit "登録", data: { confirm: "登録して良いですか?" }
