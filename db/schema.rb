@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141209034834) do
+ActiveRecord::Schema.define(version: 20141212194417) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20141209034834) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "category"
+    t.string   "kifu_url_footer", default: ""
   end
 
   create_table "games", force: true do |t|
@@ -108,13 +109,14 @@ ActiveRecord::Schema.define(version: 20141209034834) do
     t.integer  "white_rate"
     t.date     "date"
     t.integer  "result"
-    t.integer  "native_kid"
+    t.string   "native_kid"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "handicap_id"
     t.text     "csa"
     t.integer  "game_source_id"
     t.boolean  "relation_updated", default: false
+    t.string   "event"
   end
 
   add_index "games", ["csa"], name: "index_games_on_csa", unique: true
@@ -145,6 +147,7 @@ ActiveRecord::Schema.define(version: 20141209034834) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "capture",          default: false
+    t.integer  "stat3_total",      default: 0
   end
 
   add_index "moves", ["next_position_id"], name: "index_moves_on_next_position_id"
@@ -165,6 +168,9 @@ ActiveRecord::Schema.define(version: 20141209034834) do
     t.datetime "updated_at"
     t.integer  "latest_post_id"
     t.integer  "views",          default: 0
+    t.integer  "stat3_black",    default: 0
+    t.integer  "stat3_white",    default: 0
+    t.integer  "stat3_draw",     default: 0
   end
 
   add_index "positions", ["sfen"], name: "index_positions_on_sfen", unique: true

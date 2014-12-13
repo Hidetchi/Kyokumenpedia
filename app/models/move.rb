@@ -13,11 +13,8 @@ class Move < ActiveRecord::Base
   end
 
   def update_stat(category)
-    if (category == 1)
-      self.stat1_total += 1
-    elsif (category == 2)
-      self.stat2_total += 1
-    end
+    return unless [0, 1, 2, 3].include?(category)
+    self["stat" + category.to_s + "_total"] += 1
     save
   end
 
@@ -97,5 +94,10 @@ class Move < ActiveRecord::Base
 		kif = "投了"
 	end
 	return kif	
+  end
+
+  def total(category)
+    return nil unless [0, 1, 2, 3].include?(category.to_i)
+    self["stat" + category.to_s + "_total"]
   end
 end   

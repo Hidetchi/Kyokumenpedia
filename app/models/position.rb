@@ -23,22 +23,13 @@ class Position < ActiveRecord::Base
   end
 
   def update_stat(category, result)
-    if (category == 1)  # Official professional kifu
-      if (result == 0) 
-        self.stat1_black += 1
-      elsif (result == 1)
-        self.stat1_white += 1
-      elsif (result == 2)
-        self.stat1_draw += 1
-      end
-    elsif (category == 2)  # Amateur online games
-      if (result == 0) 
-        self.stat2_black += 1
-      elsif (result == 1)
-        self.stat2_white += 1
-      elsif (result == 2)
-        self.stat2_draw += 1
-      end
+    return unless [0, 1, 2, 3].include?(category)
+    if (result == 0) 
+      self["stat" + category.to_s + "_black"] += 1
+    elsif (result == 1)
+      self["stat" + category.to_s + "_white"] += 1
+    elsif (result == 2)
+      self["stat" + category.to_s + "_draw"] += 1
     end
     save
   end
@@ -60,4 +51,9 @@ class Position < ActiveRecord::Base
     board.set_from_sfen(self.sfen)
     return board
   end  
+
+  def win_stat(category)
+    "▲" + self["stat" + category.to_s + "_black"].to_s + "勝 - △" + self["stat" + category.to_s + "_white"].to_s + "勝"
+  end
+
 end

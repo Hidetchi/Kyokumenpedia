@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       get ':sfen' => 'positions#show', sfen: /([1-9KRBGSNLPkrbgsnlp\+]+\/){8}[1-9krbgsnlp\+]+\s[bw]\s[0-9rbgsnlp\-]+/i
     end
     member do
-      get 'statistics'
+      get 'statistics/:category' => 'positions#statistics', category: /\d+/, as: :statistics
       get 'edit'
       get 'export'
       get ':moves' => 'positions#show', moves: /([\+\-]\d{4}[A-Z]{2})+/, as: :moves

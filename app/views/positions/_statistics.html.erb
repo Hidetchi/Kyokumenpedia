@@ -7,10 +7,11 @@
 <% moves.each do |move| %>
 <tr>
 <td><%= move.to_kif %>
-<td><%= move.stat2_total %>
+<td><%= move.total(@category) %>
 <td style="border-right:0;">
 <% unless (move.next_position_id == @position.id) %>
-▲<%= move.next_position.stat2_black %>勝 - △<%= move.next_position.stat2_white %>勝<td style="border-right:0;"><%= image_tag "icon-pen.png", :style => "vertical-align:middle;", :title => "解説記事あり" if (move.next_position.latest_post_id) %><td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
+<%= move.next_position.win_stat(@category) %>
+<td style="border-right:0;"><%= image_tag "icon-pen.png", :style => "vertical-align:middle;", :title => "解説記事あり" if (move.next_position.latest_post_id) %><td><%= link_to 'Go', "/positions/#{move.next_position_id}" %>
 <% else %>
 <td style="border-right:0;"><td>
 <% end %>
@@ -26,12 +27,12 @@
 <% appearances.each do |appearance| %>
 <% game = appearance.game %>
 <tr>
-<td style="border-right: 0;"><% if current_user %><%= game.black_name %><% else %>???<% end %><td><%= game.to_result_mark(true) %>
-<td style="border-right: 0;"><%= game.to_result_mark(false) %><td><% if current_user %><%= game.white_name %><% else %>???<% end %>
+<td style="border-right: 0;"><%= game.render_player_name(current_user, @category, true) %><td><%= game.to_result_mark(true) %>
+<td style="border-right: 0;"><%= game.to_result_mark(false) %><td><%= game.render_player_name(current_user, @category, false) %>
 <td><%= game.date %>
-<td><%= game.game_source.name %>
+<td><%= game.event || game.game_source.name %>
 <td><%= appearance.next_move.to_kif %>
-<td><% if current_user %><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s, :target=>["_blank"], :class=>"external" %><% end %>
+<td><% if game.show_kifu?(current_user, @category) %><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s + game.game_source.kifu_url_footer, :target=>["_blank"], :class=>"external" %><% end %>
 <% end %>
 </table>
 </div>

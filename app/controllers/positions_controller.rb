@@ -80,6 +80,7 @@ class PositionsController < ApplicationController
       return
     end
     Position.increment_counter(:views, @position.id)
+    @category = session[:viewing_category] || 2
   end
 
   def edit
@@ -111,7 +112,9 @@ class PositionsController < ApplicationController
   def statistics
     # Action for Ajax
     @position = Position.find(params[:id])
-    @appearances = @position.appearances.includes(:game => :game_source).includes(:next_move).order('games.date desc').limit(50)
-    @moves = @position.next_moves.order("stat1_total+stat2_total desc").includes(:next_position)
+    @category = params[:category].to_i
+    session[:viewing_category] = @category
+    @appearances = @position.appearances.includes(:game => :game_source).where('game_sources.category = ?', @category).includes(:next_move).order('games.date desc').limit(50)
+    @moves = @position.next_moves.order("stat#{@category}_total desc").where("stat#{@category}_total > 0").includes(:next_position)
   end
 end

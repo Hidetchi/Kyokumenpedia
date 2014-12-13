@@ -3,12 +3,20 @@ SFEN=<%= @position.sfen %>
 <% end %>
 <%= render :partial => 'diagram_summary', :locals => { :position => @position } %>
 
+<script type="text/javascript">
+  function load_statistics(category) {
+    $('#statistics_ajax').html('<p style="margin-left:50px;"><%= image_tag 'loading-bar.gif' %></p>');
+    $.get('/positions/<%= @position.id %>/statistics/' + category);
+  }
+</script>
+
 <h2>棋譜統計</h2>
 <div style="margin-left:15px;margin-bottom:5px;">
-<%= radio_button_tag 'category1', 1, checked = false, :disabled => true  %>プロ 
-<%= radio_button_tag 'category2', 2, checked = true %>オンライン道場
+<%= radio_button_tag 'category', 1, checked = @category == 1, :onclick => "load_statistics(1)", :disabled => true  %>プロ 
+<%= radio_button_tag 'category', 2, checked = @category == 2, :onclick => "load_statistics(2)" %>オンライン道場
+<%= radio_button_tag 'category', 3, checked = @category == 3, :onclick => "load_statistics(3)" %>Floodgate
 </div>
-<div id="statistics_ajax"><p style="margin-left:50px;"><%= image_tag 'loading-bar.gif' %></p></div>
+<div id="statistics_ajax"></div>
 
 <hr>
 <div id="wiki_edit_buttons">
@@ -24,6 +32,6 @@ SFEN=<%= @position.sfen %>
 
 <script type="text/javascript">
 $(function(){
-  $.get('<%= statistics_position_path(@position.id) %>'); 
+  load_statistics(<%= @category %>);
 });
 </script>

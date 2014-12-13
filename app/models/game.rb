@@ -70,4 +70,17 @@ class Game < ActiveRecord::Base
       "△"
     end
   end      
+
+  def render_player_name(user, category, sente)
+    player_name = sente ? self.black_name : self.white_name
+    if (category == 2 && !user)
+      "???"
+    else
+      player_name
+    end
+  end
+
+  def show_kifu?(user, category)
+    self.native_kid && (category == 3 || (category == 2 && user))
+  end
 end
