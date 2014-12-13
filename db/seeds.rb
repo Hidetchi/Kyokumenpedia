@@ -28,9 +28,9 @@ def register_strategy(new_node, parent)
 end
 
 
-GameSource.create(:name => '81Dojo', :pass => 'shogi81', :kifu_url_header => 'http://81dojo.com/kifuviewer_jp.html?kid=', :category => 2)
 GameSource.create(:name => 'JSA', :pass => 'jsa', :kifu_url_header => '', :category => 1)
-GameSource.create(:name => 'floodgate', :pass => 'flood', :category => 3)
+GameSource.create(:name => '81Dojo', :pass => 'shogi81', :kifu_url_header => 'http://81dojo.com/kifuviewer_jp.html?kid=', :category => 2)
+GameSource.create(:name => 'floodgate', :pass => 'flood', :kifu_url_header => 'http://wdoor.c.u-tokyo.ac.jp/shogi/view/', :kifu_url_footer => '.csa', :category => 3)
 Handicap.create(:id => 1, :name => '平手')
 Handicap.create(:id => 2, :name => '香落ち')
 Handicap.create(:id => 3, :name => '角落ち')

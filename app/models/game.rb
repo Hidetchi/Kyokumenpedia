@@ -73,6 +73,7 @@ class Game < ActiveRecord::Base
 
   def render_player_name(user, category, sente)
     player_name = sente ? self.black_name : self.white_name
+    player_name = player_name[0..13] + "..." if player_name.length > 15
     if (category == 2 && !user)
       "???"
     else
