@@ -83,11 +83,22 @@ class User < ActiveRecord::Base
   def to_rank_name
     ["一般読者", "編集見習い", "初級エディター", "中級エディター", "上級エディター", "編集長", "局面博士"][self.to_rank]
   end
+
+  def to_role_name
+    ["一般", "スーパユーザ", "管理者", "特別アカウント"][self.role]
+  end
   
   def to_stars
     tag = ""
+    if self.role == ROLE_SUPER_USER
+      color = "_green"
+    elsif self.role == ROLE_ADMIN
+      color = "_blue"
+    else
+      color = ""
+    end
     self.to_rank.times do
-      tag += "<img class='star' src='/assets/star.gif'>"
+      tag += "<img class='star' src='/assets/star" + color + ".gif'>"
     end
     tag.html_safe
   end
@@ -98,5 +109,13 @@ class User < ActiveRecord::Base
 
   def is_admin?
     self.role == ROLE_ADMIN
+  end
+
+  def can_select_pro?
+    self.role == ROLE_ADMIN || self.role == ROLE_SUPER_USER || self.role == ROLE_SUPERVISOR
+  end
+
+  def can_view_pro?
+    self.role == ROLE_ADMIN || self.role == ROLE_SUPERVISOR
   end
 end

@@ -39,7 +39,7 @@ class GamesController < ApplicationController
         throw :error_msg, 'Additional move after sennichite.' if (rt == :sennichite)
         rt = board.handle_one_move(csa_move)
         unless (rt == :normal || rt == :toryo || rt == :sennichite)  # any other output than these indicate illegal move etc.
-          throw :error_msg, 'Illegal move'
+          throw :error_msg, 'Illegal move ' + csa_move
         end
         @sfens << board.to_sfen unless rt == :toryo
       end
@@ -54,7 +54,7 @@ class GamesController < ApplicationController
       throw :error_msg, 'Result does not match' if (params[:result].to_i != result_code)
       @winner = (result_code == 0 ? "Sente" : (result_code == 1 ? "Gote" : "Draw"))
       # If the kifu is OK, then save the game to record
-      unless (game = Game.api_add(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid), @game_source.id))
+      unless (game = Game.api_add(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid, :event), @game_source.id))
         throw :error_msg, 'Duplicate Kifu'
       end
       # Update relations between positions, moves, etc in background

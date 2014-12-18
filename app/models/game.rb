@@ -82,6 +82,6 @@ class Game < ActiveRecord::Base
   end
 
   def show_kifu?(user, category)
-    self.native_kid && (category == 3 || (category == 2 && user))
+    self.native_kid && (category == 3 || (category == 2 && user) || (category == 1 && user && user.is_admin?))
   end
 end

@@ -12,7 +12,7 @@ SFEN=<%= @position.sfen %>
 
 <h2>棋譜統計</h2>
 <div style="margin-left:15px;margin-bottom:5px;">
-<%= radio_button_tag 'category', 1, checked = @category == 1, :onclick => "load_statistics(1)", :disabled => true  %>プロ 
+<% if current_user && current_user.can_select_pro? %><%= radio_button_tag 'category', 1, checked = @category == 1, :onclick => "load_statistics(1)" %>プロ<% end %>
 <%= radio_button_tag 'category', 2, checked = @category == 2, :onclick => "load_statistics(2)" %>オンライン道場
 <%= radio_button_tag 'category', 3, checked = @category == 3, :onclick => "load_statistics(3)" %>Floodgate
 </div>
