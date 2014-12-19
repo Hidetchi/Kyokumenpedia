@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141212194417) do
+ActiveRecord::Schema.define(version: 20141218224250) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 20141212194417) do
     t.integer  "game_source_id"
     t.boolean  "relation_updated", default: false
     t.string   "event"
+    t.integer  "updated_until",    default: -1
   end
 
   add_index "games", ["csa"], name: "index_games_on_csa", unique: true
