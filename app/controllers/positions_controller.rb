@@ -9,20 +9,22 @@ class PositionsController < ApplicationController
       @list_title = "新しい局面"
       @caption = "初めての解説が投稿された時間が最も新しい局面を表示しています。"
       @type = "FIRST_POST"
-      Headline.update(params[:mode], @positions[0].id)
     elsif (params[:mode] == "req")
       sort_hash = Watch.includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
       @positions = sort_hash.map{|key, val| Position.includes(:wikiposts).find_by(id: key)}
       @list_title = "解説リクエスト局面"
       @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
       @type = "WATCHERS"
-      Headline.update(params[:mode], @positions[0].id)
+      Headline.update(params[:mode], @positions[0])
     elsif (params[:mode] == "hot")
       @positions = Position.where('views > 0').includes(:strategy).order('views desc').limit(20)
-      @list_title = "注目の局面"
-      @caption = "現在注目を集めている局面を表示しています。"
+      @list_title = "いま人気の局面"
+      @caption = "現在注目を集めている人気の局面を表示しています。"
       @type = "VIEWS"
-      Headline.update(params[:mode], @positions[0].id)
+      Headline.update(params[:mode], @positions[0])
+    elsif (params[:mode] == "pic")
+      @pickups = EditorPickup.order('created_at desc').limit(10)
+      render 'pickups'
     else
       @list_title = "局面リスト"
       @positions = []
@@ -81,6 +83,7 @@ class PositionsController < ApplicationController
     end
     Position.increment_counter(:views, @position.id)
     @category = session[:viewing_category] || 2
+    render 'show'
   end
 
   def edit
@@ -96,6 +99,7 @@ class PositionsController < ApplicationController
   end
   
   def search
+    @root_strategies = Strategy.where(ancestry: nil)
   end
   
   def export
@@ -104,9 +108,10 @@ class PositionsController < ApplicationController
   end
   
   def start
-    params[:sfen] = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -"
+    board = Board.new
+    board.initial(params[:handicap_id].to_i)
+    params[:sfen] = board.to_sfen
     show
-    render 'show'
   end
 
   def statistics
@@ -116,5 +121,30 @@ class PositionsController < ApplicationController
     session[:viewing_category] = @category
     @appearances = @position.appearances.includes(:game => :game_source).where('game_sources.category = ?', @category).includes(:next_move).order('games.date desc').limit(50)
     @moves = @position.next_moves.order("stat#{@category}_total desc").where("stat#{@category}_total > 0").includes(:next_position)
+  end
+
+  def privilege
+    raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
+    @position = Position.find(params[:id])
+    @root_strategies = Strategy.where(ancestry: nil)
+  end
+
+  def pickup
+    raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
+    pickup = EditorPickup.create(:user_id => current_user.id, :position_id => params[:id], :comment => params[:pickup][:comment]) if params[:pickup][:comment] != ""
+    if (pickup)
+      position = Position.find(params[:id])
+      Headline.update("pic", position)
+    end
+    params[:mode] = "pic"
+    list
+  end
+
+  def set_main
+    raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
+    @position = Position.find(params[:id])
+    @position.strategy.update_attributes(:main_position_id => @position.id)
+    privilege
+    render 'privilege'
   end
 end

@@ -25,7 +25,7 @@ class Board
   end
 
   def initial(handicap)
-    PieceKY::new(self, 1, 1, false) if (handicap < 7)
+    PieceKY::new(self, 1, 1, false) if (handicap < 7 && handicap != 2 && handicap != 4)
     PieceKE::new(self, 2, 1, false) if (handicap < 8)
     PieceGI::new(self, 3, 1, false) if (handicap < 9)
     PieceKI::new(self, 4, 1, false)
@@ -33,7 +33,7 @@ class Board
     PieceKI::new(self, 6, 1, false)
     PieceGI::new(self, 7, 1, false) if (handicap < 9)
     PieceKE::new(self, 8, 1, false) if (handicap < 8)
-    PieceKY::new(self, 9, 1, false) if (handicap < 7 && handicap != 2 && handicap != 4)
+    PieceKY::new(self, 9, 1, false) if (handicap < 7)
     PieceKA::new(self, 2, 2, false) if (handicap < 6 && handicap != 3)
     PieceHI::new(self, 8, 2, false) if (handicap < 4)
     (1..9).each do |i|
@@ -842,9 +842,9 @@ class Board
 	return 4 if (piece_nums == [2, 1, 2, 4, 4, 4, 4, 18])
 	return 5 if (piece_nums == [2, 1, 2, 4, 4, 4, 3, 18])
 	return 6 if (piece_nums == [2, 1, 1, 4, 4, 4, 4, 18])
-	return 7 if (piece_nums == [2, 1, 1, 2, 4, 4, 4, 18])
-	return 8 if (piece_nums == [2, 1, 1, 2, 2, 4, 4, 18])
-	return 9 if (piece_nums == [2, 1, 1, 2, 2, 2, 4, 18])
+	return 7 if (piece_nums == [2, 1, 1, 4, 4, 4, 2, 18])
+	return 8 if (piece_nums == [2, 1, 1, 4, 4, 2, 2, 18])
+	return 9 if (piece_nums == [2, 1, 1, 4, 2, 2, 2, 18])
 	return nil
   end
 

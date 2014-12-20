@@ -1,10 +1,4 @@
 class StrategiesController < ApplicationController
-  def index
-    raise UserException::AccessDenied unless (current_user && current_user.can_access_strategy?)
-    @position = Position.find(params[:position_id])
-    @root_strategies = Strategy.where(ancestry: nil)
-  end
-
   def create
     raise UserException::AccessDenied unless (current_user && current_user.is_admin?)
     if (parent = Strategy.find(params[:strategy][:parent_id]))
@@ -15,7 +9,7 @@ class StrategiesController < ApplicationController
   end
 
   def update
-    raise UserException::AccessDenied unless (current_user && current_user.can_access_strategy?)
+    raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
     if ((position = Position.find(params[:position_id])) && (strategy = Strategy.find(params[:id])))
       overwrite_following_positions(position, strategy, strategy.descendant_ids)
     end

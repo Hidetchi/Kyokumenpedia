@@ -18,4 +18,9 @@
 <%= text_area_tag :bod, '', :size => "35x15" %>
 <% end %>
 </div>
-
+<h2>戦型指定ジャンプ</h2>
+<ul>
+<% @root_strategies.each do |root| %>
+<%= render_jump_tree(root).html_safe %>
+<% end %>
+</ul>

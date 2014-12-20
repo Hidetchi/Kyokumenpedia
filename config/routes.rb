@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'pages/help'
   get 'pages/about'
   get 'pages/terms'
-  
+
   devise_for :users, controllers: { registrations: 'users/registrations' }
   post 'users/watch'
   post 'users/unwatch'
@@ -22,10 +22,10 @@ Rails.application.routes.draw do
 
   resources :positions, :only => [:show] do
     collection do
-      get 'start'
       get 'search'
       post 'keyword'
       post 'show'
+      get 'start/:handicap_id' => 'positions#start', handicap_id: /\d/
       get 'list/:mode' => 'positions#list', mode: /[a-z]+/
       get ':sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show', sfen1: /[1-9krbgsnlp\+]+/i, sfen9: /[1-9krbgsnlp\+]+%20[bw]%20[0-9rbgsnlp\-]+/i
       get ':sfen' => 'positions#show', sfen: /([1-9KRBGSNLPkrbgsnlp\+]+\/){8}[1-9krbgsnlp\+]+\s[bw]\s[0-9rbgsnlp\-]+/i
@@ -34,13 +34,16 @@ Rails.application.routes.draw do
       get 'statistics/:category' => 'positions#statistics', category: /\d+/, as: :statistics
       get 'edit'
       get 'export'
+      get 'privilege'
+      post 'pickup'
+      post 'set_main'
       get ':moves' => 'positions#show', moves: /([\+\-]\d{4}[A-Z]{2})+/, as: :moves
     end
     resources :wikiposts, :only => [:index, :create]
     resources :discussions, :only => [:index, :create] do
       get 'post', on: :collection
     end
-    resources :strategies, :only => [:index, :create, :update]
+    resources :strategies, :only => [:create, :update]
   end
 
   resources :wikiposts, :only => [:index, :show]

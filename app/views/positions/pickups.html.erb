@@ -1,0 +1,17 @@
+<h2>EDITOR'S CHOICE! ～編集員のオススメ～</h2>
+管理人やスーパユーザの皆さんがピックアップしたオススメの局面です。
+<% @pickups.each do |pickup| %>
+<h3 class="choice"><%= pickup.comment %></h3>
+<table class="invisible">
+<tr><td class="invisible" style="width: 250px;padding:0;">
+<%= pickup.position.to_board.to_html_table.html_safe %>
+<td class="invisible" style="padding:0;text-align:left;">
+<%= link_to pickup.user.username, user_path(pickup.user.id) %>さんによるピックアップ　<span class="dark_green">(<%= created_time_ago(pickup) %>)</span>
+<p>
+戦型: <%= pickup.position.strategy.name if pickup.position.strategy_id %><br>
+ウォッチ数: <span class="dark_red"><b><%= pickup.position.watchers.length %></b></span><br>
+注目指数: <span class="dark_red"><b><%= pickup.position.views %></b></span>
+</p>
+<span style="font-size:14px;"><%= link_to '>> 局面を見る', position_path(pickup.position.id) %></span>
+</table>
+<% end %>

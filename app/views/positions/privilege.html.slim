@@ -1,0 +1,60 @@
+h1 スーパユーザ専用機能
+div style="width:250px;"
+  = @position.to_board.to_html_table.html_safe
+h2 この局面をピックアップ
+p.dark_green
+  |この局面を「
+  = link_to('編集員のオススメ', '/positions/list/pic', :target => '_blank')
+  |」(EDITOR'S CHOICE!) の最上位に持ってくることが出来ます。下のフォームに入力したピックアップコメントがタイトル欄に表示され、ピックアップした編集者名として、あなたの名前が表示されます。
+  br
+  |その日のタイトル戦の封じ手の局面、最近のタイトル戦で現れた話題の重要局面、あなたが解説を投稿したばかりの自慢の局面、など、皆さんに注目して欲しい局面を登録しましょう。(コメントには詳しい内容と魅力的なキャッチを)
+= form_for :pickup, :url => pickup_position_path(@position.id)  do |f|
+  |ピックアップコメント: 
+  = f.text_field :comment, size: "50"
+  = f.submit "登録", data: { confirm: "登録して良いですか?" }
+h2 戦型の編集
+p.dark_green 局面に対する戦型を上書き修正することができます。戦型を修正すると、この局面を経由した全ての棋譜を解析しなおし、以降の局面全ての戦型の更新を試みます。(影響の強さに、Softモード・Hardモードの2種類があります) データへの影響の仕方をご理解の上、慎重に修正を行って下さい。
+ul
+  li.dark_red Softモード: 以降の局面のうち、戦型が未登録の局面のみを更新します。戦型が登録済の局面に出会うと、それ以降は更新しません。
+  li.dark_red Hardモード: 以降の局面を全て更新します。ただし、指定した戦型の下位に属する戦型が既に登録されている局面はスキップします。
+hr
+p.dark_green 下記のリストより戦型をクリックすると、確認ダイアログが現れた後、戦型更新が行われます。(データ更新には時間がかかります。連続してリンクをクリックしないで下さい。)
+p.dark_red ※ 現在、Hardモードのみの運用となっております
+ul
+  - @root_strategies.each do |root|
+    = render_register_tree(root, @position.id).html_safe
+
+h2 代表局面登録
+p.dark_green
+  |この局面を、現在登録されている戦型名に対する「代表局面」として任命します。(この局面に戦型が未登録の場合は先に登録を行って下さい。) 代表局面は「局面検索・戦型ツリー」ページの「戦型指定ジャンプ」のリンク先として使用されます。
+  br
+  |下記の情報を確認の上、登録ボタンを押して下さい。
+h4 現在の戦型名
+- if @position.strategy_id
+  div.level4
+    = "「" + @position.strategy.name + "」"
+  h4 style="margin-top:8px;"
+    |上記の戦型の現在の代表局面
+  - if @position.strategy.main_position
+    div style="width:250px;"
+      = @position.strategy.main_position.to_board.to_html_table.html_safe
+  - else
+    div.level4 未登録です。
+- else
+  div.level4 未登録です。先に戦型名をこの局面に登録して下さい。
+p
+  = button_to '代表局面を更新する場合はこのボタンを押して下さい', set_main_position_path(@position.id), data: { confirm: "登録して良いですか?" }
+
+
+h2 新しい戦型の登録
+p.dark_red この機能は管理者専用です。新しい戦型の登録を希望するスーパユーザは、管理者に依頼して下さい。
+
+- if (current_user && current_user.is_admin?)
+  = form_for :strategy, :url => position_strategies_path(@position.id)  do |f|
+    |新しい戦型名:
+    = f.text_field :name
+    br
+    |親の戦型ID:
+    = f.text_field :parent_id
+    br
+    = f.submit "登録", data: { confirm: "登録して良いですか?" }

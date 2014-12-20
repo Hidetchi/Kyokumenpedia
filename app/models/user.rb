@@ -103,7 +103,7 @@ class User < ActiveRecord::Base
     tag.html_safe
   end
 
-  def can_access_strategy?
+  def can_access_privilege?
     self.role == ROLE_ADMIN || self.role == ROLE_SUPER_USER
   end
 

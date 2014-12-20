@@ -150,10 +150,17 @@ padding: 3px 5px;
 
 h3 {
 margin-left: 10px;
-padding: 3px 5px;
+padding: 3px 7px;
 border-bottom: 1px solid #888;
 border-left: 10px solid #888;
 font-size: 15px;
+}
+h3.choice {
+margin-right:8px;
+background-color: #383;
+color: white;
+border-bottom: 1px solid #040;
+border-left: 10px solid #040;
 }
 
 h4 {

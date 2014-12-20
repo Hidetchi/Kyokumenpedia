@@ -17,17 +17,17 @@ h1
   =SITE_NAME
   |にようこそ
 h2 局面ヘッドライン
-table.invisible style="margin-left:20px;"
+table.invisible style="margin-left:10px;"
   tr
-    td.invisible style="padding:5px 10px;"
+    td.invisible style="padding:5px;"
       center
-        = link_to 'いま注目の局面', '/positions/list/hot', :class => "headline"
-      - if (pos = Headline.get_position("hot"))
+        = link_to '編集員オススメ', '/positions/list/pic', :class => "headline"
+      - if (pos = Headline.get_position("pic"))
         = pos.to_board.to_html_table.html_safe
       - else
         span.dark_red
           |情報がありません
-    td.invisible style="padding:5px 10px;"
+    td.invisible style="padding:5px;"
       center
         = link_to '解説リクエスト', '/positions/list/req', :class => "headline"
       - if (pos = Headline.get_position("req"))
@@ -35,7 +35,15 @@ table.invisible style="margin-left:20px;"
       - else
         span.dark_red
           |情報がありません
-    td.invisible style="padding:5px 10px;"
+    td.invisible style="padding:5px;"
+      center
+        = link_to '人気の局面', '/positions/list/hot', :class => "headline"
+      - if (pos = Headline.get_position("hot"))
+        = pos.to_board.to_html_table.html_safe
+      - else
+        span.dark_red
+          |情報がありません
+    td.invisible style="padding:5px;"
       center
         = link_to '新しい局面', '/positions/list/new', :class => "headline"
       - if (pos = Headline.get_position("new"))
@@ -45,9 +53,11 @@ table.invisible style="margin-left:20px;"
           |情報がありません
   
 h2 style="margin-bottom:10px;"
-  = current_user.username
-  |さんのタイムライン
-- if (@activities.length == 0)
+  = current_user ? (current_user.username + 'さんのタイムライン') : 'タイムライン'
+- if (!current_user)
+  p.dark_red style="padding-left:20px;"
+    |ログインして下さい
+- elsif (@activities.length == 0)
   |現在、アクティビティはまだありません。
 - @activities.each do |activity|
   - if (activity.owner_id == current_user.id || (activity.recipient_type == 'User' && activity.recipient.id == current_user.id))
@@ -85,3 +95,21 @@ h2 style="margin-bottom:10px;"
       i
         = activity.trackable.content
   |</div>
+
+- if (!current_user)
+  h2 初めての方へ
+  div.level2
+    |「局面ペディア」は、将棋の局面をテーマにあらゆる情報を統合することを目指した、ユーザ参加型ナレッジ集約データベースサイトです。
+    ul.my_menu
+      li
+        |サイトの詳しい仕組みは、
+        = link_to 'サイトコンセプト', '/pages/about'
+        |をご覧下さい。
+      li
+        |お探しの局面がある方は、
+        = link_to '局面検索・戦型選択ツリー', '/positions/search'
+        |をご利用下さい。
+      li
+        |定跡や局面に詳しい方、研究好きな方は、是非
+        = link_to 'あなたの解説を待っている局面', '/positions/list/req'
+        |をチェック頂き、解説投稿にご協力をお願い致します。

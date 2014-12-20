@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141218224250) do
+ActiveRecord::Schema.define(version: 20141219205359) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -81,6 +81,14 @@ ActiveRecord::Schema.define(version: 20141218224250) do
 
   add_index "discussions", ["created_at"], name: "index_discussions_on_created_at"
   add_index "discussions", ["position_id"], name: "index_discussions_on_position_id"
+
+  create_table "editor_pickups", force: true do |t|
+    t.integer  "position_id"
+    t.integer  "user_id"
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "follows", force: true do |t|
     t.integer  "follower_id"
@@ -237,6 +245,7 @@ ActiveRecord::Schema.define(version: 20141218224250) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "ancestry"
+    t.integer  "main_position_id"
   end
 
   add_index "strategies", ["ancestry"], name: "index_strategies_on_ancestry"

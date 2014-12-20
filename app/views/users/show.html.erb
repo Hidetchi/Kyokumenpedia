@@ -6,7 +6,7 @@
 <% end %>
 
 <div style="width:300px;">
-<ul style="line-height:1.5em;">
+<ul style="line-height:1.5em;list-style-type:square;">
 <li><span class="dark_red"><%= @user.to_rank_name %></span> <%= @user.to_stars %><br>(ユーザクラス: <%= @user.to_role_name %>)
 <li>編集EXP: <b><%= @user.point * 10 %></b> ポイント
 <li>コントリビューション: <b><%= link_to @user.wikiposts.pluck(:id).length.to_s + '件', user_wikiposts_path(@user.id) %></b>

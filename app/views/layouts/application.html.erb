@@ -15,9 +15,10 @@
 </center>
 <ul class="sidemenu">
 <li><%= link_to 'トップ', '/' %>
-<li class="new_section"><%= link_to '局面検索', search_positions_path %>
-<li class="new_section"><%= link_to 'いま注目の局面', '/positions/list/hot' %>
+<li class="new_section"><%= link_to '局面検索・戦型ツリー', search_positions_path %>
+<li class="new_section"><%= link_to '編集員のオススメ', '/positions/list/pic' %>
 <li><%= link_to '解説リクエスト局面', '/positions/list/req' %>
+<li><%= link_to 'いま人気の局面', '/positions/list/hot' %>
 <li><%= link_to '新しい局面', '/positions/list/new' %>
 <li><%= link_to '最新の編集', wikiposts_path %>
 <li class="new_section"><%= link_to '編集ランキング', '/users/ranking' %>
@@ -53,7 +54,6 @@
 <div id="header">
 <% if user_signed_in? %>
   <strong><%= current_user.username %></strong>さん<%= current_user.to_stars %> ログイン中 | 
-  <%= link_to "開始局面へ", '/positions/start' %> | 
   <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 <% else %>
  | <%= link_to "アカウント登録", new_user_registration_path %> |

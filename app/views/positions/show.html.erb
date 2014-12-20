@@ -23,8 +23,8 @@ SFEN=<%= @position.sfen %>
 [<%= link_to '編集', {:action => 'edit', :id => @position.id} %>]
 [<%= link_to '履歴', {:controller => 'wikiposts', :action => 'index', :position_id => @position.id} %>]
 [<%= link_to 'ディスカッション', position_discussions_path(@position.id) %>] 
-<% if current_user && current_user.can_access_strategy? %>
-[<%= link_to '戦型の変更', position_strategies_path(@position.id) %>]
+<% if current_user && current_user.can_access_privilege? %>
+[<%= link_to '特権機能', privilege_position_path(@position.id) %>]
 <% end %>
 </div>
 

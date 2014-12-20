@@ -23,6 +23,7 @@ class Wikipost < ActiveRecord::Base
     end
     wikipost.save_diff_nums
     wikipost.create_activity(action: 'create', owner: wikipost.user, recipient: wikipost.position)
+    Headline.update("new", wikipost.position) if wikipost.prev_post_id == nil
     return wikipost
   end
   
