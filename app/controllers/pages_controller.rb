@@ -7,4 +7,7 @@ class PagesController < ApplicationController
 
   def terms
   end
+
+  def personal
+  end
 end

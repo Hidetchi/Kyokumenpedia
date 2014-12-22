@@ -6,7 +6,7 @@
   <div><%= f.label :username %><br />
   <%= f.text_field :username, autofocus: true %></div>
 
-  <div><%= f.label :email %><br />
+  <div><%= f.label :email %> (<%= link_to 'アドレス使用目的について', '/pages/personal' %>)<br />
   <%= f.email_field :email, autofocus: true %></div>
 
   <div style="display:none;"><%= f.label 'メールアドレス再入力' %><br />
@@ -24,5 +24,7 @@
   <div><%= f.submit "登録" %></div>
 <% end %>
 <br>
+<br>
+<hr>
 <%= render "devise/shared/links" %>
 

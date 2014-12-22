@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'pages/help'
   get 'pages/about'
   get 'pages/terms'
+  get 'pages/personal'
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
   post 'users/watch'
