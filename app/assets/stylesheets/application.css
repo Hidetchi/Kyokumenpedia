@@ -189,6 +189,10 @@ background: linear-gradient(to right, rgba(0,0,0,0.25),rgba(0,0,0,1),rgba(0,0,0,
 .dark_green {
 	color :#040;
 }
+.emphasize {
+  color :#00a;
+  font-weight: bold;
+}
 
 table {
     border-top:1px solid #666666;

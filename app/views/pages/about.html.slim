@@ -1,2 +1,55 @@
-<h1>Pages#about</h1>
-<p>Find me in app/views/pages/about.html.erb</p>
+= content_for :title do
+  |サイト紹介 
+h1 サイト紹介
+h2 サイトの仕組みとコンセプト
+h3 将棋の「局面」を介して、全ナレッジを集約
+div.level3
+  p #{SITE_NAME}は、将棋界に点在する貴重な情報源やツールを、「局面」を介して一つに繋ぐことを目指しています。
+  = image_tag 'introduction-concept.png', class: "indent"
+  p <span class="emphasize">Wikipedia方式採用</span>によるユーザ参加型システムにより、「局面」に関する様々な情報が集められます。
+  ul style="margin-top:0"
+    li その局面の、過去の<span class="emphasize">勝敗成績</span>や、<span class="emphasize">次の一手の採用数</span>
+    li その局面に関する<span class="emphasize">解説</span> (形勢評価、候補手やその先の変化、歴史的な有名局、など)
+    li その局面が掲載された<span class="emphasize">棋書とページ</span>
+    li その局面の<span class="emphasize">ソフト評価値</span>
+    li ...など
+
+h3 「指す将」も「観る将」も。様々な将棋ファンにご活用頂けます。
+div.level3
+  p 対局に出てきた局面での指し方が分からず、調べようにも情報が上手く出てこない。そんな経験はありませんか？
+  = image_tag 'introduction-search-before.png', class: "indent"
+  p #{SITE_NAME}があれば、欲しい情報がワンタッチで全て見つかります。
+  = image_tag 'introduction-search-after.png', class: "indent"
+  p 観る将の皆さんへは、タイトル戦観戦のお供としてぴったりです。棋譜中継を観ながら現在の局面を調べたり、封じ手の局面を調べたりしてみましょう。
+
+h3 あなたの知識や研究をみんなと共有。ファンを増やして人気編集者に！
+div.level3
+  p 検索しても解説がまだ無い局面は、「解説リクエストボタン」を押して動向をチェック
+  = image_tag 'introduction-request.png', class: "indent"
+  p リクエストの多い局面は、編集者の皆さんの目に止まりやすくなります。
+  = image_tag 'introduction-posting.png', class: "indent"
+  p フォローしている局面や編集者からは、タイムラインに更新通知が届きます。気に入った解説には「いいね！」を押しましょう。
+  = image_tag 'introduction-like.png', class: "indent"
+  p 優良編集者は上位にランキング。研究サイトなどの自サイトPRにもなります。
+  = image_tag 'introduction-ranking.png', class: "indent"
+  p 早速いまから、#{link_to 'リクエストの多い局面をチェック', '/positions/list/req'}してみて下さい。たくさんのファンがあなたの解説を待っています！
+
+h2 サイト開発体制
+div.level2
+  p 「#{SITE_NAME}」は、共同プロジェクト<span class="emphasize">「ISCube」（アイ・エス・キューブ）</span>が開発を手掛ける将棋サイトの一つです。
+table.invisible style="margin-left:70px;"
+  tr
+    td.invisible style="padding:0"
+      = image_tag 'is3-logo.png'
+    td.invisible style="padding:0 15px;text-align:left;"
+      span.emphasize ISCube
+      br
+      <span class="emphasize">I</span>nnovative <span class="emphasize">S</span>hogi <span class="emphasize">I</span>nformation <span class="emphasize">S</span>ystem <span class="emphasize">I</span>nitiation <span class="emphasize">S</span>cheme
+      br
+      |(革新的な将棋情報システム創生プロジェクト)
+      p プロジェクト発起者: 81Dojo
+h3 棋譜データ提供 協力サイト
+div.level3
+  ul
+    li <b>81Dojo</b> (#{link_to 'http://81dojo.com/jp', 'http://81dojo.com/jp', class: 'external', target: '_blank'})
+    li <b>Floodgate</b> (#{link_to 'http://wdoor.c.u-tokyo.ac.jp/shogi/', 'http://wdoor.c.u-tokyo.ac.jp/shogi/', class: 'external', target: '_blank'})
