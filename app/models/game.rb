@@ -8,6 +8,7 @@ class Game < ActiveRecord::Base
   def self.api_add(params, game_source_id)
     game = Game.new(params)
     game.game_source_id = game_source_id
+    game.csa_hash = Digest::MD5.hexdigest(game.csa)
     begin
       game.save
     rescue

@@ -14,12 +14,11 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/public/assets
 
 Gemfile.lock
 *.swp
 *.swo
 /test
-
-config/initializers/asin.rb
 
 .rvmrc

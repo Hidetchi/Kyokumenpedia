@@ -31,12 +31,10 @@ ActiveRecord::Schema.define(version: 20141219205359) do
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
 
   create_table "appearances", force: true do |t|
-    t.integer  "game_id"
-    t.integer  "position_id"
-    t.integer  "num"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "next_move_id"
+    t.integer "game_id"
+    t.integer "position_id"
+    t.integer "num"
+    t.integer "next_move_id"
   end
 
   add_index "appearances", ["game_id"], name: "index_appearances_on_game_id"
@@ -123,12 +121,12 @@ ActiveRecord::Schema.define(version: 20141219205359) do
     t.integer  "handicap_id"
     t.text     "csa"
     t.integer  "game_source_id"
+    t.string   "csa_hash"
     t.boolean  "relation_updated", default: false
     t.string   "event"
-    t.integer  "updated_until",    default: -1
   end
 
-  add_index "games", ["csa"], name: "index_games_on_csa", unique: true, length: { "csa" => 255 }
+  add_index "games", ["csa_hash"], name: "index_games_on_csa_hash", unique: true
 
   create_table "handicaps", force: true do |t|
     t.string   "name"

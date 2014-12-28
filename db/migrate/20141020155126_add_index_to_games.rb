@@ -1,5 +1,6 @@
 class AddIndexToGames < ActiveRecord::Migration
   def change
-    add_index :games, :csa, :unique => true, :length => { :csa => 255 }
+    add_column :games, :csa_hash, :string
+    add_index :games, :csa_hash, :unique => true
   end
 end
