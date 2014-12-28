@@ -91,9 +91,9 @@ class User < ActiveRecord::Base
   def to_stars
     tag = ""
     if self.role == ROLE_SUPER_USER
-      color = "_green"
-    elsif self.role == ROLE_ADMIN
       color = "_blue"
+    elsif self.role == ROLE_ADMIN
+      color = "_green"
     else
       color = ""
     end
