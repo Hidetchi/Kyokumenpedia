@@ -36,6 +36,8 @@ class Game < ActiveRecord::Base
       sfens << board.to_sfen
     end
     
+    ActiveRecord::Base.transaction do
+
     strategy = nil
     for i in 0..(sfens.length - 1) do
       positions << Position.find_or_create(sfens[i])
@@ -47,21 +49,20 @@ class Game < ActiveRecord::Base
       unless (i >= positions.length - 1)
         move = Move.find_or_new(positions[i].id, positions[i+1].id, csa_moves[i])
         unless move_already[sfens[i]+sfens[i+1]]
-          move.update_stat(game.game_source.category) if (i > game.updated_until)
+          move.update_stat(game.game_source.category)
           move_already[sfens[i]+sfens[i+1]] = true
         end
       end
       unless position_already[sfens[i]]
         strategy = positions[i].update_strategy(strategy)
-        if (i > game.updated_until)
-          positions[i].appearances.build(:game_id => game.id, :num => i, :next_move_id => move.id)
-          positions[i].update_stat(game.game_source.category, game.result)
-        end
+        positions[i].appearances.build(:game_id => game.id, :num => i, :next_move_id => move.id)
+        positions[i].update_stat(game.game_source.category, game.result)
         position_already[sfens[i]] = true
       end
-      game.update_attributes(:updated_until => i) if (i > game.updated_until)
     end
     game.update_attributes(:relation_updated => true)
+    
+    end #transaction-end
   end
   
   def to_result_mark(sente)
