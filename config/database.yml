@@ -21,5 +21,12 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  database: kyokumenpedia_production
+  pool: 5
+  username: root
+  socket: /var/lib/mysql/mysql.sock
+  host: localhost
+  charset: utf8
+  collation: utf8_general_ci

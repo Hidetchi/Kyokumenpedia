@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20141219205359) do
     t.integer  "updated_until",    default: -1
   end
 
-  add_index "games", ["csa"], name: "index_games_on_csa", unique: true
+  add_index "games", ["csa"], name: "index_games_on_csa", unique: true, length: { "csa" => 255 }
 
   create_table "handicaps", force: true do |t|
     t.string   "name"
