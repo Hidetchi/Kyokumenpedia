@@ -32,17 +32,17 @@ div.level3
   = image_tag 'introduction-like.png', class: "indent"
   p 優良編集者は上位にランキング。研究サイトなどの自サイトPRにもなります。
   = image_tag 'introduction-ranking.png', class: "indent"
-  p 早速いまから、#{link_to 'リクエストの多い局面をチェック', '/positions/list/req'}してみて下さい。たくさんのファンがあなたの解説を待っています！
+  p リクエストの多い局面は、#{link_to 'こちらのページで早速チェック', '/positions/list/req'}してみて下さい。たくさんのファンがあなたの解説を待っています！
 
 h2 サイト開発体制
 div.level2
-  p 「#{SITE_NAME}」は、共同プロジェクト<span class="emphasize">「ISCube」（アイ・エス・キューブ）</span>が開発を手掛ける将棋サイトの一つです。
+  p 「#{SITE_NAME}」は、ワーキンググループ<span class="emphasize">「ISCube」（アイ・エス・キューブ）</span>が開発を手掛ける将棋サイトの一つです。
 table.invisible style="margin-left:70px;"
   tr
     td.invisible style="padding:0"
       = image_tag 'is3-logo.png'
     td.invisible style="padding:0 15px;text-align:left;"
-      span.emphasize ISCube
+      span.emphasize ISCube (IS)<sup>3</sup>
       br
       <span class="emphasize">I</span>nnovative <span class="emphasize">S</span>hogi <span class="emphasize">I</span>nformation <span class="emphasize">S</span>ystem <span class="emphasize">I</span>nitiation <span class="emphasize">S</span>cheme
       br
@@ -50,6 +50,7 @@ table.invisible style="margin-left:70px;"
       p プロジェクト発起者: 81Dojo
 h3 棋譜データ提供 協力サイト
 div.level3
+  |当サイトの棋譜統計に利用される棋譜は、以下のサイトよりご提供頂いています。
   ul
-    li <b>81Dojo</b> (#{link_to 'http://81dojo.com/jp', 'http://81dojo.com/jp', class: 'external', target: '_blank'})
-    li <b>Floodgate</b> (#{link_to 'http://wdoor.c.u-tokyo.ac.jp/shogi/', 'http://wdoor.c.u-tokyo.ac.jp/shogi/', class: 'external', target: '_blank'})
+    li 将棋連盟後援オンライン対局場 <b>81Dojo</b> (#{link_to 'http://81dojo.com/jp', 'http://81dojo.com/jp', class: 'external', target: '_blank'})
+    li コンピュータ将棋対局場 <b>Floodgate</b> (#{link_to 'http://wdoor.c.u-tokyo.ac.jp/shogi/', 'http://wdoor.c.u-tokyo.ac.jp/shogi/', class: 'external', target: '_blank'})

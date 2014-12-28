@@ -139,7 +139,7 @@ table class="help" style="width:90%;margin-bottom:30px;"
       br
       br
       span style="color:grey;"
-       |　(※1行目のこのコマンドのみ書く)
+       |　(※1行目にこのコマンドのみ書く)
     td
       div.notify style="margin:5px;padding:5px;"
         |この局面は、先後入れ替わりによって発生する、他との同一局面です。
@@ -184,7 +184,7 @@ ul style="padding-left:60px;"
     li ISBN: 該当する本のISBN10またはISBN13を入力
     li page: 局面が掲載されているページ番号
     li evaluation: 形勢評価や著者の見解を完結に記入 [※省略可]
-h5 ソフト評価値テンプレート: {{ComEval|cp|name|date|condition}}
+h5 ソフト評価値テンプレート: {{ComEval|cp|name|date|best|condition}}
 ul style="padding-left:60px;"
   li 参考データとして、現テーマ局面に対するソフトの評価値を確認した結果を登録します。
   li パラメータ
@@ -192,6 +192,7 @@ ul style="padding-left:60px;"
     li cp: 評価値(単位はcp。先手は＋、後手は－で記載)
     li name: ソフトの名称やバージョン
     li date: 評価値の確認日
+    li best: 次の最善手 [※省略可]
     li condition: 解析した環境や条件(CPU、探索深さ、探索時間など) [※省略可]
 h5 類似局面テンプレート: {{Resemble|sfen|comment}}
 ul style="padding-left:60px;"
@@ -219,7 +220,7 @@ div.level2
       ul style="padding-left:0px;"
         li 「プロ」カテゴリ: インターネット上などで提供されている情報を当サイト独自に収集し、勝敗や採用手の統計を取ったデータです。
         li 「オンライン道場」カテゴリ: 協力サイトより、双方がアマ四段以上のレーティング対局を収集しています。
-        li 「Floodgate」カテゴリ: コンピュータ将棋対局場「Floodgate」より、双方のレーティングが一定値以上の対局を収集しています。
+        li 「Floodgate」カテゴリ: コンピュータ将棋対局場「#{link_to 'Floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/', class: 'external', target: '_blank'}」より、双方のレーティングが一定値以上の対局を収集しています。
 
 h2 お問い合わせ
 p 当サイトに関するお問い合わせは、代理窓口である「81Dojo」ユーザサポート(info@81dojo.com)まで、Ｅメールでお願い致します。

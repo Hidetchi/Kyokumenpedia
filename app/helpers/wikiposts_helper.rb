@@ -39,12 +39,13 @@ module WikipostsHelper
 				next
 			end
 			# interpret {{ComEval|cp|name|date|condition}} as computer evaluation result
-			if (line =~ /^\s*\{\{ComEval\|(.+)\|(.+)\|(.+)\|(.*)\}\}\s*$/)
+			if (line =~ /^\s*\{\{ComEval\|(.+)\|(.+)\|(.+)\|(.*)\|(.*)\}\}\s*$/)
 				record = Hash.new
 				record[:cp] = $1
 				record[:name] = $2
 				record[:date] = $3
-				record[:condition] = $4 ? $4 : ""
+        record[:best] = $4 ? $4 : ""
+				record[:condition] = $5 ? $5 : ""
 				com_evals << record 
 				next
 			end
@@ -250,10 +251,10 @@ module WikipostsHelper
 			new_lines << table_html
 		end
 		if (com_evals.length > 0)
-			table_html = "<h3>ソフト評価値</h3><table class='wiki'><tr><th>評価値<th>ソフト名<th>確認日<th>確認環境"
+			table_html = "<h3>ソフト評価値</h3><table class='wiki'><tr><th>評価値<th>ソフト名<th>確認日<th>最善手<th>確認環境"
 			com_evals.each do |r|
-				r = {cp: "?", name: "?", date: "?", condition: "?"} unless logged_in
-				table_html += "<tr><td>" + r[:cp] + "<td>" + r[:name] + "<td>" + r[:date] + "<td class='left'>" + r[:condition]
+				r = {cp: "?", name: "?", date: "?", best: "?", condition: "?"} unless logged_in
+				table_html += "<tr><td>" + r[:cp] + "<td>" + r[:name] + "<td>" + r[:date] + "<td>" + r[:best] + "<td class='left'>" + r[:condition]
 			end
 			table_html += "</table>"
 			new_lines << table_html
