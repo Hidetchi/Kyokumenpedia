@@ -243,7 +243,7 @@ ul.sidemenu li a {
 	transition: background-color 0.3s linear;
 }
 ul.sidemenu li a:hover {
-	background-image: url(list-blue.png);
+	background-image: url("list-blue.png");
 	background-color: white;
 	border-bottom: 1px solid #bce;
 }
@@ -258,7 +258,7 @@ ul.my_menu {
 ul.my_menu li {
 	line-height: 1.6em;
 	padding-left: 20px;
-	background-image: url(list-square.gif);
+	background-image: url("list-square.gif");
 	background-repeat: no-repeat;
 	background-position: 0px 2px;	
 }
