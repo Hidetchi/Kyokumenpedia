@@ -5,7 +5,7 @@ class Game < ActiveRecord::Base
   has_many :positions, through: :appearances
   validates :black_name, :white_name, :date, :result, :handicap_id, :game_source_id, presence: true
   
-  def self.api_add(params, game_source_id)
+  def self.insert_with_hash(params, game_source_id)
     game = Game.new(params)
     game.game_source_id = game_source_id
     game.csa_hash = Digest::MD5.hexdigest(game.csa)
@@ -16,7 +16,75 @@ class Game < ActiveRecord::Base
     end
     return game
   end
-  
+ 
+  def self.save_after_validation(params, analysis_job = false)
+    # Check game source password. Give error if invalid. Any trusted kifu provider can post kifu (for example 81Dojo) with its unique password.
+    unless (game_source = GameSource.find_by(pass: params[:game_source_pass]))
+      return {:result => 'Authentication failed. Access info has been logged.'}
+    end
+    # Check handicap code. Give error if invalid. 1: even 2: lance-handicap 3: 4: 5: ...... 9: 8-piece-handicap
+    unless (handicap = Handicap.find_by(id: params[:handicap_id]))
+      return {:result => 'No proper handicap specified.'}
+    end
+
+    #TODO ここの一連の処理をどこか別の場所でもみたので処理を共通化するといいと思います
+    # parse moves from the continuous CSA move string
+    csa_moves = []
+    rs = params[:csa].gsub %r{[\+\-]\d{4}\w{2}} do |s|
+      csa_moves << s
+      ""
+    end
+    if !rs.empty?
+      return {:result => 'Invalid moves.'} unless (rs == '%TORYO')
+      csa_moves << rs
+    end
+    return {:result => 'No moves specified'} if csa_moves.empty?
+    
+    board = Board.new
+    board.initial(params[:handicap_id].to_i)
+
+    sfens = [] # sfen for each move
+    sfens << board.to_sfen
+    rt = nil
+    csa_moves.each do |csa_move|
+      # if there is a move when sennichite has been already output
+      return {:result => 'Additional move after sennichite.'} if (rt == :sennichite)
+      rt = board.handle_one_move(csa_move)
+      unless (rt == :normal || rt == :toryo || rt == :sennichite)  # any other output than these indicate illegal move etc.
+        return {:result => 'Illegal move ' + csa_move}
+      end
+      sfens << board.to_sfen unless rt == :toryo
+    end
+    # if there is no result output even after the last move, it's invalid
+    return {:result => 'No result'} if (rt == :normal)
+    if (rt == :sennichite)
+      result_code = 2
+    else
+      result_code = board.teban ? 1 : 0
+    end
+    # when the result does not match
+    return {:result => 'Result does not match'} if (params[:result].to_i != result_code)
+    winner = (result_code == 0 ? "Sente" : (result_code == 1 ? "Gote" : "Draw"))
+    # If the kifu is OK, then save the game to record
+    unless (game = Game.insert_with_hash(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid, :event), game_source.id))
+      return {:result => 'Duplicate Kifu'}
+    end
+    # Update relations between positions, moves, etc in background
+    Game.delay.update_relations(game.id) if analysis_job
+    response=Hash[
+      result: "Success",
+      moves: sfens.length,
+      winner: winner,
+      positions: sfens,
+      player_sente: params[:black_name],
+      player_gote: params[:white_name],
+      date: params[:date],
+      handicap: handicap.name,
+      identification: game_source.name
+      ]
+    return response
+  end
+
   def self.update_relations(game_id)
     game = self.find(game_id)
     return if game.relation_updated
