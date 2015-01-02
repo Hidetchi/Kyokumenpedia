@@ -124,7 +124,7 @@ class Game < ActiveRecord::Base
       end
       unless position_already[sfens[i]]
         strategy = positions[i].update_strategy(strategy)
-        positions[i].appearances.build(:game_id => game.id, :num => i, :next_move_id => move.id)
+        ActiveRecord::Base.connection.execute("INSERT INTO `appearances` (`game_id`, `next_move_id`, `num`, `position_id`) VALUES (#{game.id}, #{move.id}, #{i}, #{positions[i].id})")
         positions[i].update_stat(game.game_source.category, game.result)
         position_already[sfens[i]] = true
       end
