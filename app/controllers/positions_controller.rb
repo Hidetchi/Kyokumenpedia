@@ -119,7 +119,7 @@ class PositionsController < ApplicationController
     @position = Position.find(params[:id])
     @category = params[:category].to_i
     session[:viewing_category] = @category
-    @appearances = @position.appearances.includes(:game => :game_source).where('game_sources.category = ?', @category).includes(:next_move).order('games.date desc').limit(50)
+    @appearances = @position.appearances.select(:game_id, :next_move_id).includes(:game).joins(:game => :game_source).where('game_sources.category = ?', @category).includes(:next_move).order('games.date desc').limit(50)
     @moves = @position.next_moves.order("stat#{@category}_total desc").where("stat#{@category}_total > 0").includes(:next_position)
   end
 
