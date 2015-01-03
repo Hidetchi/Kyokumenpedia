@@ -224,7 +224,6 @@ f.each {|line|
   next unless players.include?(hash[:black_name]) && players.include?(hash[:white_name])
 
   n += 1
-  next
 
   if MODE == VIA_RUNNER
     params = ActionController::Parameters.new(hash)

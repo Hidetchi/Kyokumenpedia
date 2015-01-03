@@ -1,28 +1,25 @@
-== README
+=== README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+==== License
+* (c) Team ISCube, Kota, Hidetchi. All rights reserved.
 
-Things you may want to cover:
+==== Version
+* Ruby 2.0~
+* Rails 4
 
-* Ruby version
+==== Database Initialization
+* Run <tt>rake db:seed</tt> to insert initial data for GameSources, Handicaps, and initial Strategies and Positions.
+* Kifu for statistics: Run script files in db/script (Set 'pass' column in GameSource table first.)
+** 81Dojo: Run PHP script in 81dojo.com, then post the generaed file with register_***.rb 
+** Floodgate: Download kifu from official site, then run ***2csv.rb. Then post the generated file with register_***.rb
+** Professional: Download kifu, then run ***2csv.rb. Then post the generated file with register_***.rb
 
-* System dependencies
+==== Other preparation
+* Open config/initializers/asin.rb and set your Amazon AWS key
+* Install ImageMagick to enable simple-captcha
+* Move some of the image files directly to public/assets/ to avoid linking failure, which happens when the file name is specified directly in CSS file or Helper functions.
+* Create an account and set user.role=2 to become Admin
 
-* Configuration
+==== Deployment
+* Run <tt>bin/delayed_jobs start</tt>
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.

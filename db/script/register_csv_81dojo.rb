@@ -19,8 +19,8 @@ f = open("/usr/local/Kyokumenpedia/db/script/kifu_81dojo_4dan.csv")
 i = 0
 f.each {|line|
   i += 1
-  break if i > 150
-  next if i < 130
+  #break if i > 150
+  #next if i < 130
   par=line.split(",")
   hash=Hash[
     :native_kid => par[0],
