@@ -1,6 +1,6 @@
 <%
 prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total desc').limit(1)
-num_counts = position.appearances.pluck(:num).group_by { |v| v }
+num_counts = position.appearances.limit(100).pluck(:num).group_by { |v| v }
 num = num_counts.sort[0] ? num_counts.sort[0][0] : nil
 board = position.to_board
 %>
