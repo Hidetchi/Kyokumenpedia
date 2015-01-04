@@ -15,6 +15,7 @@
 /log/*.log
 /tmp
 /public/assets
+/db/script/*.csv
 
 Gemfile.lock
 *.swp
