@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141219205359) do
+ActiveRecord::Schema.define(version: 20150104182739) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 20141219205359) do
     t.integer "next_move_id"
   end
 
-  add_index "appearances", ["game_id"], name: "index_appearances_on_game_id", using: :btree
   add_index "appearances", ["position_id"], name: "index_appearances_on_position_id", using: :btree
 
   create_table "books", force: true do |t|
@@ -158,7 +157,6 @@ ActiveRecord::Schema.define(version: 20141219205359) do
   end
 
   add_index "moves", ["next_position_id"], name: "index_moves_on_next_position_id", using: :btree
-  add_index "moves", ["prev_position_id", "next_position_id"], name: "index_moves_on_prev_position_id_and_next_position_id", unique: true, using: :btree
   add_index "moves", ["prev_position_id"], name: "index_moves_on_prev_position_id", using: :btree
 
   create_table "positions", force: true do |t|
@@ -180,7 +178,7 @@ ActiveRecord::Schema.define(version: 20141219205359) do
     t.integer  "stat3_draw",     default: 0
   end
 
-  add_index "positions", ["sfen"], name: "index_positions_on_sfen", unique: true, using: :btree
+  add_index "positions", ["sfen"], name: "index_positions_on_sfen", length: {"sfen"=>96}, using: :btree
   add_index "positions", ["views"], name: "index_positions_on_views", using: :btree
 
   create_table "rs_evaluations", force: true do |t|

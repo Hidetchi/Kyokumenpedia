@@ -11,8 +11,6 @@ class CreatePositions < ActiveRecord::Migration
       t.integer :stat2_black, :default => 0
       t.integer :stat2_white, :default => 0
       t.integer :stat2_draw, :default => 0
-
-      t.timestamps
     end
   end
 end

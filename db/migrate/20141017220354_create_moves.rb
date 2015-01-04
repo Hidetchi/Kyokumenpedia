@@ -8,8 +8,6 @@ class CreateMoves < ActiveRecord::Migration
       t.boolean :vague, :default => false
       t.integer :stat1_total, :default => 0
       t.integer :stat2_total, :default => 0
-
-      t.timestamps
     end
   end
 end
