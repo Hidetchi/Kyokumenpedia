@@ -9,8 +9,8 @@ class ActivitiesController < ApplicationController
     else
       @activities = []
     end
-    @positions_count = Position.count
-    @games_count = Game.count
-    @wikiposts_count = Wikipost.count
+    @positions_count = proc {Position.count}
+    @games_count = proc {Game.count}
+    @wikiposts_count = proc {Wikipost.count}
   end
 end

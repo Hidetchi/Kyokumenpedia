@@ -50,6 +50,7 @@ class WikipostsController < ApplicationController
           end
         end
         wikipost.reward_user
+        expire_fragment('db_stat')
         redirect_to position_path(params[:position_id])
       else
         flash[:alert] = "保存に失敗しました。入力内容を確認して下さい。"

@@ -1,18 +1,19 @@
 div.stat_info
-  |収録局面数:
-  b
-    = @positions_count
-  |局面
-  br
-  |収録棋譜数: 
-  b
-    = @games_count
-  |局
-  br
-  |解説投稿件数: 
-  b
-    = @wikiposts_count
-  |件
+  - cache('db_stat', :expires_in => 1.hour, :skip_digest => true) do
+    |収録局面数:
+    b
+      = @positions_count.call
+    |局面
+    br
+    |収録棋譜数: 
+    b
+      = @games_count.call
+    |局
+    br
+    |解説投稿件数: 
+    b
+      = @wikiposts_count.call
+    |件
 h1
   =SITE_NAME
   |にようこそ
