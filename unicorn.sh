@@ -6,7 +6,7 @@ TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/app/Kyokumenpedia
 PID=//app/Kyokumenpedia/tmp/unicorn.pid
 RAILS_ENV=production
-CMD="bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E $RAILS_ENV"
+CMD="bundle exec unicorn_rails -D -c $APP_ROOT/config/unicorn.rb -E $RAILS_ENV"
 action="$1"
 set -u
 
