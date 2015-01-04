@@ -134,6 +134,33 @@ class Game < ActiveRecord::Base
     end #transaction-end
   end
   
+  def self.update_strategy(appearance_id, strategy_id)
+    appearance = Appearance.find(appearance_id)
+    game = appearance.game
+    strategy = Strategy.find(strategy_id)
+
+    csa_moves = []
+    rs = game.csa.gsub %r{[\+\-]\d{4}\w{2}} do |s|
+      csa_moves << s
+      ""
+    end
+    board = Board.new
+    board.initial(game.handicap_id)
+    sfens = [] # sfen for each move
+    sfens << board.to_sfen
+    csa_moves.each do |csa_move|
+      board.handle_one_move(csa_move)
+      sfens << board.to_sfen
+    end
+    
+    ActiveRecord::Base.transaction do
+      for i in appearance.num..(sfens.length - 1) do
+        position = Position.find_by(sfen: sfens[i])
+        strategy = position.update_strategy(strategy, true) # Hard-mode: ON
+      end
+    end
+  end
+
   def to_result_mark(sente)
     if (self.result == 0)
       sente ? "○" : "●"

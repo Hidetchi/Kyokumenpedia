@@ -34,10 +34,12 @@ class Position < ActiveRecord::Base
     save
   end
   
-  def update_strategy(new_strategy)
-    return self.strategy if (!new_strategy)
-    if (!self.strategy_id || self.strategy.descendant_ids.include?(new_strategy.id))
-  	  update_attributes(:strategy_id => new_strategy.id)
+  def update_strategy(new_strategy, hard = false)
+    if (hard)
+      update_attributes(:strategy_id => new_strategy.id) unless (new_strategy.id == self.strategy_id || new_strategy.descendant_ids.include?(self.strategy_id))
+    else
+      return self.strategy if (!new_strategy)
+      update_attributes(:strategy_id => new_strategy.id) if (!self.strategy_id || self.strategy.descendant_ids.include?(new_strategy.id))
     end
   	return self.strategy
   end

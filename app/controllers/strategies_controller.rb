@@ -10,17 +10,11 @@ class StrategiesController < ApplicationController
 
   def update
     raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
-    if ((position = Position.find(params[:position_id])) && (strategy = Strategy.find(params[:id])))
-      overwrite_following_positions(position, strategy, strategy.descendant_ids)
+    position = Position.find(params[:position_id])
+    appearance_ids = position.appearances.pluck(:id)
+    appearance_ids.each do |id|
+      Game.delay.update_strategy(id, params[:id])
     end
     redirect_to position_path(params[:position_id])
-  end
-
-  private
-  def overwrite_following_positions(position, strategy, descendant_ids)
-    position.overwrite_strategy(strategy)
-    position.next_positions.each do |next_position|
-      overwrite_following_positions(next_position, strategy, descendant_ids) unless (strategy.id == next_position.strategy_id || descendant_ids.include?(next_position.strategy_id))
-    end
   end
 end
