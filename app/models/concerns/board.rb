@@ -863,7 +863,7 @@ class Board
         tag += "<br>" + key + (value > 1 ? value.to_s : "")
       }
     end
-    tag += "<td class='board_frame'><table class='board_" + size + "'>"
+    tag += "<td class='board_frame'><table class='board " + size + "'>"
     for y in 1..9 do
       tag += "<tr>"
       for x in 9.downto(1) do
