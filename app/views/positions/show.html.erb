@@ -1,6 +1,4 @@
-<% content_for :title do %>
-SFEN=<%= @position.sfen %>
-<% end %>
+<% content_for :title do %>SFEN=<%= @position.sfen %><% end %>
 <%= render :partial => 'diagram_summary', :locals => { :position => @position } %>
 
 <script type="text/javascript">
