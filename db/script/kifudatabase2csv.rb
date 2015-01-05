@@ -124,3 +124,20 @@ Find.find("./pro") {|f|
 }
 
 file_csv.close
+
+# Sort it again
+hash = Hash.new
+f = open("/usr/local/Kyokumenpedia/db/script/kifu_database.csv", "r")
+f.each {|line|
+  kid=line.split(",")[0]
+  hash[kid]=line
+}
+f.close
+
+array = hash.sort_by{|k, v| k.to_i}
+
+f = open("/usr/local/Kyokumenpedia/db/script/kifu_database.csv", "w")
+array.each do |h|
+  f.puts h[1]
+end
+f.close
