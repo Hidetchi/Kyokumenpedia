@@ -69,6 +69,7 @@ class Game < ActiveRecord::Base
     unless (game = Game.insert_with_hash(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid, :event), game_source.id))
       return {:result => 'Duplicate Kifu'}
     end
+    return {:result => 'Unknown error'} if (!game.id)
     # Update relations between positions, moves, etc in background
     Game.delay.update_relations(game.id) if analysis_job
     response=Hash[
