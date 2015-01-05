@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     if e
       logger.info "Rendering 404 with exception: #{e.message}"
       e.backtrace.each do |line|
-        logger.info "---#{line}" unless (line =~ /\/rbenv\/versions\//)
+        logger.info "---#{line}" unless (line =~ /\/rbenv\/versions\// || line =~ /\/\.rvm\/gems\//)
       end
     end
     @title = "404エラー"
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
     if e
       logger.info "Rendering 403 with exception: #{e.message}"
       e.backtrace.each do |line|
-        logger.info "---#{line}" unless (line =~ /\/rbenv\/versions\//)
+        logger.info "---#{line}" unless (line =~ /\/rbenv\/versions\// || line =~ /\/\.rvm\/gems\//)
       end
     end
     @title = "認証エラー"
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
     if e
       logger.info "Rendering 500 with exception: #{e.message}"
       e.backtrace.each do |line|
-        logger.info "---#{line}" unless (line =~ /\/rbenv\/versions\//)
+        logger.info "---#{line}" unless (line =~ /\/rbenv\/versions\// || line =~ /\/\.rvm\/gems\//)
       end
     end
     @title = "サーバエラー"
