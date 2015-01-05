@@ -6,6 +6,13 @@
           - name: 横歩取り
             sfens: [lnsgk1snl/6gb1/p1pppp2p/6R2/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL w 3P2p]
             children:
+              - name: 横歩取り△３三角
+                children:
+                  - name: 横歩取り 青野流
+                  - name: 横歩取り△８五飛戦法
+                    children:
+                      - name: 新山崎流
+              - name: 横歩取り△３三桂
               - name: 横歩取り△４五角戦法
                 sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/5b3/1rP6/P2PPPP1P/1SG4S1/LN2KG1NL b B4Pp]
                 children:
@@ -13,20 +20,85 @@
                     sfens: [lnsgk1s1+B/6g2/p1ppppn1p/7p1/5b3/2Ps2L2/P2PPPP1P/2G4S1/LN2KG1NL b R4Pr]
                   - name: 横歩取り△４五角戦法 △８七銀型
                     sfens: [lnsgk1sn+B/6g2/p1pppp2p/7p1/5b3/2P6/Ps1PPPP1P/2G4S1/LN2KG1NL b RL4Pr]
+              - name: 横歩取り△３八歩戦法
+              - name: 横歩取り△４一玉戦法
               - name: 相横歩取り
                 sfens: [lnsgk1snl/6g2/p1pppp2p/6R2/9/2r6/P2PPPP1P/1SG6/LN2KGSNL b B3Pb3p]
+          - name: 相掛かり
+            children:
+              - name: ひねり飛車
+          - name: 角換り
+            children:
+              - name: 角換り相腰掛銀
+                children:
+                  - name: 角換り相腰掛銀 先後同型
+              - name: 一手損角換り
+          - name: 矢倉
+            children:
+              - name: 矢倉▲３七銀
+                children:
+                  - name: 矢倉▲４六銀
+                  - name: 加藤流
+              - name: 森下システム
+              - name: 脇システム
+              - name: 後手急戦矢倉
+                children:
+                  - name: 矢倉中飛車
+                  - name: 右四間飛車
+              - name: 後手原始棒銀
       - name: 居飛車対振り飛車
         children:
-          - name: ゴキゲン中飛車
-            sfens: [lnsgkgsnl/4r2b1/pppp1p1pp/4p1p2/7P1/2P6/PP1PPPP1P/1B5R1/LNSGKGSNL b -]
+          - name: 四間飛車
             children:
-              - name: ゴキゲン中飛車 ▲５八金右超急戦
-                sfens: [lnsgkgsnl/4r2b1/pppp1p2p/6pR1/9/2P1p4/PP1PPPP1P/1B2G4/LNSGK1SNL b Pp]
+              - name: 居飛車急戦
+                children:
+                  - name: 鷺宮定跡
+                  - name: 対四間飛車 棒銀
+                  - name: 対四間飛車 端角戦法
+                  - name: ▲４五歩/△６五歩早仕掛け
+              - name: 持久戦
+                children:
+                  - name: 相穴熊
+                  - name: 居飛車穴熊 対美濃
+                  - name: ミレニアム
+              - name: 藤井システム対穴熊
+          - name: 三間飛車
+            children:
+              - name: 石田流
+                children:
+                  - name: 早石田
+                  - name: 石田流本組
+              - name: ２手目△３二飛
+          - name: 中飛車
+            children:
+            - name: ゴキゲン中飛車
+              sfens: [lnsgkgsnl/4r2b1/pppp1p1pp/4p1p2/7P1/2P6/PP1PPPP1P/1B5R1/LNSGKGSNL b -]
+              children:
+                - name: ゴキゲン中飛車 ▲５八金右超急戦
+                  sfens: [lnsgkgsnl/4r2b1/pppp1p2p/6pR1/9/2P1p4/PP1PPPP1P/1B2G4/LNSGK1SNL b Pp]
+                - name: 丸山ワクチン
+                - name: 超速▲３七銀
+                - name: ゴキゲン中飛車 対穴熊
+          - name: 向かい飛車
+            children:
+              - name: メリケン向かい飛車
+      - name: 相振り飛車
+        children:
+          - name: 相向かい飛車
+          - name: 相三間飛車
+          - name: 三間飛車対向かい飛車
   - name: 香落ち
   - name: 角落ち
   - name: 飛車落ち
+    children:
+      - name: 右四間飛車
   - name: 飛香落ち
   - name: 二枚落ち
+    children:
+      - name: 銀多伝
+      - name: 二歩突き切り
+      - name: 三歩突き切り
+      - name: 上手△５五歩止め
   - name: 四枚落ち
   - name: 六枚落ち
   - name: 八枚落ち

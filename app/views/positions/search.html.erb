@@ -20,7 +20,9 @@
 </div>
 <h2>戦型指定ジャンプ</h2>
 <ul>
-<% @root_strategies.each do |root| %>
-<%= render_jump_tree(root).html_safe %>
+<% cache('strategy_tree', :expires_in => 1.day, :skip_digest => true) do %>
+  <% @root_strategies.call.each do |root| %>
+  <%= render_jump_tree(root).html_safe %>
+  <% end %>
 <% end %>
 </ul>

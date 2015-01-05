@@ -4,8 +4,8 @@ class StrategiesController < ApplicationController
     if (parent = Strategy.find(params[:strategy][:parent_id]))
       parent.children.create(:name => params[:strategy][:name])
     end
-    index
-    render 'index'
+    expire_fragment('strategy_tree')
+    redirect_to search_positions_path
   end
 
   def update

@@ -99,7 +99,7 @@ class PositionsController < ApplicationController
   end
   
   def search
-    @root_strategies = Strategy.where(ancestry: nil)
+    @root_strategies = proc {Strategy.where(ancestry: nil)}
   end
   
   def export
@@ -145,6 +145,7 @@ class PositionsController < ApplicationController
     raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
     @position = Position.find(params[:id])
     @position.strategy.update_attributes(:main_position_id => @position.id)
+    expire_fragment('strategy_tree')
     privilege
     render 'privilege'
   end
