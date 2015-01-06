@@ -6,7 +6,7 @@
   <div><%= f.label :username %><br />
   <%= f.text_field :username, autofocus: true %></div>
 
-  <div><%= f.label :email %> (<%= link_to 'アドレス使用目的について', '/pages/personal' %>)<br />
+  <div><%= f.label :email %> (<%= link_to 'アドレス使用目的について', '/pages/personal', :target => '_blank' %>)<br />
   <%= f.email_field :email, autofocus: true %></div>
 
   <div style="display:none;"><%= f.label 'メールアドレス再入力' %><br />
@@ -20,10 +20,12 @@
 
   <div style="margin: 15px 0;"><%= show_simple_captcha(:label => "画像に表示された文字を入力して下さい", :placeholder => "(ここに入力)", :refresh_button_text => "") %></div>
       
-  <div>ご登録前に<%= link_to '利用規約', '/pages/terms', :target => '_blank' %>(別ウインドウが開きます)をご確認下さい</div>
+  <div>ご登録前に<%= link_to '利用規約', '/pages/terms', :target => '_blank' %>をご確認下さい</div>
+  <br>
+  <div>登録ボタンを押すと、認証用のメールが送信されます。スパムフォルダにフィルタリングされる場合がありますので、受信設定や受信トレイをよくご確認下さい。</div>
+  <br>
   <div><%= f.submit "登録" %></div>
 <% end %>
-<br>
 <br>
 <hr>
 <%= render "devise/shared/links" %>
