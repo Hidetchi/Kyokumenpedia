@@ -16,6 +16,7 @@
 /tmp
 /public/assets
 /db/script/*.csv
+/db/backup
 
 Gemfile.lock
 *.swp

@@ -10,7 +10,7 @@ class PositionsController < ApplicationController
       @caption = "初めての解説が投稿された時間が最も新しい局面を表示しています。"
       @type = "FIRST_POST"
     elsif (params[:mode] == "req")
-      sort_hash = Watch.includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
+      sort_hash = Watch.joins(:position).includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
       @positions = sort_hash.map{|key, val| Position.includes(:wikiposts).find_by(id: key)}
       @list_title = "解説リクエスト局面"
       @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
