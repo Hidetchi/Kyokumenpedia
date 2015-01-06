@@ -4,12 +4,14 @@
   <title><%= SITE_NAME %><%= " / " + yield(:title) if content_for?(:title) %></title>
   <meta name="description" content="将棋の局面を介してあらゆる情報が集結するユーザ参加型ナレッジ集約サイト「局面ペディア」。任意の局面を検索して、勝敗数、候補手、採用割合、有名局、棋書の該当ページ、ソフト評価値などの様々な情報をまとめてチェック！">
   <meta name="keywords" content="将棋,局面,棋譜,データベース">
-  <link rel="canonical" href="http://kyokumen.jp">
+  <% if content_for?(:canonical) %>
+    <link rel="canonical" href="<%= yield(:canonical) %>">
+  <% end %>
   <meta property="og:title" content="<%= SITE_NAME %><%= " / " + yield(:title) if content_for?(:title) %>">
   <meta property="og:type" content="website">
   <meta property="og:description" content="将棋の局面を介してあらゆる情報が集結するユーザ参加型ナレッジ集約サイト「局面ペディア」。任意の局面を検索して、勝敗数、候補手、採用割合、有名局、棋書の該当ページ、ソフト評価値などの様々な情報をまとめてチェック！">
-  <meta property="og:url" content="http://kyokumen.jp">
-  <meta property="og:image" content="http://kyokumen.jp<%= image_path('logo-off.png') %>">
+  <meta property="og:image" content="<%= image_url('logo-off.png') %>">
+  <%= favicon_link_tag %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>

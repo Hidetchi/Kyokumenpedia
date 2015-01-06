@@ -1,4 +1,5 @@
 <% content_for :title do %>SFEN=<%= @position.sfen %><% end %>
+<% content_for :canonical do %><%= position_url(@position.id) %><% end %>
 <%= render :partial => 'diagram_summary', :locals => { :position => @position } %>
 
 <script type="text/javascript">

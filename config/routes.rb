@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       get 'start/:handicap_id' => 'positions#start', handicap_id: /\d/
       get 'list/:mode' => 'positions#list', mode: /[a-z]+/
       get ':sfen1/:sfen2/:sfen3/:sfen4/:sfen5/:sfen6/:sfen7/:sfen8/:sfen9' => 'positions#show', sfen1: /[1-9krbgsnlp\+]+/i, sfen9: /[1-9krbgsnlp\+]+%20[bw]%20[0-9rbgsnlp\-]+/i
-      get ':sfen' => 'positions#show', sfen: /([1-9KRBGSNLPkrbgsnlp\+]+\/){8}[1-9krbgsnlp\+]+\s[bw]\s[0-9rbgsnlp\-]+/i
+      get ':sfen' => 'positions#show', sfen: /([1-9KRBGSNLPkrbgsnlp\+]+\/){8}[1-9krbgsnlp\+]+\s[bw]\s[0-9rbgsnlp\-]+/i, as: :sfen
     end
     member do
       get 'statistics/:category' => 'positions#statistics', category: /\d+/, as: :statistics
