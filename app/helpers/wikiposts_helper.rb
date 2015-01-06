@@ -221,7 +221,7 @@ module WikipostsHelper
 		new_line += "</div>" if (hash[:p] > 0)
 		new_lines << new_line
 		
-		if (famous_games.length > 0 || com_evals.length > 0 || resembles.length > 0)
+		if (famous_games.length > 0 || com_evals.length > 0 || resembles.length > 0 || book_appearances.length > 0)
 		  new_lines << "<h2>参考データ</h2>"
 		  new_lines << "<span class='dark_red'>以下のデータを表示するにはログインして下さい</span>" unless logged_in
 		end
