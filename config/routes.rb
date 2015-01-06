@@ -36,11 +36,12 @@ Rails.application.routes.draw do
       get 'edit'
       get 'export'
       get 'privilege'
+      post 'post'
       post 'pickup'
       post 'set_main'
       get ':moves' => 'positions#show', moves: /([\+\-]\d{4}[A-Z]{2})+/, as: :moves
     end
-    resources :wikiposts, :only => [:index, :create]
+    resources :wikiposts, :only => [:index]
     resources :discussions, :only => [:index, :create] do
       get 'post', on: :collection
     end

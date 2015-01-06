@@ -5,11 +5,11 @@
 </div>
 
 <h2>編集</h2>
-<%= form_for :wikipost, :url => position_wikiposts_path(@position.id) do |f| %>
-<%= f.hidden_field :latest_post_id, :value => session[:latest_post_id] %>
-<%= f.text_area :content, :size => "80x18", :value => session[:wikiedit] %><br>
+<%= form_for :wikipost, :url => post_position_path(@position.id) do |f| %>
+<%= f.hidden_field :latest_post_id, :value => @latest_post_id %>
+<%= f.text_area :content, :size => "80x18", :value => @wikiedit %><br>
 <%= f.submit 'プレビュー', :name => "preview" %>
-　編集内容の説明: <%= f.text_field :comment, :size => 38, :placeholder => "(必須)", :value => session[:wikicomment] %>
+　編集内容の説明: <%= f.text_field :comment, :size => 38, :placeholder => "(必須)", :value => @wikicomment %>
 <%= f.check_box :minor %>マイナー変更
 <%= f.submit '投稿', data: { confirm: "投稿前に内容をよくご確認下さい。\nこの内容で投稿してもよろしいですか？" } %>
 <% end %>
@@ -18,4 +18,4 @@
 <hr>
 
 <h1>プレビュー</h1>
-<%= render :partial => 'wikiposts/interpreter', :locals => { :position_id => @position.id, :content => session[:wikiedit] } %>
+<%= render :partial => 'wikiposts/interpreter', :locals => { :position_id => @position.id, :content => @wikiedit } %>

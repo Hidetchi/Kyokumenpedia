@@ -91,10 +91,56 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
-    unless (params[:preview])
-      session[:wikiedit] = @position.latest_post ? @position.latest_post.content : ""
-      session[:wikicomment] = nil
-      session[:latest_post_id] = @position.latest_post_id
+    if (params[:wikipost])
+      @wikiedit = params[:wikipost][:content]
+      @wikicomment = params[:wikipost][:comment]
+      @latest_post_id = params[:wikipost][:latest_post_id]
+      puts "OK"
+    #unless (params[:preview])
+    else
+      @wikiedit = @position.latest_post ? @position.latest_post.content : ""
+      @wikicomment = nil
+      @latest_post_id = @position.latest_post_id
+    end
+  end
+  
+  def post 
+    @position = Position.find(params[:id])
+    @wikiedit = params[:wikipost][:content]
+    @wikicomment = params[:wikipost][:comment]
+    @latest_post_id = params[:wikipost][:latest_post_id].to_i
+    flash[:alert] = nil
+    if (params[:preview])
+      render 'edit' and return
+    else
+      @latest_post_id = @position.latest_post_id
+      params[:wikipost][:prev_post_id] = @latest_post_id
+      params[:wikipost][:minor] = 0 unless (params[:wikipost][:prev_post_id])
+      params[:wikipost][:position_id] = params[:id]
+      params[:wikipost][:user_id] = current_user.id
+      if (@latest_post_id != nil && @latest_post_id != params[:wikipost][:latest_post_id].to_i)
+        flash[:alert] = "他ユーザが編集を行ったため、編集内容の競合が発生しました。編集規模が小さい場合は、最新の記事を確認後、改めて編集を実施して下さい。そのまま投稿を続ける場合は、後から他ユーザの編集を確認し調整を実施して下さい。"
+        render 'edit' and return
+      elsif (wikipost = Wikipost.new_post(params[:wikipost].permit(:content, :comment, :position_id, :user_id, :minor, :prev_post_id)))
+        wikipost.position.update_attribute(:latest_post_id, wikipost.id)
+        unless (params[:wikipost][:minor].to_i == 1)
+          wikipost.position.watchers.each do |watcher|
+            Feeder.delay.wikipost_to_watcher(watcher.id, wikipost.id) if watcher.receive_watching
+          end
+          watcher_ids = wikipost.position.watchers.pluck(:id)
+          wikipost.user.followers.each do |follower|
+            unless watcher_ids.include?(follower.id)
+              Feeder.delay.wikipost_to_follower(follower.id, wikipost.id) if follower.receive_following
+            end
+          end
+        end
+        wikipost.reward_user
+        expire_fragment('db_stat')
+        redirect_to position_path(params[:id])
+      else
+        flash[:alert] = "保存に失敗しました。入力内容を確認して下さい。"
+        render 'edit' and return
+      end
     end
   end
   
