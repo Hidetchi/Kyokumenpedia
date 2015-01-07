@@ -1,4 +1,4 @@
-<% content_for :title do %>SFEN=<%= @position.sfen %><% end %>
+<% content_for :title do %><%= @position.strategy_id ? @position.strategy.name + ' ' : '' %>SFEN=<%= @position.sfen %><% end %>
 <% content_for :canonical do %><%= position_url(@position.id) %><% end %>
 <%= render :partial => 'diagram_summary', :locals => { :position => @position } %>
 

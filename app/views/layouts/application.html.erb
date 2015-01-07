@@ -6,6 +6,7 @@
   <meta name="keywords" content="将棋,局面,棋譜,データベース">
   <% if content_for?(:canonical) %>
     <link rel="canonical" href="<%= yield(:canonical) %>">
+    <meta property="og:url" content="<%= yield(:canonical) %>">
   <% end %>
   <meta property="og:title" content="<%= SITE_NAME %><%= " / " + yield(:title) if content_for?(:title) %>">
   <meta property="og:type" content="website">
