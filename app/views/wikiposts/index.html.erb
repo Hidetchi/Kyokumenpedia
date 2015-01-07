@@ -16,15 +16,16 @@
 <% unless (@without_position) %>
   <td class="list"><%= w.position.to_board.to_html_table.html_safe %>
 <% end %>
-<td class="list" style="text-align:left;padding-left:10px;white-space:normal;"><%= w.comment %><br>
+<td class="list" style="text-align:left;padding-left:10px;white-space:normal;">
+<% if (!@without_position && w.position.strategy_id) %>
+  <span class="dark_green"><%= w.position.strategy.name %></span><br><br>
+<% end %>
+  <%= w.comment %><br>
 　<i><% if (w.adds && w.adds > 0) %><span style="color:blue;">+<%= w.adds %></span><% end %>
      <% if (w.dels && w.dels > 0) %><span style="color:red;">-<%= w.dels %></span><% end %>
 <% if (w.minor) %>
  (マイナー変更)
 <% end %></i>
-<% if (!@without_position && w.position.strategy_id) %>
-  <br><br><%= w.position.strategy.name %>
-<% end %>
 <% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><br><%= w.user.to_stars %><% end %>
 <td class="list"><% if (w.likes > 0) %><span class="dark_green"><%= w.likes.to_s %>名</span><% end %>
 <td class="list"><%= created_time_ago(w) %>
