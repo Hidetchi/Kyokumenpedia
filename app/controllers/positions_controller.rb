@@ -4,14 +4,18 @@ class PositionsController < ApplicationController
   
   def list
     if (params[:mode] == "new")
-      wikiposts = Wikipost.includes(:position).where("prev_post_id IS NULL").order('updated_at desc').limit(100)
+#      wikiposts = Wikipost.includes(:position).where("prev_post_id IS NULL").order('updated_at desc').limit(100)
+      wikiposts = Wikipost.preload(:position).group(:position_id).order('id desc').limit(100)
       @positions = wikiposts.map(&:position)
+      @values = wikiposts.map{|w| w}
       @list_title = "新しい局面"
       @caption = "初めての解説が投稿された時間が最も新しい局面を表示しています。"
       @type = "FIRST_POST"
     elsif (params[:mode] == "req")
-      sort_hash = Watch.includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
-      @positions = sort_hash.map{|key, val| Position.includes(:wikiposts).find_by(id: key)}
+      sort_hash = Watch.joins(:position).includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
+      keys = sort_hash.map{|key, val| key}
+      @positions = Position.where(id: keys)
+      @values = sort_hash.map{|key, val| val}
       @list_title = "解説リクエスト局面"
       @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
       @type = "WATCHERS"
@@ -38,8 +42,7 @@ class PositionsController < ApplicationController
       flash[:alert] = "キーワードが短すぎます"
       redirect_to :back
     end
-    @positions = Position.joins(:latest_post).where('content LIKE ?', "%#{escaped_keyword}%").limit(100)
-    @positions = @positions.sort_by{|p| p.views}.reverse
+    @wikiposts = Wikipost.includes(:position).where(id: Wikipost.group(:position_id).pluck('max(id)')).where('content like ?', "%#{escaped_keyword}%").order('positions.views desc').limit(100)
   end
 
   def show

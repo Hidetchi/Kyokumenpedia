@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104182739) do
+ActiveRecord::Schema.define(version: 20150107123138) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -307,7 +307,6 @@ ActiveRecord::Schema.define(version: 20150104182739) do
     t.integer  "likes",        default: 0
   end
 
-  add_index "wikiposts", ["created_at"], name: "index_wikiposts_on_created_at", using: :btree
   add_index "wikiposts", ["position_id"], name: "index_wikiposts_on_position_id", using: :btree
   add_index "wikiposts", ["user_id"], name: "index_wikiposts_on_user_id", using: :btree
 

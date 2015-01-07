@@ -1,25 +1,25 @@
 <h2>解説記事の検索結果</h2>
 <p style="font-size:15px;">キーワード「<b><%= @keyword %></b>」が解説記事に含まれる局面を表示しています。</p>
-<% if @positions.length == 0 %>
+<% if @wikiposts.length == 0 %>
 <span class="dark_red">局面が見つかりません</span>
 <% else %>
 <table class="invisible" style="width:95%">
-<% @positions.each do |position| %>
-<% neighbors = position.latest_post.keyword_neighbors(@keyword) %>
+<% @wikiposts.each do |wikipost| %>
+<% neighbors = wikipost.keyword_neighbors(@keyword) %>
 <tr>
 <td class="invisible" style="width:180px;padding:7px 0;">
-<%= position.to_board.to_html_table("S").html_safe %>
+<%= wikipost.position.to_board.to_html_table("S").html_safe %>
 <td class="invisible" style="white-space:normal;text-align:left;vertical-align:middle;">
-<% if position.strategy_id %>
-  <span class="dark_green"><%= position.strategy.name %></span>
+<% if wikipost.position.strategy_id %>
+  <span class="dark_green"><%= wikipost.position.strategy.name %></span>
 <% end %>
-(注目指数: <%= position.views %>)
+(注目指数: <%= wikipost.position.views %>)
 <p style="margin:7px 0;"><i>
   <%= neighbors[0] %>
   <span style="color:red;font-weight:bold;"><%= @keyword %></span>
   <%= neighbors[1] %>
 </i></p>
-<%= link_to '局面を見る', '/positions/' + position.id.to_s %>
+<%= link_to '局面を見る', position_path(wikipost.position_id) %>
 <% end %>
 </table>
 <% end %>
