@@ -16,7 +16,7 @@ class StrategiesController < ApplicationController
       position.update_strategy(Strategy.find(params[:id]), true)
     else
       appearance_ids.each do |id|
-        Game.update_strategy(id, params[:id])
+        Game.delay.update_strategy(id, params[:id])
       end
     end
     redirect_to position_path(params[:position_id])
