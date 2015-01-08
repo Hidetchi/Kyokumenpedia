@@ -74,6 +74,10 @@ h2 style="margin-bottom:10px;"
   = link_to activity.owner.username, '/users/' + activity.owner_id.to_s
   |さんが、
   - if (activity.key == 'wikipost.create')
+    - if activity.recipient.strategy_id
+      span.dark_green
+        = activity.recipient.strategy.name
+      |の
     |局面の解説を
     = link_to '編集', '/wikiposts/' + activity.trackable_id.to_s
     |しました
@@ -89,6 +93,10 @@ h2 style="margin-bottom:10px;"
     = link_to activity.recipient.username, '/users/' + activity.recipient.id.to_s
     |さんをフォローしました
   - elsif (activity.key == 'discussion.create')
+    - if activity.recipient.strategy_id
+      span.dark_green
+        = activity.recipient.strategy.name
+      |の
     |局面の
     = link_to 'ディスカッション', '/positions/' + activity.recipient_id.to_s + '/discussions'
     |に投稿しました。

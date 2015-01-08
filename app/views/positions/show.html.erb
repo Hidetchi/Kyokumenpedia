@@ -21,7 +21,7 @@
 <div id="wiki_edit_buttons">
 [<%= link_to '編集', {:action => 'edit', :id => @position.id} %>]
 [<%= link_to '履歴', {:controller => 'wikiposts', :action => 'index', :position_id => @position.id} %>]
-[<%= link_to 'ディスカッション', position_discussions_path(@position.id) %>] 
+[<%= link_to 'ディスカッション(' + @position.discussions.count.to_s + ')', position_discussions_path(@position.id) %>] 
 <% if current_user && current_user.can_access_privilege? %>
 [<%= link_to '特権機能', privilege_position_path(@position.id) %>]
 <% end %>

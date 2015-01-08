@@ -12,7 +12,7 @@
 <%= f.submit 'プレビュー', :name => "preview" %>
 　編集内容の説明: <%= f.text_field :comment, :size => 38, :placeholder => "(必須)", :value => @wikicomment %>
 <%= f.check_box :minor %>マイナー変更
-<%= f.submit '投稿', data: { confirm: "投稿前に内容をよくご確認下さい。\nこの内容で投稿してもよろしいですか？" } %>
+<%= f.submit '投稿', data: { confirm: "投稿前に必ずプレビューで内容や書式をよくご確認下さい。\n投稿してもよろしいですか？" } %>
 <% end %>
 
 <br>
