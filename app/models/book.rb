@@ -15,7 +15,7 @@ require 'date'
       rescue
         record[:title] = "(通信障害)"
       end
-      if (items && items.first && items.first.item_attributes)
+      if (items && items.first && items.first.item_attributes && items.first.item_attributes.product_group =~ /Book/)
         record[:title] = items.first.item_attributes.title
         record[:author] = items.first.item_attributes.author
         record[:publisher] = items.first.item_attributes.publisher
@@ -30,10 +30,10 @@ require 'date'
         end
         Book.create(isbn13: record[:isbn13], title: record[:title], author: record[:author], publisher: record[:publisher], publication_date: date)
       else
-        record[:title] = "-" unless record[:title]
+        record[:title] = "<span class='dark_red'><i>エラー</i></span>" unless record[:title]
         record[:author] = "-"
         record[:publisher] = "-"
-        record[:date] = "-"
+        record[:date] = " - "
       end
     end
   end

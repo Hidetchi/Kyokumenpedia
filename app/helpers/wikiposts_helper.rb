@@ -50,7 +50,7 @@ module WikipostsHelper
 				next
 			end
 			# interpret {{Book|isbn10/13|page|evaluation}} as book coverage
-			if (line =~ /^\s*\{\{Book\|([\d\-X]+)\|(\d+)\|(.*)\}\}\s*$/)
+			if (line =~ /^\s*\{\{Book\|([\d\-A-Z]+)\|(.*)\|(.*)\}\}\s*$/)
 				number = $1
 				page = $2
 				evaluation = $3 ? $3 : ""
@@ -280,6 +280,6 @@ module WikipostsHelper
 	end
 	
 	def identical_position_template(position_id)
-	  "<div class='notify'>この局面は、先後入れ替わりによって発生する、他との同一局面です。<br>解説は" + link_to('もう一方の局面', '/positions/' + Position.find(position_id).to_board.reversed_board.to_sfen) + "をご覧下さい。</div>"
+	  "<div class='notify'>この局面は、先後入れ替わりによって発生する、他との同一局面です。<br>解説は、出現頻度がより高い" + link_to('もう一方の局面', '/positions/' + Position.find(position_id).to_board.reversed_board.to_sfen) + "をご覧下さい。</div>"
 	end
 end

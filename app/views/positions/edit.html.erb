@@ -5,6 +5,7 @@
 </div>
 
 <h2>編集</h2>
+<% if !@latest_post_id || @latest_post_id == 0 %><span class="dark_red">※この局面への最初の投稿となります。最初の投稿では必ず解説本文を記載して下さい。「参考データ」テンプレートのみの投稿などはご遠慮下さい。</span><% end %>
 <%= form_for :wikipost, :url => post_position_path(@position.id) do |f| %>
 <%= f.hidden_field :latest_post_id, :value => @latest_post_id %>
 <%= f.text_area :content, :size => "80x18", :value => @wikiedit %><br>

@@ -15,7 +15,7 @@ class ISBN
   end
 
   def self.check_digit_asin(trunk)
-    return nil unless trunk.length == 9
+    return nil unless trunk =~ /\A\d{9}\z/
     tmp = 0
     for i in 0..8 do
       tmp += trunk[i].to_i * (10 - i) 
@@ -32,21 +32,23 @@ class ISBN
 
   def self.asin_valid?(asin)
     return false unless asin.length == 10
-    asin[9] == check_digit_asin(asin[0..8])
+    asin[9] == check_digit_asin(asin[0..8]) || asin =~ /\AB00/
   end
 
   def self.isbn13_valid?(isbn13)
     return false unless isbn13.length == 13
     return false unless isbn13[0..2] == "978"
-    isbn13[12] == check_digit_esbn13(isbn13[0..11])
+    isbn13[12] == check_digit_isbn13(isbn13[0..11])
   end
 
   def self.asin_to_isbn13(asin)
+    return asin if asin =~ /\AB00/
     isbn13_trunk = "978" + asin[0..8]
     isbn13_trunk + check_digit_isbn13(isbn13_trunk)
   end
 
   def self.isbn13_to_asin(isbn13)
+    return isbn13 if isbn13 =~ /\AB00/
     asin_trunk = isbn13[3..11]
     asin_trunk + check_digit_asin(asin_trunk)
   end

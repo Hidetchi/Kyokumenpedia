@@ -14,7 +14,7 @@
 <h3>BOD検索</h3>
 <div style="margin-left:35px;">
 <%= form_tag 'show' do %>
-<%= submit_tag '検索' %><br>
+<%= submit_tag '検索' %> (貼り付ける局面の「手番」にご注意下さい。検索結果の手番もよくご確認下さい。)<br>
 <%= text_area_tag :bod, '', :size => "35x15" %>
 <% end %>
 </div>

@@ -15,10 +15,13 @@ p.dark_green
 h2 戦型の編集
 p.dark_green 局面に対する戦型を上書き修正することができます。戦型を修正すると、この局面を経由した全ての棋譜(全カテゴリ)を解析しなおし、以降に現れた局面全ての戦型を更新します。(指定した戦型の下位に属する戦型が既に設定された局面に出会った場合は、下位の戦型を以降の局面に適用します。) データへの影響の仕方をご理解の上、慎重に修正を行って下さい。
 hr
-p.dark_red 下記のリストより戦型をクリックすると、確認ダイアログが現れた後、戦型更新作業のジョブ投入が行われます。(データ更新には時間がかかります。連続して同じジョブを投入しないで下さい。)
-ul
-  - @root_strategies.each do |root|
-    = render_register_tree(root, @position.id).html_safe
+- if @position.appearances.length > 300
+  p.dark_red ※この局面は該当棋譜が300件を超えるため、戦型修正は管理者のみ可能です。修正は管理者に依頼して下さい。
+- else
+  p.dark_red 下記のリストより戦型をクリックすると、確認ダイアログが現れた後、戦型更新作業のジョブ投入が行われます。(データ更新には時間がかかります。連続して同じジョブを投入しないで下さい。)
+  ul
+    - @root_strategies.each do |root|
+      = render_register_tree(root, @position.id).html_safe
 
 h2 代表局面登録
 p.dark_green
@@ -36,10 +39,10 @@ h4 現在の戦型名
       = @position.strategy.main_position.to_board.to_html_table.html_safe
   - else
     div.level4 未登録です。
+  p
+    = button_to '代表局面を更新する場合はこのボタンを押して下さい', set_main_position_path(@position.id), data: { confirm: "登録して良いですか?" }
 - else
-  div.level4 未登録です。先に戦型名をこの局面に登録して下さい。
-p
-  = button_to '代表局面を更新する場合はこのボタンを押して下さい', set_main_position_path(@position.id), data: { confirm: "登録して良いですか?" }
+  div.level4 未登録です。先にこの局面に戦型を登録して下さい。
 
 
 h2 新しい戦型の登録
