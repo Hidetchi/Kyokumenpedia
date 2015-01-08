@@ -62,6 +62,7 @@ class UsersController < ApplicationController
   def like
     @wikipost = Wikipost.find(params[:wikipost_id])
     @wikipost.like(current_user) if (current_user)
+    @div_id = params[:div_id]
     render 'update_like'
   end
 

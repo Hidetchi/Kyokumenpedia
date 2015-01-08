@@ -98,10 +98,12 @@ class Wikipost < ActiveRecord::Base
   
   def like(liker)
     return if liker.liked?(self)
-    self.add_evaluation(:likes, 1, liker)
-    self.update_attributes(:likes => self.reputation_for(:likes).to_i)
-    self.create_activity(action: 'like', owner: liker, recipient: self.user)
-    User.increment_counter(:point, self.user_id)
+    ActiveRecord::Base.transaction do
+      self.add_evaluation(:likes, 1, liker)
+      self.update_attributes(:likes => self.reputation_for(:likes).to_i)
+      self.create_activity(action: 'like', owner: liker, recipient: self.user)
+      User.increment_counter(:point, self.user_id)
+    end
   end
   
   def keyword_neighbors(keyword)
