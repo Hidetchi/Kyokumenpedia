@@ -17,8 +17,8 @@ require 'date'
       end
       if (items && items.first && items.first.item_attributes && items.first.item_attributes.product_group =~ /Book/)
         record[:title] = items.first.item_attributes.title
-        record[:author] = items.first.item_attributes.author
-        record[:publisher] = items.first.item_attributes.publisher
+        record[:author] = items.first.item_attributes.author || "-"
+        record[:publisher] = items.first.item_attributes.publisher || "-"
         record[:date] = items.first.item_attributes.publication_date
         date_elements = record[:date].split("-")
         if (date_elements.length == 1)

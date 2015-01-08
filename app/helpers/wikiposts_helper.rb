@@ -244,7 +244,7 @@ module WikipostsHelper
 				r = {isbn13: "?", title: "?", author: "?", publisher: "?", date: "?", page: "?", evaluation: "?"} unless logged_in
 				r[:publisher] = "毎コミ" if (r[:publisher] == "毎日コミュニケーションズ")
 				table_html += "<tr><td style='border-right:0;text-align:left;'>" + r[:title] + "<td>"
-				table_html += "<a class='external' href='http://www.amazon.co.jp/gp/product/" + ISBN.isbn13_to_asin(r[:isbn13]) + "/ref=as_li_tf_tl?tag=iscube-22' target='_blank'>amz</a>" if (logged_in && r[:author] != "-")
+				table_html += "<a class='external' href='http://www.amazon.co.jp/gp/product/" + ISBN.isbn13_to_asin(r[:isbn13]) + "/ref=as_li_tf_tl?tag=iscube-22' target='_blank'>amz</a>" if (logged_in && r[:title] != "-")
 				table_html += "<td>" + r[:author] + "<td>" + r[:publisher] + "<td>" + r[:date].split("-")[0] + "<td>" + r[:page] + "<td>" + r[:evaluation]
 			end
 			table_html += "</table>"
