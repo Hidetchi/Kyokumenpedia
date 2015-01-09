@@ -2,7 +2,7 @@
 
 <h2>更新差分</h2>
 <% if current_user %><% if (current_user != @wikipost.user) %>
-    <div id="like" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
+    <div id="like_<%= @wikipost.id.to_s %>" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
   <% elsif (@wikipost.reputation_for(:likes).to_i > 0) %>
     <span class="dark_green">あなたの編集に<b><%= link_to @wikipost.reputation_for(:likes).to_i.to_s + '名', '/wikiposts/' + @wikipost.id.to_s + '/likers' %></b>のユーザが「いいね！」と言っています</span>
 <% end %><% end %>
@@ -62,6 +62,6 @@
 </div>
 <div style="width:200px;text-align:left;"><%= @wikipost.position.to_board.to_html_table.html_safe %></div>
 <% if (current_user && current_user != @wikipost.user) %>
-  <div id="like" style="margin-left:35px;margin-top:10px;"><%= like_button(@wikipost) %></div>
+  <div id="like_<%= @wikipost.id.to_s %>" style="margin-left:35px;margin-top:10px;"><%= like_button(@wikipost) %></div>
 <% end %>
 <%= render :partial => 'interpreter', :locals => { :position_id => @wikipost.position_id, :content => @wikipost.content } %>
