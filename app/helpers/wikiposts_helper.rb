@@ -78,12 +78,12 @@ module WikipostsHelper
 			line = line.gsub(/\[{2}(.+?)\|(.+?)\]{2}/) {
 				match1 = $1
 				match2 = $2
-				if (match1 =~ /^([\+\-]\d{4}[A-Z]{2})+/)
+				if (match1 =~ /^([\+\-]\d{4}[A-Z]{2})+$/)
           link_to(match2, moves_position_path(id: position_id, moves: match1))
 				elsif (match1 =~ /\A([\+1-9krbgsnlp]+\/){8}[\+1-9krbgsnlp]+\s[bw]\s[0-9rbgsnlp\-]+\z/i)
           '<a href="/positions/' + match1 + '">' + match2 + '</a>'
 				else
-          '<span class="dark_red"><i>SFENエラー</i></span>'
+          '<span class="dark_red"><i>[[内部リンクエラー]]</i></span>'
         end
 			}
 			# interpret [url( text)] as <a> tag link to an outside web
