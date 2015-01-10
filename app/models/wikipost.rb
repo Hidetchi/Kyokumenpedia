@@ -10,6 +10,7 @@ class Wikipost < ActiveRecord::Base
   has_reputation :likes, source: :user, aggregated_by: :sum
   has_many :evaluations, class_name: "ReputationSystem::Evaluation", as: :target
   has_many :likers, :through => :evaluations, :source => :source, :source_type => 'User'
+  paginates_per 50
   
   def self.new_post(params)
     if (params[:prev_post_id] && params[:prev_post_id] != "")

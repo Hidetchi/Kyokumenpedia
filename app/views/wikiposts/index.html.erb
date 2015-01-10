@@ -2,7 +2,7 @@
 <%= @list_title %>
 <% end %>
 <h2><%= @list_title %></h2>
-<br>
+<center><% if current_user %><%= paginate @wikiposts %><% end %></center>
 <table class="list">
 <tr>
 <% unless (@without_position) %><th class="list" style="width:120px;">局面<% end %>
