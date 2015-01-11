@@ -85,13 +85,15 @@ class Wikipost < ActiveRecord::Base
   
   def reward_user
     if (self.prev_post_id == nil)
-      point = 3
-    elsif (!self.minor)
-      point = 1
-    elsif (Wikipost.find(self.prev_post_id).user_id == self.user_id)
+      if self.content.length >= 700
+        point = 3
+      else
+        point = 2
+      end
+    elsif (self.minor && Wikipost.find(self.prev_post_id).user_id == self.user_id)
       point = 0
     else
-      point = 2
+      point = 1
     end
     self.user.point += point
     self.user.save
@@ -104,6 +106,15 @@ class Wikipost < ActiveRecord::Base
       self.update_attributes(:likes => self.reputation_for(:likes).to_i)
       self.create_activity(action: 'like', owner: liker, recipient: self.user)
       User.increment_counter(:point, self.user_id)
+    end
+  end
+
+  def unlike(liker)
+    ActiveRecord::Base.transaction do
+      if self.delete_evaluation(:likes, liker)
+        self.update_attributes(:likes => self.reputation_for(:likes).to_i)
+        User.decrement_counter(:point, self.user_id)
+      end
     end
   end
   
@@ -153,6 +164,16 @@ class Wikipost < ActiveRecord::Base
     end
     if (n > 0)
       return (sum > 0 ? "+" : "") + (sum/n).to_s 
+    else
+      return ""
+    end
+  end
+
+  def labels
+    if !self.prev_post_id
+      return "<span class='label' style='background-color:#35d;'>初版</span><br>"
+    elsif self.prev_post.user_id == self.user_id
+      return "<span class='label' style='background-color:#777;'>連投</span><br>"
     else
       return ""
     end

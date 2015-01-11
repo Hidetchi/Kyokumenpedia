@@ -20,6 +20,7 @@
 <% if (!@without_position && w.position.strategy_id) %>
   <span class="dark_green"><%= w.position.strategy.name %></span><br><br>
 <% end %>
+<%= w.labels.html_safe unless @without_position %>
   <%= w.comment %><br>
 　<i><% if (w.adds && w.adds > 0) %><span style="color:blue;">+<%= w.adds %></span><% end %>
      <% if (w.dels && w.dels > 0) %><span style="color:red;">-<%= w.dels %></span><% end %>
@@ -28,7 +29,7 @@
 <% end %></i>
 <% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><br><%= w.user.to_stars %><% end %>
 <td class="list">
-<% if !@without_position && current_user && w.user_id != current_user.id %><div id="like_<%= w.id.to_s %>"><%= like_button(w) %></div>
+<% if !@without_position && current_user && current_user.can_access_privilege? && w.user_id != current_user.id %><div id="like_<%= w.id.to_s %>"><%= like_button(w) %></div>
 <% elsif (w.likes > 0) %><span class="dark_green"><%= w.likes.to_s %>名</span><% end %>
 <td class="list"><%= created_time_ago(w) %>
 <td class="list"><%= link_to '差分', '/wikiposts/' + w.id.to_s %>
