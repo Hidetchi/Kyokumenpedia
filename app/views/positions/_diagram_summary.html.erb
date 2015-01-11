@@ -1,5 +1,5 @@
 <%
-prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total desc').limit(1)
+prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total + stat3_total desc').limit(1)
 num_counts = position.appearances.limit(100).pluck(:num).group_by { |v| v }
 num = num_counts.sort[0] ? num_counts.sort[0][0] : nil
 board = position.to_board
@@ -33,7 +33,7 @@ board = position.to_board
 <tr><th>手番
 <td><%= board.to_teban_text %>
 
-<tr><th rowspan=<%= current_user ? "4" : "3" %>>棋譜統計<br>サマリー<th>最頻到達手<td>
+<tr><th rowspan=<%= current_user ? "4" : "3" %>>棋譜統計<br>サマリー<th>最頻到達手<% if prev_moves_sorted[0] %>(<%= link_to '戻る', position_path(prev_moves_sorted[0].prev_position_id) %>)<% end %><td>
 <% if num == 0 %>
 開始局面
 <% elsif (prev_moves_sorted[0]) %>
