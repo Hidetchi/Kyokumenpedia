@@ -7,6 +7,7 @@ module WikipostsHelper
 		famous_games = []
 		com_evals = []
 		book_appearances = []
+    blames = []
 		level = 2
 		ref_num = 0
 		# interpret #REDIRECT [[sfen]] as identical(symmetric) position link
@@ -17,6 +18,11 @@ module WikipostsHelper
 			line.chomp!
 			# interpret {{Conclusion|text}} and ignore
 			next if (line =~ /^\s*\{\{Conclusion\|.+\}\}\s*$/)
+      # interpret #BLAME
+      if (line =~ /^\s*#BLAME\s+(.+)$/)
+        blames << $1
+        next
+      end
 			# interpret {{Resemble|sfen|comment}} as resembling position object
 			if (line =~ /^\s*\{\{Resemble\|(.+)\|(.+)\}\}\s*$/)
 				record = Hash.new
@@ -221,6 +227,12 @@ module WikipostsHelper
 		new_line += "</div>" if (hash[:p] > 0)
 		new_lines << new_line
 		
+    if (blames.length > 0)
+      new_line = "<div class='notify'>この局面はモデレータにより、解説の文体または内容に関して改訂が求められています。<ul style='margin:0;'>"
+      blames.each {|blame_reason| new_line += "<li>" + blame_reason}
+      new_line += "</ul></div>"
+      new_lines.unshift(new_line)
+    end
 		if (famous_games.length > 0 || com_evals.length > 0 || resembles.length > 0 || book_appearances.length > 0)
 		  new_lines << "<h2>参考データ</h2>"
 		  new_lines << "<span class='dark_red'>以下のデータを表示するにはログインして下さい</span>" unless logged_in
