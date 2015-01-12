@@ -14,7 +14,7 @@ class PositionsController < ApplicationController
     elsif (params[:mode] == "req")
       sort_hash = Watch.joins(:position).includes(:position).where("latest_post_id IS NULL").group(:position_id).order('count_position_id desc').limit(100).count(:position_id)
       keys = sort_hash.map{|key, val| key}
-      @positions = Position.where(id: keys)
+      @positions = Position.where(id: keys).order("field(id,#{keys.join(',')})")
       @values = sort_hash.map{|key, val| val}
       @list_title = "解説リクエスト局面"
       @caption = "あなたの解説を待っている局面があります。是非最初の解説の投稿にご協力下さい。"
