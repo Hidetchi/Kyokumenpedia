@@ -85,10 +85,14 @@ class Wikipost < ActiveRecord::Base
   
   def reward_user
     if (self.prev_post_id == nil)
-      if self.content.length >= 700
+      if self.content.length >= 625
         point = 3
-      else
+      elsif self.content.length >= 250
         point = 2
+      elsif self.content.length >= 100
+        point = 1
+      else
+        point = 0
       end
     elsif (self.minor && Wikipost.find(self.prev_post_id).user_id == self.user_id)
       point = 0

@@ -15,7 +15,7 @@ p.dark_green
 h2 戦型の編集
 p.dark_green 局面に対する戦型を上書き修正することができます。戦型を修正すると、この局面を経由した全ての棋譜(全カテゴリ)を解析しなおし、以降に現れた局面全ての戦型を更新します。(指定した戦型の下位に属する戦型が既に設定された局面に出会った場合は、下位の戦型を以降の局面に適用します。) データへの影響の仕方をご理解の上、慎重に修正を行って下さい。
 hr
-- if (current_user.is_admin? || @position.appearance.length <= 300)
+- if (current_user.is_admin? || @position.appearances.length <= 300)
   p.dark_red 下記のリストより戦型をクリックすると、確認ダイアログが現れた後、戦型更新作業のジョブ投入が行われます。(データ更新には時間がかかります。連続して同じジョブを投入しないで下さい。)
   ul
     - @root_strategies.each do |root|
