@@ -144,22 +144,23 @@ table class="help" style="width:90%;margin-bottom:30px;"
       div.notify style="margin:5px;padding:5px;"
         |この局面は、先後入れ替わりによって発生する、他との同一局面です。
         br 解説は、出現頻度がより高いもう一方の局面をご覧下さい。
-  tr
-    td 改訂指示<br>(スーパユーザ専用)
-    td
-      |#BLAME 改訂指示の理由1
-      br
-      |#BLAME 改訂指示の理由2
-      br
-      br
-      span style="color:grey;"
-       |　(※比較的広範囲の改訂を要する不備があると判断した場合に使用して下さい)
-    td
-      div.notify style="margin:5px;padding:5px;"
-        |この局面はモデレータにより、解説の文体または内容に関して改訂が求められています。
-        ul style="margin:0;"
-          li 改訂指示の理由その1
-          li 改訂指示の理由その2
+  - if current_user && current_user.can_access_privilege?
+    tr
+      td 改訂依頼<br>(スーパユーザ専用)
+      td
+        |#BLAME 改訂依頼の理由1
+        br
+        |#BLAME 改訂依頼の理由2
+        br
+        br
+        span style="color:grey;"
+         |　(※比較的広範囲の改訂を要する不備があると判断した場合に使用して下さい)
+      td
+        div.notify style="margin:5px;padding:5px;"
+          |この局面はモデレータにより、解説の文体または内容に関して改訂が求められています。
+          ul style="margin:0;"
+            li 改訂依頼の理由その1
+            li 改訂依頼の理由その2
         
 h3 テンプレート
 p style="margin-left:10px;"
