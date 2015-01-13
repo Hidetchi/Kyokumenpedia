@@ -3,17 +3,17 @@
 <%= render :partial => 'diagram_summary', :locals => { :position => @position } %>
 
 <script type="text/javascript">
-  function load_statistics(category) {
+  function load_statistics(pos_id, category) {
     $('#statistics_ajax').html('<p style="margin-left:50px;"><%= image_tag 'loading-bar.gif' %></p>');
-    $.get('/positions/<%= @position.id %>/statistics/' + category);
+    $.get('/positions/' + pos_id + '/statistics/' + category);
   }
 </script>
 
 <h2>棋譜統計</h2>
 <div style="margin-left:15px;margin-bottom:5px;">
-<% if current_user && current_user.can_select_pro? %><%= radio_button_tag 'category', 1, checked = @category == 1, :onclick => "load_statistics(1)" %>プロ<% end %>
-<%= radio_button_tag 'category', 2, checked = @category == 2, :onclick => "load_statistics(2)" %>オンライン道場
-<%= radio_button_tag 'category', 3, checked = @category == 3, :onclick => "load_statistics(3)" %>Floodgate
+<% if current_user && current_user.can_select_pro? %><%= radio_button_tag 'category', 1, checked = @category == 1, :onclick => "load_statistics(" + @position.id.to_s + ",1)" %>有名局<% end %>
+<%= radio_button_tag 'category', 2, checked = @category == 2, :onclick => "load_statistics(" + @position.id.to_s + ",2)" %>オンライン道場
+<%= radio_button_tag 'category', 3, checked = @category == 3, :onclick => "load_statistics(" + @position.id.to_s + ",3)" %>Floodgate
 </div>
 <div id="statistics_ajax"></div>
 
@@ -31,6 +31,6 @@
 
 <script type="text/javascript">
 $(function(){
-  load_statistics(<%= @category %>);
+  load_statistics(<%= @position.id %>,<%= @category %>);
 });
 </script>

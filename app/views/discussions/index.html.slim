@@ -1,3 +1,19 @@
+javascript:
+  function insertAtCaret(str) {
+      var obj = $('#discussion_content');
+      obj.focus();
+      if(navigator.userAgent.match(/MSIE/)) {
+        var r = document.selection.createRange();
+        r.text = str;
+        r.select();
+      } else {
+        var s = obj.val();
+        var p = obj.get(0).selectionStart;
+        var np = p + str.length;
+        obj.val(s.substr(0, p) + str + s.substr(p));
+        obj.get(0).setSelectionRange(np, np);
+      }
+  }
 div#wiki_edit_buttons
   |[
   = link_to '局面に戻る', position_path(@position.id)
@@ -30,7 +46,9 @@ div style="width:200px;margin:13px 0;"
         = link_to discussion.user.username, user_path(discussion.user_id)
       span style="padding-left:5px;"
         = discussion.user.to_stars
-      span style="padding-left:15px;"
+      span style="padding-left:15px;padding-right:15px;"
         = discussion.to_local_time
+      a href="#" onclick="insertAtCaret(#{"'>>".html_safe + discussion.num.to_s + "  " + discussion.user.username + "さん\\n'".html_safe});return false;"
+        |返信
       p style="margin-left:15px;white-space:pre-wrap;"
           = discussion.content
