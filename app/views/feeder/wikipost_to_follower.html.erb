@@ -9,7 +9,8 @@
 <%= @wikipost.position.to_board.to_bod %>
 </tt></pre>
 
-<p><%= link_to '編集内容ページへのリンク', ROOT_PATH + '/wikiposts/' + @wikipost.id.to_s %></p>
+<p><%= link_to '編集内容ページへのリンク', ROOT_PATH + '/wikiposts/' + @wikipost.id.to_s %><br>
+<% if (@wikipost.prev_post_id == nil) %>【初版】<% end %>編集コメント: <i><%= @wikipost.comment %></i></p>
 <br>
 <p>この通知をこれ以上受け取りたくない場合は、
 <%= link_to '登録情報変更ページ', ROOT_PATH + '/users/edit' %>
