@@ -94,6 +94,10 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
+    if (@position.latest_post_id == nil && current_user.username == 'blocked')
+      render '404'
+      return
+    end
     if (params[:wikipost])
       @wikiedit = params[:wikipost][:content]
       @wikicomment = params[:wikipost][:comment]
