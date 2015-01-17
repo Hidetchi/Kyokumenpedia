@@ -45,4 +45,10 @@ module UsersHelper
 
     button_to button_label, {:controller => 'users', :action => action_name, :wikipost_id => wikipost.id, :div_id => 'like_' + wikipost.id.to_s }, :class => class_name, :remote => true
   end
+
+  def card_img_tag(user)
+    color_name = ['', 'blue', '', 'yellow', 'red', 'black'][user.card]
+    color_name_jp = ['', 'ブルー', '', 'イエロー', 'レッド', 'ブラック'][user.card]
+    color_name == '' ? '' : image_tag('card_' + color_name + '.png', :style =>'vertical-align:text-bottom', :title => color_name_jp + 'カード') + '<br>'.html_safe
+  end
 end

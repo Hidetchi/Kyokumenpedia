@@ -27,7 +27,7 @@
 <% if (w.minor) %>
  (マイナー変更)
 <% end %></i>
-<% unless (@without_user) %><td class="list"><%= link_to w.user.username, '/users/' + w.user.id.to_s %><br><%= w.user.to_stars %><% end %>
+<% unless (@without_user) %><td class="list"><%= card_img_tag(w.user) %><%= link_to w.user.username, '/users/' + w.user.id.to_s %><br><%= w.user.to_stars %><% end %>
 <td class="list">
 <% if !@without_position && current_user && current_user.can_access_privilege? && w.user_id != current_user.id %><div id="like_<%= w.id.to_s %>"><%= like_button(w) %></div>
 <% elsif (w.likes > 0) %><span class="dark_green"><%= w.likes.to_s %>名</span><% end %>

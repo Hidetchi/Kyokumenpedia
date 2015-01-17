@@ -17,7 +17,10 @@ Rails.application.routes.draw do
       get 'ranking'
       get 'mypage'
     end
-    get 'followers', on: :member
+    member do
+      get 'followers'
+      post 'card/:color' => 'users#card', as: :card
+    end
     resources :wikiposts, :only => [:index]
   end
 

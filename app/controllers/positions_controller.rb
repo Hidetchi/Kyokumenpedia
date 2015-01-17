@@ -94,9 +94,9 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
-    if (@position.latest_post_id == nil && current_user.username == 'blocked')
-      render '404'
-      return
+    if (current_user.card == 1 || current_user.card >= 4)
+      flash[:alert] = "編集制限カードが出ているため投稿できません"
+      raise UserException::AccessDenied
     end
     if (params[:wikipost])
       @wikiedit = params[:wikipost][:content]
@@ -119,6 +119,9 @@ class PositionsController < ApplicationController
     flash[:alert] = nil
     if (params[:preview])
       render 'edit' and return
+    elsif (current_user.card == 1 || current_user.card >= 4)
+      flash[:alert] = "編集制限カードが出ているため投稿できません"
+      render 'edit' and return
     else
       @latest_post_id = @position.latest_post_id
       params[:wikipost][:prev_post_id] = @latest_post_id
@@ -133,6 +136,7 @@ class PositionsController < ApplicationController
         render 'edit' and return
       elsif (wikipost = Wikipost.new_post(params[:wikipost].permit(:content, :comment, :position_id, :user_id, :minor, :prev_post_id)))
         wikipost.position.update_attribute(:latest_post_id, wikipost.id)
+        wikipost.user.update_attributes(card: 1) if wikipost.user.card == 0
         unless (params[:wikipost][:minor].to_i == 1)
           wikipost.position.watchers.each do |watcher|
             Feeder.delay.wikipost_to_watcher(watcher.id, wikipost.id) if watcher.receive_watching

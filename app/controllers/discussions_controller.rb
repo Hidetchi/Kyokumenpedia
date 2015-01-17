@@ -12,6 +12,7 @@ class DiscussionsController < ApplicationController
   end
 
   def create
+    raise UserException::AccessDenied if (current_user.card == 5)
     if (params[:discussion])
       params[:discussion][:user_id] = current_user.id
       params[:discussion][:position_id] = params[:position_id]
