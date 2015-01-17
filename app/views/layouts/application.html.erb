@@ -54,6 +54,7 @@
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 </ul>
 <div style="padding-right:7px;padding-bottom:5px;text-align:right;">
+<%= card_img_tag(current_user) %>
 <b><span class="dark_red"><%= current_user.point * 10 %></span></b> EXP<br>
 <%= current_user.to_rank_name %>
 </div>

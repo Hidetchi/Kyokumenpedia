@@ -66,6 +66,16 @@ class UsersController < ApplicationController
     render 'update_like'
   end
 
+  def card
+    raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
+    @user = User.find(params[:id])
+    was_blocked = (@user.card == 1 || @user.card == 4)
+    @user.update_attributes(card: params[:color].to_i)
+    Feeder.card_removed(@user, true).deliver if (was_blocked && @user.card == 0)
+    Feeder.card_removed(@user, false).deliver if (was_blocked && @user.card == 2)
+    redirect_to user_path(@user.id)
+  end
+
   protected
   def cut_length(str, len)
     str = str[0..(len-1)] if str.length > len

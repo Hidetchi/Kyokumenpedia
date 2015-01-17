@@ -1,4 +1,4 @@
-<h2><%= @user.username %>さんのページ</h2>
+<h2><%= @user.username %>さんのページ　<%= card_img_tag(@user) %></h2>
 <table class="invisible" style="margin-left:30px;">
 <tr><td class="invisible" style="text-align:left;white-space:normal;">
 <% if (current_user && current_user != @user) %>
@@ -31,6 +31,21 @@
 </table>
 
 <hr>
+<% if current_user && current_user.can_access_privilege? && @user.role == 0 && @user.card != 0 && @user.id != current_user.id %>
+<br>
+<h3>ユーザ管理機能</h3>
+<div style='margin-left:30px;'>
+<% if @user.card == 1 %>
+  <%= button_to 'このユーザのブルーカードを解除 (以降自由な投稿を認める)', card_user_path(@user.id, :color => 2), data: { confirm: "実行して宜しいですか?" } %>
+  <%= button_to 'このユーザのブルーカードを解除 (次回投稿でも再度ブルーカードを出す)', card_user_path(@user.id, :color => 0), data: { confirm: "実行して宜しいですか?" } %>
+<% end %>
+<%= button_to 'このユーザにイエローカードを出す', card_user_path(@user.id, :color => 3), data: { confirm: "実行して宜しいですか?" } if (@user.card == 2) %>
+<%= button_to 'このユーザのイエローカードを解除', card_user_path(@user.id, :color => 2), data: { confirm: "実行して宜しいですか?" } if (@user.card == 3) %>
+<%= button_to 'このユーザにレッドカードを出す', card_user_path(@user.id, :color => 4), data: { confirm: "実行して宜しいですか?" } if (@user.card >= 1 && @user.card <= 3) %>
+<%= button_to 'このユーザのレッドカードを解除 (次回の投稿後にブルーカードが出ます)', card_user_path(@user.id, :color => 0), data: { confirm: "実行して宜しいですか?" } if (@user.card == 4) %>
+<%= button_to 'このユーザにブラックカードを出す', card_user_path(@user.id, :color => 5), data: { confirm: "実行して宜しいですか?" } if (current_user.is_admin? && @user.card != 5) %>
+</div>
+<% end %>
 
 <% if (current_user && current_user.id == @user.id) %>
 <h2>フォロー中の相手</h2>
