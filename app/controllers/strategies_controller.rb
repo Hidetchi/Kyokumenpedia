@@ -15,10 +15,25 @@ class StrategiesController < ApplicationController
     if (appearance_ids.length < 1)
       position.update_strategy(Strategy.find(params[:id]), true)
     else
+      mode = session[:update_strategy_mode] || 0
+      session[:update_strategy_mode] = 0
       appearance_ids.each do |id|
-        Game.delay.update_strategy(id, params[:id])
+        Game.delay.update_strategy(id, params[:id], mode)
       end
     end
     redirect_to position_path(params[:position_id])
+  end
+
+  def mode
+    if (params[:mode] == nil || params[:mode].to_i == 0)
+      session[:update_strategy_mode] = 0
+    elsif (params[:mode].to_i == 1)
+      session[:update_strategy_mode] = 1
+    elsif (params[:mode].to_i == 2)
+      session[:update_strategy_mode] = 2
+    else
+      session[:update_strategy_mode] = 0
+    end
+    render :nothing => true
   end
 end

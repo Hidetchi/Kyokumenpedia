@@ -135,7 +135,10 @@ class Game < ActiveRecord::Base
     end #transaction-end
   end
   
-  def self.update_strategy(appearance_id, strategy_id)
+  def self.update_strategy(appearance_id, strategy_id, level = 0)
+    # level = 0: Soft: Update only if position.strategy == nil, otherwise break
+    # level = 1: Middle: Update only if position.strategy is not family of new strategy, otherwise break
+    # level = 2: Hard: Update only if position.strategy is not family of new strategy, and keep going to the end
     appearance = Appearance.find(appearance_id)
     game = appearance.game
     strategy = Strategy.find(strategy_id)
@@ -157,6 +160,11 @@ class Game < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       for i in appearance.num..(sfens.length - 1) do
         position = Position.find_by(sfen: sfens[i])
+        if (level == 0)
+          break unless (position.strategy_id == nil || position.strategy_id == strategy_id)
+        elsif (level == 1)
+          break if strategy.id != strategy_id
+        end
         strategy = position.update_strategy(strategy, true) # Hard-mode: ON
       end
     end

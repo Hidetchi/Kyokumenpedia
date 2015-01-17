@@ -13,10 +13,21 @@ p.dark_green
   = f.text_field :comment, size: "50"
   = f.submit "登録", data: { confirm: "登録して良いですか?" }
 h2 戦型の編集
-p.dark_green 局面に対する戦型を上書き修正することができます。戦型を修正すると、この局面を経由した全ての棋譜(全カテゴリ)を解析しなおし、以降に現れた局面全ての戦型を更新します。(指定した戦型の下位に属する戦型が既に設定された局面に出会った場合は、下位の戦型を以降の局面に適用します。) データへの影響の仕方をご理解の上、慎重に修正を行って下さい。
+p.dark_green 局面に対する戦型を上書き修正することができます。戦型を修正すると、この局面を経由した全ての棋譜(全カテゴリ)を解析しなおし、現局面から始めて順番に、以降に現れた局面全ての戦型の更新を試みます。影響の強さに3種類のモードがあります。データへの影響の仕方をご理解の上、慎重に修正を行って下さい。
+ul
+  li Softモード: 戦型が未設定の局面のみを更新し、設定済の局面に出会った時点で、それ以降の局面をスキップします。。
+  li Middleモード: ここで選択した戦型の下位に属する戦型が既に設定されている局面に出会った時点で、それ以降の局面をスキップします。出会うまでの全ての局面の戦型は上書きされます。
+  li Hardモード: スキップは行わず、全ての棋譜を最後の局面まで更新します。ただし、ここで選択した戦型の下位に属する戦型が既に設定されている局面に出会うと、そちらを優先し、以降の局面では下位の戦型を引き続き適用しようとします。
 hr
 - if (current_user.is_admin? || @position.appearances.length <= 300)
   p.dark_red 下記のリストより戦型をクリックすると、確認ダイアログが現れた後、戦型更新作業のジョブ投入が行われます。(データ更新には時間がかかります。連続して同じジョブを投入しないで下さい。)
+  div style="margin-left:15px;margin-bottom:5px;"
+    = radio_button_tag 'mode', 0, checked = true, :onclick => "$.post('/strategies/mode/0')"
+    |Softモード 
+    = radio_button_tag 'mode', 1, checked = false, :onclick => "$.post('/strategies/mode/1')"
+    |Middleモード 
+    = radio_button_tag 'mode', 2, checked = false, :onclick => "$.post('/strategies/mode/2')"
+    |Hardモード
   ul
     - @root_strategies.each do |root|
       = render_register_tree(root, @position.id).html_safe
@@ -40,7 +51,7 @@ h4 現在の戦型名
   - else
     div.level4 未登録です。
   p
-    = button_to '代表局面を更新する場合はこのボタンを押して下さい', set_main_position_path(@position.id), data: { confirm: "登録して良いですか?" }
+    = button_to '代表局面を現局面に変更する場合はこのボタンを押して下さい', set_main_position_path(@position.id), data: { confirm: "登録して良いですか?" }
 - else
   div.level4 未登録です。先にこの局面に戦型を登録して下さい。
 
