@@ -170,6 +170,61 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def ci_error_fix(position_id)
+    appearances = self.appearances.where(position_id: position_id)
+    return "Could not find specified duplicate appearances" if appearances.count != 2
+    app1 = appearances.first
+    app2 = appearances.last
+    n1 = app1.num
+    n2 = app2.num
+
+    csa_moves = []
+    rs = self.csa.gsub %r{[\+\-]\d{4}\w{2}} do |s|
+      csa_moves << s
+      ""
+    end
+    board = Board.new
+    board.initial(self.handicap_id)
+    sfens = [] # sfen for each move
+    sfens << board.to_sfen
+    csa_moves.each do |csa_move|
+      board.handle_one_move(csa_move)
+      sfens << board.to_sfen
+    end
+    
+    ActiveRecord::Base.transaction do
+
+      pos2 = Position.find_or_create(sfens[n2])
+      app2.update_attributes(position_id: pos2.id)
+      pos2.update_stat(self.game_source.category, self.result)
+
+      prev_pos = Position.find_by(sfen: sfens[n2-1])
+      next_pos = Position.find_by(sfen: sfens[n2+1])
+      prev_move = Move.find_by(prev_position_id: prev_pos.id, next_position_id: position_id)
+      next_move = Move.find_by(prev_position_id: position_id, next_position_id: next_pos.id)
+
+      return "prev_move stat is Zero!" if prev_move["stat" + self.game_source.category.to_s + "_total"] == 0
+      prev_move["stat" + self.game_source.category.to_s + "_total"] -= 1
+      prev_move.save
+      prev_move.destroy if (prev_move.stat1_total + prev_move.stat2_total + prev_move.stat3_total == 0)
+      
+      move = Move.find_or_new(prev_pos.id, pos2.id, csa_moves[n2-1])
+      move.update_stat(self.game_source.category)
+      self.appearances.find_by(position_id: prev_pos.id).update_attributes(next_move_id: move.id)
+
+      return "next_move stat is Zero!" if next_move["stat" + self.game_source.category.to_s + "_total"] == 0
+      next_move["stat" + self.game_source.category.to_s + "_total"] -= 1
+      next_move.save
+      next_move.destroy if (next_move.stat1_total + next_move.stat2_total + next_move.stat3_total == 0)
+
+      move = Move.find_or_new(pos2.id, next_pos.id, csa_moves[n2])
+      move.update_stat(self.game_source.category)
+      app2.update_attributes(next_move_id: move.id)
+
+    end
+    return "OK"
+  end
+
   def to_result_mark(sente)
     if (self.result == 0)
       sente ? "○" : "●"
