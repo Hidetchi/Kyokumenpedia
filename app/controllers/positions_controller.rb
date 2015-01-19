@@ -94,7 +94,7 @@ class PositionsController < ApplicationController
       render '404'
       return
     end
-    if (current_user.card == 1 || current_user.card >= 4)
+    if (current_user.card >= 4)
       flash[:alert] = "編集制限カードが出ているため投稿できません"
       raise UserException::AccessDenied
     end
@@ -119,7 +119,7 @@ class PositionsController < ApplicationController
     flash[:alert] = nil
     if (params[:preview])
       render 'edit' and return
-    elsif (current_user.card == 1 || current_user.card >= 4)
+    elsif (current_user.card >= 4)
       flash[:alert] = "編集制限カードが出ているため投稿できません"
       render 'edit' and return
     else

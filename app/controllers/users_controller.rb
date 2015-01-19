@@ -69,10 +69,9 @@ class UsersController < ApplicationController
   def card
     raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
     @user = User.find(params[:id])
-    was_blocked = (@user.card == 1 || @user.card == 4)
+    was_blue = @user.card == 1
     @user.update_attributes(card: params[:color].to_i)
-    Feeder.card_removed(@user, true).deliver if (was_blocked && @user.card == 0)
-    Feeder.card_removed(@user, false).deliver if (was_blocked && @user.card == 2)
+    Feeder.card_removed(@user).deliver if (was_blue && @user.card == 2)
     redirect_to user_path(@user.id)
   end
 

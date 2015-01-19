@@ -35,15 +35,12 @@
 <br>
 <h3>ユーザ管理機能</h3>
 <div style='margin-left:30px;'>
-<% if @user.card == 1 %>
-  <%= button_to 'このユーザのブルーカードを解除 (以降自由な投稿を認める)', card_user_path(@user.id, :color => 2), data: { confirm: "実行して宜しいですか?" } %>
-  <%= button_to 'このユーザのブルーカードを解除 (次回投稿でも再度ブルーカードを出す)', card_user_path(@user.id, :color => 0), data: { confirm: "実行して宜しいですか?" } %>
-<% end %>
-<%= button_to 'このユーザにイエローカードを出す', card_user_path(@user.id, :color => 3), data: { confirm: "実行して宜しいですか?" } if (@user.card == 2) %>
-<%= button_to 'このユーザのイエローカードを解除', card_user_path(@user.id, :color => 2), data: { confirm: "実行して宜しいですか?" } if (@user.card == 3) %>
-<%= button_to 'このユーザにレッドカードを出す', card_user_path(@user.id, :color => 4), data: { confirm: "実行して宜しいですか?" } if (@user.card >= 1 && @user.card <= 3) %>
-<%= button_to 'このユーザのレッドカードを解除 (次回の投稿後にブルーカードが出ます)', card_user_path(@user.id, :color => 0), data: { confirm: "実行して宜しいですか?" } if (@user.card == 4) %>
-<%= button_to 'このユーザにブラックカードを出す', card_user_path(@user.id, :color => 5), data: { confirm: "実行して宜しいですか?" } if (current_user.is_admin? && @user.card != 5) %>
+<%= button_to 'このユーザのブルーカードを解除', card_user_path(@user.id, :color => 2), data: { confirm: "実行して宜しいですか?" }, style: 'margin-bottom:5px;' if (@user.card == 1) %>
+<%= button_to 'このユーザにイエローカードを出す', card_user_path(@user.id, :color => 3), data: { confirm: "実行して宜しいですか?" }, style: 'margin-bottom:5px;' if (@user.card == 1 || @user.card == 2) %>
+<%= button_to 'このユーザのイエローカードを解除', card_user_path(@user.id, :color => 2), data: { confirm: "実行して宜しいですか?" }, style: 'margin-bottom:5px;' if (@user.card == 3) %>
+<%= button_to 'このユーザにオレンジカードを出す', card_user_path(@user.id, :color => 4), data: { confirm: "実行して宜しいですか?" }, style: 'margin-bottom:5px;' if (@user.card >= 1 && @user.card <= 3) %>
+<%= button_to 'このユーザのオレンジカードを解除', card_user_path(@user.id, :color => 3), data: { confirm: "実行して宜しいですか?" }, style: 'margin-bottom:5px;' if (@user.card == 4) %>
+<%= button_to 'このユーザにブラックカードを出す', card_user_path(@user.id, :color => 5), data: { confirm: "実行して宜しいですか?" }, style: 'margin-bottom:5px;' if (current_user.is_admin? && @user.card != 5) %>
 </div>
 <% end %>
 

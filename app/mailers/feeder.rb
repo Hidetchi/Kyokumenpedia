@@ -20,9 +20,8 @@ class Feeder < ActionMailer::Base
     mail to: @recipient.email, subject: SUBJECT_HEADER + "ウォッチ中の局面のディスカッションが投稿されました"
   end
 
-  def card_removed(recipient, require_blue = false)
+  def card_removed(recipient)
     @recipient = recipient
-    @require_blue = require_blue
-    mail to: @recipient.email, subject: SUBJECT_HEADER + "編集制限カードが解除されました"
+    mail to: @recipient.email, subject: SUBJECT_HEADER + "ブルーカードが解除されました"
   end
 end
