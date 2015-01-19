@@ -33,15 +33,13 @@ board = position.to_board
 <tr><th>手番
 <td><%= board.to_teban_text %>
 
-<tr><th rowspan=<%= current_user ? "4" : "3" %>>棋譜統計<br>サマリー<th>最頻到達手<% if prev_moves_sorted[0] %>(<%= link_to '戻る', position_path(prev_moves_sorted[0].prev_position_id) %>)<% end %><td>
+<tr><th rowspan=4>棋譜統計<br>サマリー<th>最頻到達手<% if prev_moves_sorted[0] %>(<%= link_to '戻る', position_path(prev_moves_sorted[0].prev_position_id) %><%= image_tag('icon-pen.png', :title=>'解説記事あり') if prev_moves_sorted[0].prev_position.latest_post_id %>)<% end %><td>
 <% if num == 0 %>
 開始局面
 <% elsif (prev_moves_sorted[0]) %>
 <%= num %>手目 <%= prev_moves_sorted[0].to_kif %>まで
 <% end %>
-<% if current_user %>
-<tr><th>有名局<td><%= position.win_stat(1) %>
-<% end %>
+<tr><th>有名局<td><% if current_user %><%= position.win_stat(1) %><% else %><%= image_tag "denied.png", :style=>"vertical-align:-2px;", :title=>"ログインして下さい" %><% end %>
 <tr><th>オンライン道場<td><%= position.win_stat(2) %>
 <tr><th>Floodgate<td><%= position.win_stat(3) %>
 

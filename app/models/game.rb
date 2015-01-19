@@ -237,12 +237,17 @@ class Game < ActiveRecord::Base
 
   def render_player_name(user, category, sente)
     player_name = sente ? self.black_name : self.white_name
-    player_name = player_name[0..13] + "..." if player_name.length > 15
+    player_name = player_name[0..10] + "..." if player_name.length > 12
     if (category == 2 && !user)
-      "???"
+      "<span class='dark_red'>???</span>".html_safe
     else
       player_name
     end
+  end
+
+  def render_event
+    return nil if !self.event
+    self.event.length > 12 ? (self.event[0..10] + "...") : self.event
   end
 
   def show_kifu?(user, category)

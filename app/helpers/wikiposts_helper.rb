@@ -235,7 +235,7 @@ module WikipostsHelper
     end
 		if (famous_games.length > 0 || com_evals.length > 0 || resembles.length > 0 || book_appearances.length > 0)
 		  new_lines << "<h2>参考データ</h2>"
-		  new_lines << "<span class='dark_red'>以下のデータを表示するにはログインして下さい</span>" unless logged_in
+		  new_lines << image_tag('denied.png', :style=>'vertical-align:-2px;') + " <span class='dark_red'>以下のデータを表示するにはログインして下さい</span>".html_safe unless logged_in
 		end
 		if (famous_games.length > 0)
 			table_html = "<h3>有名局</h3><table class='wiki'><tr><th>先手<th>後手<th>棋戦<th>対局日<th>勝敗<th>コメント<th>リンク"
