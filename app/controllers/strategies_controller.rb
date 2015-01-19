@@ -18,7 +18,7 @@ class StrategiesController < ApplicationController
       mode = session[:update_strategy_mode] || 0
       session[:update_strategy_mode] = 0
       appearance_ids.each do |id|
-        Game.delay.update_strategy(id, params[:id], mode)
+        Game.delay.update_strategy(id, params[:id].to_i, mode)
       end
     end
     redirect_to position_path(params[:position_id])
