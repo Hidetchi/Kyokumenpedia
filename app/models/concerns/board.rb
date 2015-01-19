@@ -25,7 +25,7 @@ class Board
   end
 
   def initial(handicap)
-    PieceKY::new(self, 1, 1, false) if (handicap < 7 && handicap != 2 && handicap != 4)
+    PieceKY::new(self, 1, 1, false) if (handicap < 7 && handicap != 2 && handicap != 5)
     PieceKE::new(self, 2, 1, false) if (handicap < 8)
     PieceGI::new(self, 3, 1, false) if (handicap < 9)
     PieceKI::new(self, 4, 1, false)
