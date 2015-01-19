@@ -49,6 +49,6 @@ module UsersHelper
   def card_img_tag(user)
     color_name = ['', 'blue', '', 'yellow', 'red', 'black'][user.card]
     color_name_jp = ['', 'ブルー', '', 'イエロー', 'レッド', 'ブラック'][user.card]
-    color_name == '' ? '' : image_tag('card_' + color_name + '.png', :style =>'vertical-align:text-bottom', :title => color_name_jp + 'カード') + '<br>'.html_safe
+    color_name == '' ? '' : image_tag('card_' + color_name + '.png', :style =>'vertical-align:text-bottom', :title => color_name_jp + 'カード (各カードの意味は「ヘルプ」ページ参照)') + '<br>'.html_safe
   end
 end
