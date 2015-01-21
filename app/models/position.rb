@@ -55,6 +55,7 @@ class Position < ActiveRecord::Base
   end  
 
   def win_stat(category)
+    return "　　-　　" if self["stat" + category.to_s + "_black"] == 0 && self["stat" + category.to_s + "_white"] == 0
     "▲" + self["stat" + category.to_s + "_black"].to_s + "勝 - △" + self["stat" + category.to_s + "_white"].to_s + "勝"
   end
 

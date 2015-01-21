@@ -181,7 +181,7 @@ class PositionsController < ApplicationController
     session[:viewing_category] = @category
     game_source_ids = [@category]  #Change this conversion accordingly when you've added new GameSource
     @appearances = @position.appearances.preload(:next_move).eager_load(:game).where('games.game_source_id' => game_source_ids).order('appearances.id desc').limit(50)
-    @moves = @position.next_moves.order("stat#{@category}_total desc").where("stat#{@category}_total > 0").includes(:next_position)
+    @moves = @position.next_moves.order("stat#{@category}_total desc").includes(:next_position)
   end
 
   def privilege
