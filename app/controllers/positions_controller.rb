@@ -55,18 +55,18 @@ class PositionsController < ApplicationController
           ""
         end
         if (!rs.empty? || csa_moves.empty?)
-          render '404'
+          params[:preview] ? (render :nothing => true) : (render '404')
           return
         end
         board = @position.to_board
         csa_moves.each do |csa_move|
           rt = board.handle_one_move(csa_move)
           unless (rt == :normal)
-            render '404'
+            params[:preview] ? (render :nothing => true) : (render '404')
             return
           end
         end
-        @position = Position.find_or_create(board.to_sfen)
+        sfen = board.to_sfen
       end
     else
       board = Board.new
@@ -78,8 +78,16 @@ class PositionsController < ApplicationController
         sfens = [params[:sfen1], params[:sfen2], params[:sfen3], params[:sfen4], params[:sfen5], params[:sfen6], params[:sfen7], params[:sfen8], params[:sfen9]]
         board.set_from_sfen(sfens.join("/"))
       end
-      @position = Position.find_or_create(board.to_sfen)
+      sfen = board.to_sfen
     end
+    if (params[:preview])
+      sfen = sfen || @position.sfen
+      @board = Board.new
+      @board.set_from_sfen(sfen)
+      render 'preview', :layout => 'preview'
+      return
+    end
+    @position = Position.find_or_create(sfen) if sfen
     unless (@position)
       render '404'
       return
