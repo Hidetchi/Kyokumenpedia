@@ -10,4 +10,7 @@ class PagesController < ApplicationController
 
   def personal
   end
+
+  def privilege
+  end
 end
