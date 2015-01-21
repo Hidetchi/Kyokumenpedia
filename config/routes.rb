@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'pages/about'
   get 'pages/terms'
   get 'pages/personal'
+  get 'pages/privilege'
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
   post 'users/watch'
