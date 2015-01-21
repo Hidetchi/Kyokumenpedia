@@ -85,9 +85,9 @@ module WikipostsHelper
 				match1 = $1
 				match2 = $2
 				if (match1 =~ /^([\+\-]\d{4}[A-Z]{2})+$/)
-          link_to(match2, moves_position_path(id: position_id, moves: match1))
+          link_to(match2, moves_position_path(id: position_id, moves: match1), :class=>'preview')
 				elsif (match1 =~ /\A([\+1-9krbgsnlp]+\/){8}[\+1-9krbgsnlp]+\s[bw]\s[0-9rbgsnlp\-]+\z/i)
-          '<a href="/positions/' + match1 + '">' + match2 + '</a>'
+          '<a href="/positions/' + match1 + '" class="preview">' + match2 + '</a>'
 				else
           '<span class="dark_red"><i>[[内部リンクエラー]]</i></span>'
         end
@@ -97,10 +97,8 @@ module WikipostsHelper
 				match = $1
 				if (match =~ /^(.+?)\s(.+)$/)
           link_to($2, $1, :class => 'external', :target => '_blank')
-#					'<a class="external" href="' + $1 + '" target="_blank">' + $2 + '</a>'
 				else
           link_to(match, match, :class => 'external', :target => '_blank')
-#					'<a class="external" href="' + match + '" target="_blank">' + match + '</a>'
 				end
 			}
 			# interpret '''''text''''' as bold italic font
@@ -278,7 +276,7 @@ module WikipostsHelper
 				table_html += "<tr><td class='left'>" + r[:comment] + "<td>"
         if (r[:sfen])
           if (r[:sfen] =~ /\A([\+1-9krbgsnlp]+\/){8}[\+1-9krbgsnlp]+\s[bw]\s[0-9rbgsnlp\-]+\z/i)
-            table_html += "<a href='/positions/" + r[:sfen] + "'>Go</a>"
+            table_html += "<a href='/positions/" + r[:sfen] + "' class='preview'>Go</a>"
           else
             table_html += "<span class='dark_red'><i>SFENエラー</i></span>"
           end

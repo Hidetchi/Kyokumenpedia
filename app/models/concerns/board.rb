@@ -844,7 +844,6 @@ class Board
 	return 6 if (piece_nums == [2, 1, 1, 4, 4, 4, 4, 18])
 	return 7 if (piece_nums == [2, 1, 1, 4, 4, 4, 2, 18])
 	return 8 if (piece_nums == [2, 1, 1, 4, 4, 2, 2, 18])
-	return 9 if (piece_nums == [2, 1, 1, 4, 2, 2, 2, 18])
 	return nil
   end
 
