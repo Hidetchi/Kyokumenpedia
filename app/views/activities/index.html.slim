@@ -18,7 +18,11 @@ h1
   =SITE_NAME
   |にようこそ
 h2 局面ヘッドライン
-table.invisible style="margin-left:10px;"
+ul style='margin:0;list-style:none;padding-left:25px;padding-bottom:5px;'
+  - @pickups.each do |choice|
+    li
+      = link_to('☗ ' + choice.comment + ' (' + choice.created_at.localtime.strftime('%m月%d日') + ')', position_path(choice.position_id), :style => 'color:#060;')
+table.invisible style="margin-left:15px;padding:0;"
   tr
     td.invisible style="padding:5px;"
       center

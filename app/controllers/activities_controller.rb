@@ -12,5 +12,6 @@ class ActivitiesController < ApplicationController
     @positions_count = proc {Position.count}
     @games_count = proc {Game.count}
     @wikiposts_count = proc {Wikipost.count}
+    @pickups = EditorPickup.last(3).reverse
   end
 end
