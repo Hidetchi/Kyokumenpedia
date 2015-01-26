@@ -52,10 +52,12 @@ gem 'simple_captcha2', git: 'https://github.com/pludoni/simple-captcha.git', req
 gem 'unicorn'
 gem 'spinjs-rails'
 gem 'kaminari'
+gem 'twitter'
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'
   gem 'letter_opener_web'
+  gem 'rb-readline'
 end
 group :test do
   gem "rspec"

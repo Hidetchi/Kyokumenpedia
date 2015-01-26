@@ -157,6 +157,7 @@ class PositionsController < ApplicationController
           end
         end
         wikipost.reward_user
+        wikipost.tweet
         expire_fragment('db_stat')
         redirect_to position_path(params[:id])
       else
