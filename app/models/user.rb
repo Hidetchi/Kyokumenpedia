@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
   end
 
   def to_role_name
-    ["一般", "スーパユーザ", "管理者", "特別アカウント"][self.role]
+    ["一般", "スーパユーザ", "管理者", "一般"][self.role]
   end
   
   def to_stars

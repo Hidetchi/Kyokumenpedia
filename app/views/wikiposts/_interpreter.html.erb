@@ -11,7 +11,7 @@
     yOffset = 158;
                     
     $("a.preview").hover(function(e){
-      $("body").append("<iframe id='preview' src='" + this.href + "?preview=true'></iframe>");                
+      $("body").append("<iframe id='preview' src='" + this.href + "?preview=true' scrolling='no'></iframe>");                
       $("#preview")
       .css("top",(e.pageY - yOffset ) + "px")
       .css("left",(e.pageX + xOffset ) + "px")
