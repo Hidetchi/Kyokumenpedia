@@ -69,6 +69,7 @@
 <div id="header">
 <% if user_signed_in? %>
   <strong><%= current_user.username %></strong>さん<%= current_user.to_stars %> ログイン中 | 
+  <%= link_to '閲覧履歴', '/positions/list/mem' %> | 
   <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 <% else %>
  | <%= link_to "アカウント登録", new_user_registration_path %> |

@@ -29,6 +29,16 @@ class PositionsController < ApplicationController
     elsif (params[:mode] == "pic")
       @pickups = EditorPickup.order('created_at desc').limit(10)
       render 'pickups'
+    elsif (params[:mode] == "mem")
+      if (session[:history])
+        sanitized_query = ActiveRecord::Base.send(:sanitize_sql_array, ["field(id ,?)",session[:history]])
+        @positions = Position.where(id: session[:history]).order(sanitized_query).includes(:strategy)
+      else
+        @positions = []
+      end
+      @list_title = "閲覧履歴"
+      @caption = "最近見た局面のキャッシュ履歴を表示しています。(ログアウトするとクリアされます)"
+      @type = "HISTORY"
     else
       @list_title = "局面リスト"
       @positions = []
@@ -94,6 +104,11 @@ class PositionsController < ApplicationController
     end
     Position.increment_counter(:views, @position.id)
     @category = session[:viewing_category] || 2
+    if current_user
+      session[:history] = [] unless session[:history]
+      session[:history] = [@position.id] | session[:history]
+      session[:history].pop if session[:history].length > 50
+    end
     render 'show'
   end
 

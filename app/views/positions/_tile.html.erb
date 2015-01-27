@@ -9,7 +9,7 @@
   <span class="dark_red"><%= created_time_ago(values.shift) %></span><br>
 <% elsif (type == "WATCHERS") %>
   <span class="dark_red"><b><%= values.shift %></b> リクエスト</span><br>
-<% elsif (type == "WATCH") %>
+<% elsif (type == "WATCH" || type == "HISTORY") %>
   <div id="watch_<%= position.id.to_s %>"><%= watch_button(position) %></div>
 <% elsif (type == "VIEWS") %>
   <span class="dark_red">注目指数 <b><%= position.views %></b></span><br>
