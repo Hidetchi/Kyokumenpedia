@@ -20,4 +20,10 @@ class DiscussionsController < ApplicationController
     end
     redirect_to position_discussions_path(params[:position_id])
   end
+
+  def recent
+    ids = Discussion.group(:position_id).order('max(id) desc').pluck('max(id)')
+    ids = ids[0..49] if ids.length > 50
+    @discussions = Discussion.includes(:position => :strategy).includes(:user).where(id: ids).order('id desc')
+  end
 end

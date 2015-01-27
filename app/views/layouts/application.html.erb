@@ -33,10 +33,12 @@
 <li><%= link_to 'いま人気の局面', '/positions/list/hot' %>
 <li><%= link_to '新しい局面', '/positions/list/new' %>
 <li><%= link_to '最新の編集', wikiposts_path %>
+<li><%= link_to '最新ディスカッション', '/discussions' %>
 <li class="new_section"><%= link_to '編集ランキング', '/users/ranking' %>
 <li class="new_section"><%= link_to 'サイト紹介', pages_about_path %>
 <li><%= link_to 'ヘルプ', pages_help_path %>
 <li><%= link_to '利用規約', pages_terms_path %>
+<li><%= link_to '運営フォーラム', 'https://groups.google.com/forum/#!forum/kyokumenpedia', :target => '_blank' if (current_user && current_user.can_access_privilege?)%>
 </ul>
 <% if (notice || alert) %>
 <div id="alert_box">

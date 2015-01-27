@@ -8,14 +8,16 @@
 * Rails 4
 
 ==== Database Initialization
+* IMPORTANT!! Change sfen column in positions table to be case sensitive: ALTER TABLE positions MODIFY sfen VARCHAR(255) CHARACTER SET utf8 COLLATE ctf8_bin
 * Run <tt>rake db:seed</tt> to insert initial data for GameSources, Handicaps, and initial Strategies and Positions.
 * Kifu for statistics: Run script files in db/script (Set 'pass' column in GameSource table first.)
 ** 81Dojo: Run PHP script in 81dojo.com, then post the generaed file with register_***.rb 
 ** Floodgate: Download kifu from official site, then run ***2csv.rb. Then post the generated file with register_***.rb
-** Professional: Download kifu, then run ***2csv.rb. Then post the generated file with register_***.rb
+** FamousGames: Download kifu, then run ***2csv.rb. Then post the generated file with register_***.rb
 
 ==== Other preparation
 * Open config/initializers/asin.rb and set your Amazon AWS key
+* Open config/initializers/twitter.rb and set your Twitter app key and bot's login key
 * Install ImageMagick to enable simple-captcha
 * Move some of the image files directly to public/assets/ to avoid linking failure, which happens when the file name is specified directly in CSS file or Helper functions.
 * Create an account and set user.role=2 to become Admin

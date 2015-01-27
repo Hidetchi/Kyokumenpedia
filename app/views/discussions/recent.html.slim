@@ -1,0 +1,25 @@
+h2 最新のディスカッション
+table.invisible style='width:95%;'
+  - @discussions.each do |discussion|
+    tr
+      td.invisible style='width:160px;'
+        = discussion.position.to_board.to_html_table("S").html_safe
+      td.invisible style='text-align:left;white-space:normal;'
+        - if discussion.position.strategy
+          span.dark_green style='line-height:1.8em;'
+            = discussion.position.strategy.name
+          br
+        span.dark_red
+          = discussion.num
+          |:
+        span style="padding-left:15px;"
+          = link_to discussion.user.username, user_path(discussion.user_id)
+          |さん
+        span style="padding-left:5px;"
+          = discussion.user.to_stars
+        span.dark_green style="padding-left:15px;"
+          = created_time_ago(discussion)
+        p style="margin-left:15px;"
+          i
+            = discussion.content.length > 140 ? discussion.content[0..138] + '...' : discussion.content
+        = link_to '>>続きを読む', position_discussions_path(discussion.position_id)

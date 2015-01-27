@@ -86,7 +86,7 @@ div#user_panel {
 	background-color: white;
 	padding-left: 6px;
 	padding-top: 8px;
-	margin-top: 30px;
+	margin-top: 15px;
 	margin-left: 8px;
 	width: 115px;
 	overflow: hidden;
@@ -364,5 +364,5 @@ div#wiki_edit_buttons {
 }
 
 img.star {
-	vertical-align: baseline;
+	vertical-align: -2px;
 }

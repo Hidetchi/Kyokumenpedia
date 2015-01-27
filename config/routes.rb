@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   resources :wikiposts, :only => [:index, :show]
   get 'wikiposts/:id/likers' => 'wikiposts#likers'
   post 'strategies/mode/:mode' => 'strategies#mode'
+  get 'discussions' => 'discussions#recent'
 
   root :to => 'activities#index'
   
