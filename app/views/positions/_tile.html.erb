@@ -11,9 +11,9 @@
   <span class="dark_red"><b><%= values.shift %></b> リクエスト</span><br>
 <% elsif (type == "WATCH" || type == "HISTORY") %>
   <div id="watch_<%= position.id.to_s %>"><%= watch_button(position) %></div>
-<% elsif (type == "VIEWS") %>
+<% elsif (type == "VIEWS" || type == "REFERRER") %>
   <span class="dark_red">注目指数 <b><%= position.views %></b></span><br>
 <% end %>
-<%= link_to '見る', '/positions/' + position.id.to_s %>
+<%= image_tag 'icon-pen.png', :style => 'vertical-align:-2px;', :title => '解説記事あり' if type == "HISTORY" && position.latest_post_id %> <%= link_to '見る', '/positions/' + position.id.to_s %>
 </div>
 <% end %>

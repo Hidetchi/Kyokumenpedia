@@ -103,6 +103,7 @@ class PositionsController < ApplicationController
       return
     end
     Position.increment_counter(:views, @position.id)
+    @referrers = @position.referrers.order('views desc')
     @category = session[:viewing_category] || 2
     if current_user
       session[:history] = [] unless session[:history]
@@ -173,6 +174,7 @@ class PositionsController < ApplicationController
         end
         wikipost.reward_user
         wikipost.tweet
+        wikipost.update_references
         expire_fragment('db_stat')
         redirect_to position_path(params[:id])
       else

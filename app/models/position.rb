@@ -7,6 +7,10 @@ class Position < ActiveRecord::Base
   has_many :next_moves, class_name: 'Move', foreign_key: 'prev_position_id'
   has_many :prev_positions, :through => :prev_moves, :source => :prev_position
   has_many :next_positions, :through => :next_moves, :source => :next_position
+  has_many :backward_references, class_name: 'PosReference', foreign_key: 'referred_id'
+  has_many :forward_references, class_name: 'PosReference', foreign_key: 'referrer_id'
+  has_many :referrers, :through => :backward_references, :source => :referrer
+  has_many :referred_positions, :through => :forward_references, :source => :referred
   belongs_to :latest_post, class_name: 'Wikipost', foreign_key: 'latest_post_id'
   has_many :wikiposts, foreign_key: 'position_id'
   has_many :discussions, foreign_key: 'position_id'

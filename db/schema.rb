@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150117200645) do
+ActiveRecord::Schema.define(version: 20150128185810) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -158,6 +158,14 @@ ActiveRecord::Schema.define(version: 20150117200645) do
 
   add_index "moves", ["next_position_id"], name: "index_moves_on_next_position_id", using: :btree
   add_index "moves", ["prev_position_id"], name: "index_moves_on_prev_position_id", using: :btree
+
+  create_table "pos_references", force: true do |t|
+    t.integer "referrer_id"
+    t.integer "referred_id"
+  end
+
+  add_index "pos_references", ["referred_id"], name: "index_pos_references_on_referred_id", using: :btree
+  add_index "pos_references", ["referrer_id"], name: "index_pos_references_on_referrer_id", using: :btree
 
   create_table "positions", force: true do |t|
     t.string   "sfen"

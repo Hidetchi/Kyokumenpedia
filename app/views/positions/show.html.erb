@@ -29,6 +29,14 @@
 
 <%= render :partial => 'wikiposts/interpreter', :locals => { :position_id => @position.id, :content => @position.latest_post ? @position.latest_post.content : nil } %>
 
+<% if @referrers.length > 0 %>
+<hr style="margin-top:40px;">
+<h2>本局面を解説内で参照している他の局面</h2>
+<div style="margin-left:20px;margin-top:10px">
+<%= render :partial => 'tile', :locals => { :positions => @referrers, :type => "REFERRER", :values => nil } %>
+</div>
+<% end %>
+
 <script type="text/javascript">
 $(function(){
   load_statistics(<%= @position.id %>,<%= @category %>);

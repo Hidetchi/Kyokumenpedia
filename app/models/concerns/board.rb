@@ -686,8 +686,10 @@ class Board
            ret << s
            ""
          end
+    return nil if (!rs.empty? || ret.empty?)
     ret.each do |move|
-      new_board.handle_one_move(move)
+      rt = new_board.handle_one_move(move)
+      return nil unless (rt == :normal)
     end
     return new_board
   end

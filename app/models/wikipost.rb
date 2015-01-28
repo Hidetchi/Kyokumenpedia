@@ -137,6 +137,36 @@ class Wikipost < ActiveRecord::Base
       end
     end
   end
+
+  def update_references
+    board = self.position.to_board
+		lines = self.content.split("\n")
+    sfens = []
+    lines.each do |line|
+			# Find {{Resemble|sfen|comment}}
+			if (line =~ /^\s*\{\{Resemble\|(.+)\|(.+)\}\}\s*$/)
+				sfens << $1
+        next
+			end
+			# Find [[sfen-or-CSAmoves|text]]
+			line = line.gsub(/\[{2}(.+?)\|(.+?)\]{2}/) {
+				match1 = $1
+				match2 = $2
+        sfen = nil
+				if (match1 =~ /^([\+\-]\d{4}[A-Z]{2})+$/)
+          if (referred_board = board.do_moves_str(match1))
+            sfen = referred_board.to_sfen 
+          end
+				elsif (match1 =~ /\A([\+1-9krbgsnlp]+\/){8}[\+1-9krbgsnlp]+\s[bw]\s[0-9rbgsnlp\-]+\z/i)
+          sfen = match1
+        end
+        sfens << sfen if sfen
+        ""
+			}
+    end
+    positions = sfens.length > 0 ? Position.where(sfen: sfens) : []
+    self.position.referred_positions.replace(positions)
+  end
   
   def keyword_neighbors(keyword)
     distance = 70

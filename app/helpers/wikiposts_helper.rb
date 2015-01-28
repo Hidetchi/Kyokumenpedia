@@ -1,5 +1,6 @@
 module WikipostsHelper
 	def interpret_wiki(position_id, content, logged_in = false)
+    board = Position.find(position_id).to_board
 		lines = content.split("\n")
 		new_lines = []
 		hash = Hash.new(0)
@@ -12,7 +13,7 @@ module WikipostsHelper
 		ref_num = 0
 		# interpret #REDIRECT [[sfen]] as identical(symmetric) position link
 		if (lines[0] =~ /^\s*#REDIRECT\s*$/)
-			return identical_position_template(position_id)
+			return identical_position_template(board)
 		end
 		lines.each do |line|
 			line.chomp!
@@ -84,10 +85,16 @@ module WikipostsHelper
 			line = line.gsub(/\[{2}(.+?)\|(.+?)\]{2}/) {
 				match1 = $1
 				match2 = $2
+        sfen = nil
 				if (match1 =~ /^([\+\-]\d{4}[A-Z]{2})+$/)
-          link_to(match2, moves_position_path(id: position_id, moves: match1), :class=>'preview')
+          if (referred_board = board.do_moves_str(match1))
+            sfen = referred_board.to_sfen 
+          end
 				elsif (match1 =~ /\A([\+1-9krbgsnlp]+\/){8}[\+1-9krbgsnlp]+\s[bw]\s[0-9rbgsnlp\-]+\z/i)
-          '<a href="/positions/' + match1 + '" class="preview">' + match2 + '</a>'
+          sfen = match1
+        end
+        if sfen
+          '<a href="/positions/' + sfen + '" class="preview">' + match2 + '</a>'
 				else
           '<span class="dark_red"><i>[[内部リンクエラー]]</i></span>'
         end
@@ -289,7 +296,7 @@ module WikipostsHelper
 		return new_lines.join("\n")
 	end
 	
-	def identical_position_template(position_id)
-	  "<div class='notify'>この局面は、先後入れ替わりによって発生する、他との同一局面です。<br>解説は、出現頻度がより高い" + link_to('もう一方の局面', '/positions/' + Position.find(position_id).to_board.reversed_board.to_sfen) + "をご覧下さい。</div>"
+	def identical_position_template(board)
+	  "<div class='notify'>この局面は、先後入れ替わりによって発生する、他との同一局面です。<br>解説は、出現頻度がより高い" + link_to('もう一方の局面', '/positions/' + board.reversed_board.to_sfen) + "をご覧下さい。</div>"
 	end
 end
