@@ -1,11 +1,15 @@
 <%= link_to @wikipost.user.username, '/users/' + @wikipost.user.id.to_s %>さんの投稿 (<%= @wikipost.to_local_time %>)
 
 <h2>更新差分</h2>
-<% if current_user %><% if (current_user != @wikipost.user) %>
-    <div id="like_<%= @wikipost.id.to_s %>" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
-  <% elsif (@wikipost.reputation_for(:likes).to_i > 0) %>
+<% if (current_user && current_user != @wikipost.user) %>
+  <div id="like_<%= @wikipost.id.to_s %>" style="padding-top:5px;padding-left:35px;"><%= like_button(@wikipost) %></div>
+<% elsif (@wikipost.reputation_for(:likes).to_i > 0) %>
+  <% if current_user %>
     <span class="dark_green">あなたの編集に<b><%= link_to @wikipost.reputation_for(:likes).to_i.to_s + '名', '/wikiposts/' + @wikipost.id.to_s + '/likers' %></b>のユーザが「いいね！」と言っています</span>
-<% end %><% end %>
+  <% else %>
+    <span class="dark_green">この編集に<b><%= @wikipost.reputation_for(:likes).to_i.to_s %>名</b>のユーザが「いいね！」と言っています</span>
+  <% end %>
+<% end %>
 <div style="padding-left:35px;padding-top:7px;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= wikipost_url(@wikipost.id) %>" data-text="【<%= SITE_NAME %>】 <%= @wikipost.user.username %>さんによる編集差分: <%= @wikipost.position.handicap.name %><% if @wikipost.position.strategy %>、<%= @wikipost.position.strategy.name %><% end %>" data-count="none" data-lang="ja" data-hashtags="shogi"></a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </div>
