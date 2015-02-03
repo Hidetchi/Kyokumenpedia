@@ -31,7 +31,7 @@
 </table>
 
 <hr>
-<% if current_user && current_user.can_access_privilege? && @user.role == 0 && @user.card != 0 && @user.id != current_user.id %>
+<% if current_user && current_user.can_issue_card?(@user) %>
 <br>
 <h3>ユーザ管理機能</h3>
 <div style='margin-left:30px;'>

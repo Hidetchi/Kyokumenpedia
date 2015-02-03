@@ -1,8 +1,9 @@
 class User < ActiveRecord::Base
   ROLE_USER = 0
   ROLE_SUPER_USER = 1
-  ROLE_ADMIN = 2
-  ROLE_SUPERVISOR = 3
+  ROLE_MODERATOR = 2
+  ROLE_ADMIN = 3
+  ROLE_SUPERVISOR = 4
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -85,14 +86,14 @@ class User < ActiveRecord::Base
   end
 
   def to_role_name
-    ["一般", "スーパユーザ", "管理者", "一般"][self.role]
+    ["一般", "スーパユーザ", "モデレータ", "管理者", "一般"][self.role]
   end
   
   def to_stars
     tag = ""
     if self.role == ROLE_SUPER_USER
       color = "_blue"
-    elsif self.role == ROLE_ADMIN
+    elsif self.role == ROLE_MODERATOR || self.role == ROLE_ADMIN
       color = "_green"
     else
       color = ""
@@ -104,7 +105,7 @@ class User < ActiveRecord::Base
   end
 
   def can_access_privilege?
-    self.role == ROLE_ADMIN || self.role == ROLE_SUPER_USER
+    self.role >= ROLE_SUPER_USER && self.role <= ROLE_ADMIN
   end
 
   def is_admin?
@@ -112,10 +113,14 @@ class User < ActiveRecord::Base
   end
 
   def can_select_pro?
-    self.role == ROLE_ADMIN || self.role == ROLE_SUPER_USER || self.role == ROLE_SUPERVISOR
+    self.role >= ROLE_SUPER_USER
   end
 
   def can_view_pro?
-    self.role == ROLE_ADMIN || self.role == ROLE_SUPERVISOR
+    self.role >= ROLE_MODERATOR
+  end
+
+  def can_issue_card?(user)
+    can_access_privilege? && self.role > user.role && user.card != 0 && self.id != user.id
   end
 end
