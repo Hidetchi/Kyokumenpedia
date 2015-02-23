@@ -1,0 +1,16 @@
+<h4><%= strategy_name %></h4>
+<table style="margin-left:30px;margin-bottom:20px;">
+<tr><th width="40">順位<th>ユーザ<th width="70">いいね！
+<% i = 0 %>
+<% arrays.each do |arr| %>
+  <tr>
+  <td><%= i = i + 1 %>
+  <% if (current_user && current_user == arr[0]) %>
+  <td style="padding:3px 8px;background-color:#ffb;">
+  <% else %>
+  <td style="padding:3px 8px;">
+  <% end %>
+  <%= link_to arr[0].username, user_path(arr[0].id) %>
+  <td style="text-align:right;padding-right:10px;"><%= arr[1] %>
+<% end %>
+</table>

@@ -6,6 +6,15 @@ class UsersController < ApplicationController
   
   def ranking
     @users = User.order('point desc').limit(30)
+    @hash = Hash.new
+    [21, 17, 3, 15, 32, 43, 48, 56, 78].each do |i|
+      begin
+        @hash[Strategy.find(i).name] = Strategy.user_ranking([i])
+      rescue
+      end
+    end
+    hirate = Strategy.find(1)
+    @hash["駒落ち"] = Strategy.user_ranking(hirate.sibling_ids - [1])
   end
   
   def update

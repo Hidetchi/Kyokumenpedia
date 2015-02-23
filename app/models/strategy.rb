@@ -3,10 +3,14 @@ class Strategy < ActiveRecord::Base
   belongs_to :main_position, class_name: 'Position', foreign_key: 'main_position_id'
   has_ancestry
 
-  def self.user_ranking(strategy_id, limit = 10)
+  def self.user_ranking(strategy_ids, limit = 10)
     #Returns an array of [ActiveRecord-user, sum-of-likes]
-    strategy = Strategy.find(strategy_id)
-    wikiposts = Wikipost.joins(:position).where('positions.strategy_id in (?)', strategy.subtree_ids)
+    all_subtree_ids = []
+    strategy_ids.each do |id|
+      strategy = Strategy.find(id)
+      all_subtree_ids = all_subtree_ids + strategy.subtree_ids
+    end
+    wikiposts = Wikipost.joins(:position).where('positions.strategy_id in (?)', all_subtree_ids)
     likes = Hash.new(0)
     wikiposts.each do |w|
       likes[w.user_id] += w.likes if w.likes > 0

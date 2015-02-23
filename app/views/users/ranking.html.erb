@@ -3,26 +3,37 @@
 <% end %>
 <h2>編集ランキング</h2>
 <h3>総合部門</h3>
-<table style="margin-left:60px;">
-<tr><th width="40">順位<th>ユーザ<th width="70">編集EXP
 <% i = 0 %>
-<% @users.each do |user| %>
-<% if (i==0) %>
-  <tr style="font-size:17px;font-weight:bold;">
-<% elsif (i<=2) %>
-  <tr style="font-size:15px;">
-<% else %>
-  <tr>
-<% end %>
-<td><%= i = i + 1 %>
-<% if (current_user && current_user == user) %>
-<td style="padding:3px 8px;background-color:#ffb;">
-<% else %>
-<td style="padding:3px 8px;">
-<% end %>
-<%= link_to user.username, '/users/' + user.id.to_s %>
-<td style="text-align:right;padding-right:10px;"><%= user.point * 10 %>
+<table class="invisible" style="padding:0;margin-left:20px;"><tr>
+<% 3.times do %>
+  <% break if i >= @users.length %>
+  <td class="invisible" style="padding:0;">
+  <table style="margin-left:30px;">
+  <tr><th width="40">順位<th>ユーザ<th width="70">編集EXP
+  <% 10.times do %>
+    <% break if i >= @users.length %>
+    <tr>
+    <td><%= i + 1 %>
+    <% if (current_user && current_user == @users[i]) %>
+    <td style="padding:3px 8px;background-color:#ffb;">
+    <% else %>
+    <td style="padding:3px 8px;">
+    <% end %>
+    <%= link_to @users[i].username, user_path(@users[i].id) %>
+    <td style="text-align:right;padding-right:10px;"><%= @users[i].point * 10 %>
+    <% i += 1 %>
+  <% end %>
+  </table>
 <% end %>
 </table>
-<h3>戦型別</h3>
-<p style="margin-left:25px;"><span class="dark_red">このセクションは現在準備中です</span></p>
+<br>
+<h3>戦型別部門</h3>
+<table class="invisible" style="padding:0;margin-left:20px;">
+<% i = 0 %>
+<% @hash.each do |k,v| %>
+  <% if i % 3 == 0 %><tr><% end %>
+  <td class="invisible" style="padding:0;text-align:left;">
+  <%= render :partial => 'likes_ranking', :locals => { :strategy_name => k, :arrays => v } %>
+  <% i += 1 %>
+<% end %>
+</table>
