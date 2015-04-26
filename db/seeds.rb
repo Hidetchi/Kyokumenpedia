@@ -31,6 +31,7 @@ ActiveRecord::Base.transaction do
   GameSource.create(:name => 'JSA', :pass => '', :kifu_url_header => 'http://wiki.optus.nu/shogi/index.php?cmd=kif&cmds=display2&kid=', :category => 1)
   GameSource.create(:name => '81Dojo', :pass => '', :kifu_url_header => 'http://81dojo.com/kifuviewer_jp.html?kid=', :category => 2)
   GameSource.create(:name => 'floodgate', :pass => '', :kifu_url_header => 'http://wdoor.c.u-tokyo.ac.jp/shogi/view/', :kifu_url_footer => '.csa', :category => 3)
+  GameSource.create(:name => 'joseki', :pass => '', :kifu_url_header => '', :kifu_url_footer => '', :category => 4)
   Handicap.create(:id => 1, :name => '平手')
   Handicap.create(:id => 2, :name => '香落ち')
   Handicap.create(:id => 3, :name => '角落ち')

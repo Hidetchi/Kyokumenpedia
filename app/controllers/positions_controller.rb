@@ -210,7 +210,7 @@ class PositionsController < ApplicationController
     if current_user && current_user.can_view_pro?
       @moves = @position.next_moves.order("stat#{@category}_total desc").includes(:next_position)
     else
-      @moves = @position.next_moves.order("stat#{@category}_total desc").where("stat#{@category}_total > 0").includes(:next_position)
+      @moves = @position.next_moves.order("stat#{@category}_total desc").where("stat#{@category}_total > 0 OR (stat1_total = 0 AND stat2_total = 0 AND stat3_total = 0)").includes(:next_position)
     end
   end
 

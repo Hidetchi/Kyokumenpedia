@@ -4,10 +4,11 @@ class Move < ActiveRecord::Base
   belongs_to :next_position, class_name: 'Position', foreign_key: 'next_position_id'
   has_many :appearances
 
-  def self.find_or_new(prev_id, next_id, csa_move)
+  def self.find_or_new(prev_id, next_id, csa_move, save_new = false)
     unless (move = Move.find_by(prev_position_id: prev_id, next_position_id: next_id))
       move = Move.new(:prev_position_id => prev_id, :next_position_id => next_id, :csa => csa_move)
       move.analyze
+      move.save if save_new
     end
     return move
   end

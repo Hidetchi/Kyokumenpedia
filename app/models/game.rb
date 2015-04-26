@@ -55,23 +55,39 @@ class Game < ActiveRecord::Base
       end
       sfens << board.to_sfen unless rt == :toryo
     end
-    # if there is no result output even after the last move, it's invalid
-    return {:result => 'No result'} if (rt == :normal)
-    if (rt == :sennichite)
-      result_code = 2
+    if (game_source.category != 4)
+      # if there is no result output even after the last move, it's invalid
+      return {:result => 'No result'} if (rt == :normal)
+      if (rt == :sennichite)
+        result_code = 2
+      else
+        result_code = board.teban ? 1 : 0
+      end
+      # when the result does not match
+      return {:result => 'Result does not match'} if (params[:result].to_i != result_code)
+      winner = (result_code == 0 ? "Sente" : (result_code == 1 ? "Gote" : "Draw"))
+      # If the kifu is OK, then save the game to record
+      unless (game = Game.insert_with_hash(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid, :event), game_source.id))
+        return {:result => 'Duplicate Kifu'}
+      end
+      return {:result => 'Unknown error'} if (!game.id)
+      # Update relations between positions, moves, etc in background
+      Game.delay.update_relations(game.id) if analysis_job
     else
-      result_code = board.teban ? 1 : 0
+      winner = 2
+      positions = []
+      ActiveRecord::Base.transaction do
+        strategy = nil
+        for i in 0..(sfens.length - 1) do
+          positions << Position.find_or_create(sfens[i])
+        end
+        for i in 0..(positions.length - 1) do
+          move = Move.find_or_new(positions[i].id, positions[i+1].id, csa_moves[i], true) if (i < positions.length - 1)
+          strategy = positions[i].update_strategy(strategy)
+          positions[i].appearances.create(num: i) if positions[i].appearances.count == 0
+        end
+      end #transaction-end
     end
-    # when the result does not match
-    return {:result => 'Result does not match'} if (params[:result].to_i != result_code)
-    winner = (result_code == 0 ? "Sente" : (result_code == 1 ? "Gote" : "Draw"))
-    # If the kifu is OK, then save the game to record
-    unless (game = Game.insert_with_hash(params.permit(:black_name, :white_name, :date, :csa, :result, :handicap_id, :native_kid, :event), game_source.id))
-      return {:result => 'Duplicate Kifu'}
-    end
-    return {:result => 'Unknown error'} if (!game.id)
-    # Update relations between positions, moves, etc in background
-    Game.delay.update_relations(game.id) if analysis_job
     response=Hash[
       result: "Success",
       moves: sfens.length,
