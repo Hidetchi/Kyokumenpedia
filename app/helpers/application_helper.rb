@@ -4,7 +4,7 @@ module ApplicationHelper
     if (diff > 3*365*24*60*60)
       return diff.div(365*24*60*60).to_s + "年前"
     elsif (diff > 2*30*24*60*60)
-      return diff.div(24*60*60).to_s + "ヶ月前"
+      return diff.div(30*24*60*60).to_s + "ヶ月前"
     elsif (diff > 24*60*60)
       return diff.div(24*60*60).to_s + "日前"
     elsif (diff > 60*60)
