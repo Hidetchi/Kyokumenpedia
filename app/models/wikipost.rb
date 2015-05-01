@@ -164,7 +164,13 @@ class Wikipost < ActiveRecord::Base
         ""
 			}
     end
-    positions = sfens.length > 0 ? Position.where(sfen: sfens) : []
+    position_ids = []
+    sfens.each do |sfen|
+      if (position = Position.find_or_create(sfen))
+        position_ids << position.id
+      end
+    end
+    positions = sfens.length > 0 ? Position.where(id: position_ids) : []
     self.position.referred_positions.replace(positions)
   end
   
