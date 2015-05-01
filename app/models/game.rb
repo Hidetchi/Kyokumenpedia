@@ -156,7 +156,7 @@ class Game < ActiveRecord::Base
     # level = 1: Middle: Update only if position.strategy is not family of new strategy, otherwise break
     # level = 2: Hard: Update only if position.strategy is not family of new strategy, and keep going to the end
     appearance = Appearance.find(appearance_id)
-    game = appearance.game
+    return unless (game = appearance.game)
     strategy = Strategy.find(strategy_id)
 
     csa_moves = []

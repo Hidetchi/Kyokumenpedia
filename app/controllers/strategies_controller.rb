@@ -12,15 +12,13 @@ class StrategiesController < ApplicationController
     raise UserException::AccessDenied unless (current_user && current_user.can_access_privilege?)
     position = Position.find(params[:position_id])
     appearance_ids = position.appearances.pluck(:id)
-    if (appearance_ids.length < 1)
-      position.update_strategy(Strategy.find(params[:id]), true)
-    else
-      mode = session[:update_strategy_mode] || 0
-      session[:update_strategy_mode] = 0
-      appearance_ids.each do |id|
-        Game.delay.update_strategy(id, params[:id].to_i, mode)
-      end
+    mode = session[:update_strategy_mode] || 0
+    session[:update_strategy_mode] = 0
+    position.update_strategy(Strategy.find(params[:id]), true)
+    appearance_ids.each do |id|
+      Game.delay.update_strategy(id, params[:id].to_i, mode)
     end
+    position.update_strategy_category4moves(Strategy.find(params[:id]), mode == 2)
     redirect_to position_path(params[:position_id])
   end
 

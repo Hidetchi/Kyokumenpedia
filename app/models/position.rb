@@ -51,6 +51,14 @@ class Position < ActiveRecord::Base
   def overwrite_strategy(new_strategy)
     update_attributes(:strategy_id => new_strategy.id)
   end
+
+  def update_strategy_category4moves(new_strategy, hard = false)
+    joseki_moves = self.next_moves.where('stat1_total = 0 and stat2_total = 0 and stat3_total = 0')
+    joseki_moves.each do |move|
+      move.next_position.update_strategy(new_strategy, hard)
+      move.next_position.update_strategy_category4moves(new_strategy, hard)
+    end
+  end
   
   def to_board
     board = Board.new
