@@ -1,5 +1,8 @@
 <% content_for :title do %><%= @position.strategy_id ? @position.strategy.name + ' ' : '' %>SFEN=<%= @position.sfen %><% end %>
 <% content_for :canonical do %><%= position_url(@position.id) %><% end %>
+<% if @mynote %>
+<div class="notify" style="padding:5px 7px;margin-bottom:0;">この局面にはあなたのマイノートがあります (<%= @mynote.public ? "公開中、コメント" + @mynote.comments.count.to_s + "件、" + @mynote.views.to_s + "ビュー" : "非公開" %>)<br><b>「<%= link_to @mynote.title, note_path(@mynote) %>」</b></div>
+<% end %>
 <%= render :partial => 'diagram_summary', :locals => { :position => @position } %>
 
 <script type="text/javascript">
@@ -32,24 +35,27 @@
 <% if @referrers.length > 0 %>
 <hr style="margin-top:40px;">
 <h2>本局面を解説内で参照している他の局面</h2>
-<div style="margin-left:20px;margin-top:10px">
+<div style="margin-left:20px;margin-top:10px;overflow:hidden;">
 <%= render :partial => 'tile', :locals => { :positions => @referrers, :type => "REFERRER", :values => nil } %>
 </div>
 <% end %>
 
 <hr style="margin-top:40px;">
 <h1>マイノート欄</h1>
-<% if @mynote %>
-  <div class="level2" style="margin-top:20px;margin-bottom:20px;"><span class="dark_green" style='font-weight:bold;'>この局面にはあなたのマイノートがあります<br>「<%= link_to @mynote.title, note_path(@mynote) %>」</span> (<%= @mynote.public ? "公開中、コメント" + @mynote.comments.count.to_s + "件、" + @mynote.views.to_s + "ビュー" : "非公開" %>)</div>
-<% elsif !user_signed_in? %>
+<% if !user_signed_in? %>
   <div class="level2"><span class="dark_red">マイノートを作成するにはログインして下さい。</span></div>
-<% else %>
+<% elsif @mynote == nil %>
   <div class="level2"><span class="dark_red">この局面のあなたのマイノートはありません。<%= link_to '新規作成', note_position_path(@position.id) %>して下さい。</span></div>
 <% end %>
-<h3>メンバーの公開マイノート</h3>
+<% if @notes.length + @referrer_notes.length == 0 %><div class="level2"><p class="dark_red">この局面に関連した公開マイノートはありません。</p></div><% end %>
+<% if @notes.length > 0 %>
+<h3>この局面の公開マイノート</h3>
 <%= render :partial => 'notes/list', :locals => { :notes => @notes, :with_diagram => false, :with_name => true, :with_strategy => false, :with_public => false, :with_views => true } %>
+<% end %>
+<% if @referrer_notes.length >0 %>
 <h3>この局面を参照している他局面のマイノート</h3>
 <%= render :partial => 'notes/list', :locals => { :notes => @referrer_notes, :with_diagram => true, :with_name => true, :with_strategy => false, :with_public => false, :with_views => true } %>
+<% end %>
 
 <script type="text/javascript">
 $(function(){
