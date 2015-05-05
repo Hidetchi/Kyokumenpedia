@@ -10,11 +10,11 @@ class Discussion < ActiveRecord::Base
     hash[:num] = last_post ? (last_post.num + 1) : 1
     discussion = Discussion.create(hash.permit(:user_id, :position_id, :content, :num))
     discussion.create_activity(action: 'create', owner: discussion.user, recipient: discussion.position)
-    if (!last_post || ((Time.now - last_post.created_at) > 60*60*24))
+    #if (!last_post || ((Time.now - last_post.created_at) > 60*60*24))
       discussion.position.watchers.each do |watcher|
         Feeder.delay.discussion_to_watcher(watcher.id, discussion.id) if watcher.receive_watching
       end
-    end
+    #end
   end
   
   def to_local_time

@@ -1,0 +1,23 @@
+<p><%= @recipient.username %>さん</p>
+
+<p>ウォッチ中の局面に<%= @note.user.username %>さんが公開マイノートを作成しました。</p>
+
+<% if (@note.position.strategy) %>
+  <%= @note.position.strategy.name %><br>
+<% end %>
+<tt><pre>
+<%= @note.position.to_board.to_bod %>
+</tt></pre>
+
+<p>タイトル: 「<%= @note.title %>」<br>
+カテゴリ: <%= note_category_name(@note.category) %></p>
+
+<p><%= link_to 'マイノートへのリンク', note_url(@note) %><br>
+<br>
+<p>この通知をこれ以上受け取りたくない場合は、<%= link_to '登録情報変更ページ', ROOT_PATH + '/users/edit' %>
+よりメール受信を解除して下さい。(ホームページ上のタイムラインにのみ新着情報が表示されるようになります)<br>
+また、この局面のウォッチを解除する場合は、<%= link_to '該当局面のページ', ROOT_PATH + '/positions/' + @note.position_id.to_s %>より「ウォッチ解除」ボタンを押すか、
+<%= link_to 'マイページ', ROOT_PATH + '/users/mypage' %>
+にてウォッチ中の局面を管理して下さい。</p>
+
+<%= render :partial => 'signature' %>

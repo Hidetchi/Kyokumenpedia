@@ -110,6 +110,16 @@ h2 style="margin-bottom:10px;"
         |: 
       i
         = activity.trackable.content
+  - elsif (activity.key == 'note.create')
+    - if activity.recipient.strategy_id
+      span.dark_green
+        = activity.recipient.strategy.name
+      |の
+    |局面に公開マイノート「
+    = link_to activity.trackable.title, '/notes/' + activity.trackable_id.to_s
+    |」を作成しました
+    div style="width:200px;margin-top:10px;"
+      = activity.recipient.to_board.to_html_table.html_safe
   |</div>
 
 - if (!current_user)

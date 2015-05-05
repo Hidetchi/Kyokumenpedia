@@ -7,6 +7,8 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード再入力"
     errors:
+      messages:
+        record_invalid: "バリデーションに失敗しました。 %{errors}"
       models:
         user:
           attributes:

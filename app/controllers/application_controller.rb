@@ -54,6 +54,21 @@ class ApplicationController < ActionController::Base
     @caption = "サーバ内にてエラーが発生しました。ご迷惑をおかけし大変申し訳ありません。"
     render template: 'pages/error', status: 500, layout: 'application', content_type: 'text/html'
   end
+
+  def bot_tweet(str)
+    return unless Rails.env.production?
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key       = TW_CONSUMER_KEY
+      config.consumer_secret    = TW_CONSUMER_SECRET
+      config.access_token        = TW_ACCESS_TOKEN
+      config.access_token_secret = TW_ACCESS_SECRET
+    end
+    begin
+      client.update('【' + SITE_NAME + '】' + str + ' #shogi')
+    rescue => e
+      Rails.logger.error "Tweet.update ERROR : #{e.message}>>"
+    end
+  end
  
   protected
 

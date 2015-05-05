@@ -1,0 +1,41 @@
+- prev_moves_sorted = position.prev_moves.order('stat1_total + stat2_total + stat3_total desc').limit(1)
+- num_counts = position.appearances.limit(100).pluck(:num).group_by { |v| v }
+- num = num_counts.sort[0] ? num_counts.sort[0][0] : nil
+- board = position.to_board
+
+p.dark_green style='margin-left:45px;margin-bottom:0;'
+  i テーマ図
+table.invisible style='border: 2px outset black;margin-left:45px;margin-bottom:30px;'
+  tr
+    td.invisible style='padding-top:0;padding-bottom:0;'
+      div
+        = board.to_html_table("M").html_safe
+
+    td.invisible style='padding-top:0;padding-bottom:0;vertical-align:middle'
+
+      div#summary
+        table
+          tr
+            th width=80
+              |手合割
+            td width=150
+              = position.handicap.name
+          tr
+            th 戦型
+            td
+              - if position.strategy
+                = position.strategy.name
+              - else
+                |-
+          tr
+            th 手番
+            td = board.to_teban_text
+          tr
+            th 最頻到達手
+            td
+              - if num == 0
+                |開始局面
+              - elsif (prev_moves_sorted[0])
+                |#{num}手目 #{prev_moves_sorted[0].to_kif}まで
+      br
+      = link_to '局面ペディアのデータページへ', position_path(position), :style=>'font-size:15px;'

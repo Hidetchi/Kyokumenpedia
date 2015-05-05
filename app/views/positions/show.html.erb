@@ -37,6 +37,20 @@
 </div>
 <% end %>
 
+<hr style="margin-top:40px;">
+<h1>マイノート欄</h1>
+<% if @mynote %>
+  <div class="level2" style="margin-top:20px;margin-bottom:20px;"><span class="dark_green" style='font-weight:bold;'>この局面にはあなたのマイノートがあります<br>「<%= link_to @mynote.title, note_path(@mynote) %>」</span> (<%= @mynote.public ? "公開中、コメント" + @mynote.comments.count.to_s + "件、" + @mynote.views.to_s + "ビュー" : "非公開" %>)</div>
+<% elsif !user_signed_in? %>
+  <div class="level2"><span class="dark_red">マイノートを作成するにはログインして下さい。</span></div>
+<% else %>
+  <div class="level2"><span class="dark_red">この局面のあなたのマイノートはありません。<%= link_to '新規作成', note_position_path(@position.id) %>して下さい。</span></div>
+<% end %>
+<h3>メンバーの公開マイノート</h3>
+<%= render :partial => 'notes/list', :locals => { :notes => @notes, :with_diagram => false, :with_name => true, :with_strategy => false, :with_public => false, :with_views => true } %>
+<h3>この局面を参照している他局面のマイノート</h3>
+<%= render :partial => 'notes/list', :locals => { :notes => @referrer_notes, :with_diagram => true, :with_name => true, :with_strategy => false, :with_public => false, :with_views => true } %>
+
 <script type="text/javascript">
 $(function(){
   load_statistics(<%= @position.id %>,<%= @category %>);

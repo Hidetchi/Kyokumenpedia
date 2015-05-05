@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :followed_relations, class_name: 'Follow', foreign_key: 'followed_id'
   has_many :followers, :through => :followed_relations, :source => :follower
   has_many :evaluations, class_name: "ReputationSystem::Evaluation", as: :source
+  has_many :notes
   
   def watching?(position_id)
     self.watches.pluck(:position_id).include?(position_id)

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       post 'card/:color' => 'users#card', as: :card
     end
     resources :wikiposts, :only => [:index]
+    resources :notes, :only => [:index]
   end
 
   resources :positions, :only => [:show] do
@@ -44,6 +45,7 @@ Rails.application.routes.draw do
       post 'pickup'
       post 'set_main'
       get ':moves' => 'positions#show', moves: /([\+\-]\d{4}[A-Z]{2})+/, as: :moves
+      get 'note' => 'notes#new'
     end
     resources :wikiposts, :only => [:index]
     resources :discussions, :only => [:index, :create] do
@@ -56,6 +58,8 @@ Rails.application.routes.draw do
   get 'wikiposts/:id/likers' => 'wikiposts#likers'
   post 'strategies/mode/:mode' => 'strategies#mode'
   get 'discussions' => 'discussions#recent'
+  resources :notes, :only => [:index, :show, :create, :edit, :update, :destroy]
+  resources :comments, :only => [:create]
 
   root :to => 'activities#index'
   

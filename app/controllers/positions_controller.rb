@@ -105,7 +105,11 @@ class PositionsController < ApplicationController
     Position.increment_counter(:views, @position.id)
     @referrers = @position.referrers.order('views desc')
     @category = session[:viewing_category] || 2
-    if current_user
+    @notes = @position.notes.where(public: true).includes(:user)
+    @referrer_notes = @position.referrer_notes.includes(:user, :position) # NoteReference exists only for public=true notes
+    if user_signed_in?
+      @mynote = Note.find_by(:user_id => current_user.id, :position_id => @position.id)
+
       session[:history] = [] unless session[:history]
       session[:history] = [@position.id] | session[:history]
       session[:history].pop if session[:history].length > 50
@@ -173,7 +177,7 @@ class PositionsController < ApplicationController
           end
         end
         wikipost.reward_user
-        wikipost.tweet
+        bot_tweet(wikipost.to_create_tweet) if wikipost.prev_post_id == nil
         wikipost.update_references
         expire_fragment('db_stat')
         redirect_to position_path(params[:id])

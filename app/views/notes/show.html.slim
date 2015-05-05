@@ -1,0 +1,59 @@
+= content_for :title do
+  = @note.title + ' | ' + @note.user.username + 'さんのマイノート'
+h1
+  = link_to @note.user.username, user_path(@note.user)
+  |さんのマイノート
+- if user_signed_in? && current_user == @note.user
+  div#wiki_edit_buttons
+    |[
+    = link_to '編集', edit_note_path(@note)
+    |] [
+    = link_to '削除', @note, data: {:confirm => '本当に削除してよろしいですか？'}, :method => :delete
+    |]
+
+h2 = @note.title
+
+div style='width:95%;text-align:right;' = note_info_header(@note)
+
+= render :partial => 'diagram_summary', :locals => { :position => @note.position }
+
+= interpret_wiki(@note.position.id, @note.content, false, true).html_safe
+
+p style='margin-left:20px;margin-bottom:20px;'
+  a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-hashtags="shogi" data-url="#{note_url(@note)}" data-text="#{sprintf('【%s】 %sさんのマイノート「%s」 (%s%s)',SITE_NAME, @note.user.username, @note.title, @note.position.handicap.name, @note.position.strategy ? ('、' + @note.position.strategy.name) : '')}"
+  javascript:
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+h2 コメント
+div style='margin-left:20px'
+  - if user_signed_in?
+    = form_for @comment do |f|
+      = f.hidden_field :user_id
+      = f.hidden_field :note_id
+      = f.text_area :content, :size => "60x4"
+
+      .actions
+        = f.submit "登録", data: { confirm: "この内容で投稿してもよろしいですか？" }
+  - else
+    p.dark_red
+      |コメントを投稿するにはログインして下さい。
+
+  - if (@comments.length == 0)
+    span.dark_red
+      |コメントはまだありません。
+  - else
+    - @comments.each do |comment|
+      div.discussion
+        span.dark_red
+          = comment.num
+          |:
+        span style="padding-left:15px;"
+          = link_to comment.user.username, user_path(comment.user_id)
+        span style="padding-left:5px;"
+          = comment.user.to_stars
+        span style="padding-left:15px;padding-right:15px;"
+          = comment.to_local_time
+        p style="margin-left:35px;white-space:pre-wrap;"
+            = comment.content
+  
+= render :partial => 'positions/preview_script'

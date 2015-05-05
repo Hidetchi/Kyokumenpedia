@@ -16,6 +16,7 @@
   <% else %>
     <%= @user.followers.pluck(:id).length %>人
   <% end %></b>
+<li>公開マイノート: <b><%= link_to @user.notes.where(public: true).count.to_s + '件', user_notes_path(@user) %></b>
 <li>棋力: <%= @user.strength %>
 <li>得意戦型: <%= @user.style %>
 <li>サイト: <% if @user.url %><%= link_to @user.url, @user.url %><% end %>

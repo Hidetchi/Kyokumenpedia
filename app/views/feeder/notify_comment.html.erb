@@ -1,0 +1,22 @@
+<p><%= @recipient.username %>さん</p>
+
+<p><%= @comment.note.user.username %>さんの公開マイノートに、<%= @comment.user.username %>さんがコメントを投稿しました。</p>
+
+<% if (@comment.note.position.strategy) %>
+  <%= @comment.note.position.strategy.name %><br>
+<% end %>
+<tt><pre>
+<%= @comment.note.position.to_board.to_bod %>
+</tt></pre>
+
+<p>コメント:<br>
+---------------------------
+<pre><i><%= @comment.content %></i></pre>
+---------------------------
+</p>
+
+<p><%= link_to 'マイノートへのリンク', note_url(@comment.note) %><br>
+<br>
+<p>この通知は、マイノートの著者と、過去5件のコメント投稿者に送信されます。</p>
+
+<%= render :partial => 'signature' %>

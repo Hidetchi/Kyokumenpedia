@@ -103,20 +103,8 @@ class Wikipost < ActiveRecord::Base
     self.user.save
   end
 
-  def tweet
-    return unless (self.prev_post_id == nil && Rails.env.production?)
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key       = TW_CONSUMER_KEY
-      config.consumer_secret    = TW_CONSUMER_SECRET
-      config.access_token        = TW_ACCESS_TOKEN
-      config.access_token_secret = TW_ACCESS_SECRET
-    end
-    begin
-      str = '【' + SITE_NAME + '】' + self.user.username + 'さんが新しい局面' + (self.position.strategy ? ('(' + self.position.strategy.name + ')') : '') + 'の解説を投稿しました。 http://kyokumen.jp/wikiposts/' + self.id.to_s + ' #shogi'
-      client.update(str)
-    rescue => e
-      Rails.logger.error "Tweet.update ERROR : #{e.message}>>"
-    end
+  def to_create_tweet
+    self.user.username + 'さんが新しい局面' + (self.position.strategy ? ('(' + self.position.strategy.name + ')') : '') + 'の解説を投稿しました。 http://kyokumen.jp/wikiposts/' + self.id.to_s
   end
   
   def like(liker)

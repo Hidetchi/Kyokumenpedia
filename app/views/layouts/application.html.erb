@@ -22,19 +22,19 @@
 
 <div id="side_column">
 <center>
-<%= link_to image_tag('logo-off.png', :id => 'logo'), '/' %>
+<%= link_to image_tag('logo-off.png', :id => 'logo'), '/', :title => 'トップへ' %>
 <br><span class="dark_red">beta</span>
 </center>
 <ul class="sidemenu">
-<li><%= link_to 'トップ', '/' %>
-<li class="new_section"><%= link_to '局面検索・戦型ツリー', search_positions_path %>
+<li><%= link_to '局面検索・戦型ツリー', search_positions_path %>
+<li class="new_section"><%= link_to '編集ランキング', '/users/ranking' %>
 <li class="new_section"><%= link_to '編集員のオススメ', '/positions/list/pic' %>
 <li><%= link_to '解説リクエスト局面', '/positions/list/req' %>
 <li><%= link_to 'いま人気の局面', '/positions/list/hot' %>
 <li><%= link_to '新しい局面', '/positions/list/new' %>
-<li><%= link_to '最新の編集', wikiposts_path %>
+<li class="new_section"><%= link_to '最新の編集', wikiposts_path %>
 <li><%= link_to '最新ディスカッション', '/discussions' %>
-<li class="new_section"><%= link_to '編集ランキング', '/users/ranking' %>
+<li><%= link_to '最新マイノート', '/notes' %>
 <li class="new_section"><%= link_to 'サイト紹介', pages_about_path %>
 <li><%= link_to 'ヘルプ', pages_help_path %>
 <li><%= link_to '利用規約', pages_terms_path %>
@@ -52,6 +52,7 @@
 <ul class="my_menu">
 <li><%= link_to "マイページ", user_path(current_user.id) %>
 <li><%= link_to "編集履歴", user_wikiposts_path(current_user.id) %>
+<li><%= link_to "マイノート管理", user_notes_path(current_user.id) %>
 <li><%= link_to "登録情報変更", edit_user_registration_path %>
 <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 </ul>
