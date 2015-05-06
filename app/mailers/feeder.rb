@@ -30,7 +30,7 @@ class Feeder < ActionMailer::Base
   def note_to_follower(recipient_id, note_id)
     @recipient = User.find(recipient_id)
     @note = Note.find(note_id)
-    mail to: @recipient.email, subject: SUBJECT_HEADER + "フォロー中の" + @note.user.username + "さんが公開マイノートを作成されました"
+    mail to: @recipient.email, subject: SUBJECT_HEADER + "フォロー中の" + @note.user.username + "さんが公開マイノートを作成しました"
   end
 
   def notify_comment(recipient_id, comment_id)
