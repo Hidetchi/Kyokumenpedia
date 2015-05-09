@@ -10,12 +10,6 @@
   br
   = f.text_area :content, :size => "60x13"
   br
-  i 公開範囲: 
-  = f.radio_button :public, true
-  |公開 
-  = f.radio_button :public, false, :disabled => true
-  |非公開
-  br
   i カテゴリ:
   = f.radio_button :category, 1
   = note_category_name(1)
@@ -27,6 +21,17 @@
   = note_category_name(4)
   = f.radio_button :category, 0
   = note_category_name(0)
+  br
+  i 公開範囲: 
+  = f.radio_button :public, true
+  |公開　 
+  - unless @note.public && !current_user.can_create_private_note?
+    = f.radio_button :public, false
+    |非公開　
+  span.dark_green
+    i 
+      |(#{current_user.private_note_limit_info})
+  br
 
   .actions
     = f.submit "登録", data: { confirm: "この内容で登録してもよろしいですか？" }

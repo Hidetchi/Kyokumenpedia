@@ -3,4 +3,4 @@
 h2 = @list_title
 center
   = paginate @notes
-= render :partial => 'list', :locals => { :notes => @notes, :with_diagram => true, :with_name => true, :with_strategy => true, :with_public => (@with_public != nil), :with_views => true }
+= render :partial => 'list', :locals => { :notes => @notes, :with_diagram => true, :with_name => !(@without_name != nil), :with_strategy => true, :with_public => (@with_public != nil), :with_views => true }

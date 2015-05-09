@@ -11,12 +11,23 @@ class NotesController < ApplicationController
       if (user_signed_in? && user == current_user)
         @notes = Note.includes(:position).where(:user_id => params[:user_id]).order(id: :desc).page(params[:page])
         @with_public = true
+        @without_name = true
       else
-        @notes = Note.includes(:position).where(:user_id => params[:user_id], :public => true).order(id: :desc).page(params[:page])
+        if user_signed_in? && current_user.is_admin?
+          @notes = Note.includes(:position).where(:user_id => params[:user_id]).order(id: :desc).page(params[:page])
+          @with_public = true
+        else
+          @notes = Note.includes(:position).where(:user_id => params[:user_id], :public => true).order(id: :desc).page(params[:page])
+        end
       end
       @list_title = user.username + "さんのマイノート一覧"
     else
-      @notes = Note.where(public: true).includes(:user, :position).order(created_at: :desc).page(params[:page])
+      if user_signed_in? && current_user.is_admin?
+        @notes = Note.includes(:user, :position).order(created_at: :desc).page(params[:page])
+        @with_public = true
+      else
+        @notes = Note.where(public: true).includes(:user, :position).order(created_at: :desc).page(params[:page])
+      end
       @list_title = "最新マイノート"
     end
     respond_with(@notes)
@@ -27,7 +38,7 @@ class NotesController < ApplicationController
       Note.increment_counter(:views, @note.id)
       @note.views += 1
     else
-      raise UserException::AccessDenied unless (user_signed_in? && @note.user_id == current_user.id)
+      raise UserException::AccessDenied unless (user_signed_in? && (@note.user_id == current_user.id || current_user.is_admin?))
     end
     @comments = @note.comments.includes(:user).order(id: :desc)
     @comment = Comment.new

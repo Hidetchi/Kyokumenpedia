@@ -124,4 +124,31 @@ class User < ActiveRecord::Base
   def can_issue_card?(user)
     can_access_privilege? && self.role > user.role && user.card != 0 && self.id != user.id
   end
+
+  def private_note_limit
+    if self.can_access_privilege? || self.to_rank == 6
+      nil
+    else
+      [10, 15, 30, 100, 200, 500, nil][self.to_rank]
+    end
+  end
+
+  def can_create_private_note?
+    if (limit = private_note_limit)
+      self.notes.where(public: false).count < limit
+    else
+      true
+    end
+  end
+
+  def private_note_limit_info
+    str = "非公開ノート利用可能数: "
+    if (limit = private_note_limit)
+      str += sprintf("残り%d局面　編集EXPランクに応じて増加)", limit - self.notes.where(public:false).count)
+    else
+      str += "無制限"
+    end
+    str
+  end
+
 end
