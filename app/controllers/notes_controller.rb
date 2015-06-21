@@ -103,6 +103,7 @@ class NotesController < ApplicationController
     end
 
     def note_params
+      params[:note][:title] = '(無題)' if params[:note][:title] == ''
       params.require(:note).permit(:title, :content, :user_id, :position_id, :public, :category)
     end
 
