@@ -22,7 +22,9 @@
 <td class="invisible" style="padding-top:0">
 
 <div id="stat_appearances">
-<% unless (@category == 1 && !(current_user && current_user.can_view_pro?)) %>
+<% if (@category == 1 && !(current_user && current_user.can_view_pro?)) %>
+<%= image_tag 'denied.png', :style => 'vertical-align:-2px;' %><span class='dark_red'>有名局の対局情報はスーパユーザのみ閲覧可能です</span>
+<% else %>
 <table>
 <tr><th colspan=2>先手<th colspan=2>後手<th>対局日<th width=60>棋戦<th width=60>次の手<th width=30>棋譜
 <% appearances.each do |appearance| %>
@@ -33,7 +35,7 @@
 <td><%= game.date %>
 <td><%= game.render_event || game.game_source.name %>
 <td><%= appearance.next_move.to_kif %>
-<td><% if game.show_kifu?(current_user, @category) %><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s + game.game_source.kifu_url_footer + appearance.num.to_s, :target=>["_blank"], :class=>"external" %><% else %><%= image_tag "denied.png", :style=>"vertical-align:middle;", :title=>(user_signed_in ? "" : "ログインして下さい") %><% end %>
+<td><% if game.show_kifu?(current_user, @category) %><%= link_to '棋譜', game.game_source.kifu_url_header + game.native_kid.to_s + game.game_source.kifu_url_footer + appearance.num.to_s, :target=>["_blank"], :class=>"external" %><% else %><%= image_tag "denied.png", :style=>"vertical-align:middle;", :title=>(user_signed_in? ? "" : "ログインして下さい") %><% end %>
 <% end %>
 </table>
 <% end %>
