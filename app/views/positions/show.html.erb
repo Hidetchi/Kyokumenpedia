@@ -14,7 +14,7 @@
 
 <h2>棋譜統計</h2>
 <div style="margin-left:15px;margin-bottom:5px;">
-<% if current_user && current_user.can_select_pro? %><%= radio_button_tag 'category', 1, checked = @category == 1, :onclick => "load_statistics(" + @position.id.to_s + ",1)" %>有名局<% end %>
+<% if current_user && current_user.can_select_pro? %><%= radio_button_tag 'category', 1, checked = @category == 1, :onclick => "load_statistics(" + @position.id.to_s + ",1)" %><% else %><%= image_tag 'denied.png', :style => 'vertical-align:-2px;padding-right:3px;', :title => 'ログインして下さい' %><% end %>有名局
 <%= radio_button_tag 'category', 2, checked = @category == 2, :onclick => "load_statistics(" + @position.id.to_s + ",2)" %>オンライン道場
 <%= radio_button_tag 'category', 3, checked = @category == 3, :onclick => "load_statistics(" + @position.id.to_s + ",3)" %>Floodgate
 </div>

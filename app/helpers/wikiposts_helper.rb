@@ -1,5 +1,6 @@
 module WikipostsHelper
 	def interpret_wiki(position_id, content, logged_in = false, is_note = false)
+    logged_in = true
     board = Position.find(position_id).to_board
 		lines = content.split("\n")
 		new_lines = []

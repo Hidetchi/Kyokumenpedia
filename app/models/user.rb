@@ -114,10 +114,14 @@ class User < ActiveRecord::Base
   end
 
   def can_select_pro?
-    self.role >= ROLE_SUPER_USER
+    self.role >= ROLE_USER
   end
 
   def can_view_pro?
+    self.role >= ROLE_SUPER_USER
+  end
+
+  def can_view_pro_kifu?
     self.role >= ROLE_MODERATOR
   end
 
