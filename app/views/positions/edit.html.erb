@@ -6,7 +6,7 @@
 
 <h2>編集</h2>
 <% if current_user.wikiposts.count == 0 %><span class="dark_red">※初めての投稿となります。必ず「ヘルプ」ページで解説投稿ルールをご確認下さい。</span><% end %>
-<% if !@latest_post_id || @latest_post_id == 0 %><span class="dark_red">※この局面の初版投稿となります。初版では必ず解説本文を記載して下さい。特に「解説リクエスト」が出ている局面では十分な分量を心がけて下さい。</span><% end %>
+<% if !@latest_post_id || @latest_post_id == 0 %><span class="dark_red">※この局面の初版投稿となります。「解説リクエスト」が出ている局面では、参考となるに足りる分量を心がけて下い。</span><% end %>
 <%= form_for :wikipost, :url => post_position_path(@position.id) do |f| %>
 <%= f.hidden_field :latest_post_id, :value => @latest_post_id %>
 <%= f.text_area :content, :size => "80x18", :value => @wikiedit %><br>
