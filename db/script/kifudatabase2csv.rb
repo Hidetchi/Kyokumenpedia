@@ -32,16 +32,16 @@ Find.find("./pro") {|f|
     elsif line =~ /^手合割：(.+)$/
       teban = false
       case $1.chomp
-      when "平手"
+      when /平手/
         handicap = 1
         teban = true
-      when "香落ち"
+      when /香落ち/
         handicap = 2
-      when "角落ち"
+      when /角落ち/
         handicap = 3
-      when "飛車落ち"
+      when /飛車落ち/
         handicap = 4
-      when "飛香落ち"
+      when /飛香落ち/
         handicap = 5
       end
     elsif line =~ /^後手：(.+)$/

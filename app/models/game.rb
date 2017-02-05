@@ -6,14 +6,18 @@ class Game < ActiveRecord::Base
   validates :black_name, :white_name, :date, :result, :handicap_id, :game_source_id, presence: true
   
   def self.insert_with_hash(params, game_source_id)
+    new_hash = Digest::MD5.hexdigest(params[:csa])
+    game = Game.find_by(csa_hash: new_hash)
+    if game
+      game.game_source_id = game_source_id
+      game.native_kid = params[:native_kid]
+      game.save
+      return nil
+    end
     game = Game.new(params)
     game.game_source_id = game_source_id
     game.csa_hash = Digest::MD5.hexdigest(game.csa)
-    begin
-      game.save
-    rescue
-      return nil
-    end
+    game.save
     return game
   end
  
@@ -48,7 +52,7 @@ class Game < ActiveRecord::Base
     rt = nil
     csa_moves.each do |csa_move|
       # if there is a move when sennichite has been already output
-      return {:result => 'Additional move after sennichite.'} if (rt == :sennichite)
+      return {:result => 'Game continued after sennichite.'} if (rt == :sennichite && params[:result].to_i != 2)
       rt = board.handle_one_move(csa_move)
       unless (rt == :normal || rt == :toryo || rt == :sennichite)  # any other output than these indicate illegal move etc.
         return {:result => 'Illegal move ' + csa_move}
@@ -57,8 +61,8 @@ class Game < ActiveRecord::Base
     end
     if (game_source.category != 4)
       # if there is no result output even after the last move, it's invalid
-      return {:result => 'No result'} if (rt == :normal)
-      if (rt == :sennichite)
+      return {:result => 'No result'} if (rt == :normal && params[:result].to_i != 2)
+      if (rt == :sennichite || params[:result].to_i == 2)
         result_code = 2
       else
         result_code = board.teban ? 1 : 0

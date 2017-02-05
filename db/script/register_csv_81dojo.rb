@@ -15,7 +15,7 @@ kagerou
 levercol
 )
 
-f = open("/usr/local/Kyokumenpedia/db/script/kifu_81dojo_4dan.csv")
+f = open("kifu_81dojo_4dan_until_2014.csv")
 i = 0
 f.each {|line|
   i += 1
@@ -48,7 +48,7 @@ f.each {|line|
     hash[:csa] = CGI.escape(hash[:csa])
     query = hash.map{|k, v| "#{k}=#{v}"}.join('&')
     #Net::HTTP.start('27.120.94.96', 3000) {|http|
-    Net::HTTP.start('localhost', 3000) {|http|
+    Net::HTTP.start('localhost', 80) {|http|
       response = http.post('/api/kifu_post', query)
       if (response.body =~ /(Error.+)</)
         puts i.to_s + " " + $1

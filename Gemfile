@@ -53,6 +53,8 @@ gem 'unicorn'
 gem 'spinjs-rails'
 gem 'kaminari'
 gem 'twitter'
+gem 'table_print'
+gem 'whenever', require: false
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'

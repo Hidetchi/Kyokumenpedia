@@ -210,7 +210,8 @@ class PositionsController < ApplicationController
     @position = Position.find(params[:id])
     @category = params[:category].to_i
     session[:viewing_category] = @category
-    game_source_ids = [@category]  #Change this conversion accordingly when you've added new GameSource
+#    game_source_ids = [@category]  #Change this conversion accordingly when you've added new GameSource
+    game_source_ids = GameSource.where(category: @category).pluck(:id)
     @appearances = @position.appearances.preload(:next_move).eager_load(:game).where('games.game_source_id' => game_source_ids).order('appearances.id desc').limit(50)
     if current_user && current_user.can_view_pro_kifu?
       @moves = @position.next_moves.order("stat#{@category}_total desc").includes(:next_position)
