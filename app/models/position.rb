@@ -29,6 +29,30 @@ class Position < ActiveRecord::Base
     return position
   end
 
+  def self.reduce_views_count
+    positions = Position.where('views >= 2').order(views: :desc)
+    ActiveRecord::Base.transaction do
+      positions.each_with_index {|p,i|
+        divider = 2
+        if i < 30
+          num = p.appearances.first.num
+          if num == 0
+            divider = 16
+          elsif num == 1
+            divider = 8
+          elsif num == 2
+            divider = 4
+          elsif num == 3
+            divider = 3
+          end
+        end
+        puts p.views.to_s + "/" + divider.to_s
+        p.update_attributes(views: p.views / divider)
+      }
+    end
+    ""
+  end
+
   def update_stat(category, result)
     return unless [0, 1, 2, 3].include?(category)
     if (result == 0) 

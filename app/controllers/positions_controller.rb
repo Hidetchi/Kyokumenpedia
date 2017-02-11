@@ -21,7 +21,7 @@ class PositionsController < ApplicationController
       @type = "WATCHERS"
       Headline.update(params[:mode], @positions[0])
     elsif (params[:mode] == "hot")
-      @positions = Position.where('views > 0').includes(:strategy).order('views desc').limit(20)
+      @positions = Position.where('views > 0').includes(:strategy).order('views desc').limit(100)
       @list_title = "いま人気の局面"
       @caption = "現在注目を集めている人気の局面を表示しています。"
       @type = "VIEWS"
