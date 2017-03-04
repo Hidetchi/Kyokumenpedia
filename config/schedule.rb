@@ -5,9 +5,10 @@
 
 set :output, "log/cron_log.log"
 set :environment, :production
+job_type :runner_rvm,  "cd :path && bin/rails_for_whenever runner -e :environment ':task' :output"
 
 every 1.day, :at => '3am' do
-  runner "Shogidb2Entry.load_from_origin"
+  runner_rvm "Shogidb2Entry.load_from_origin"
 end
 
 # Learn more: http://github.com/javan/whenever
