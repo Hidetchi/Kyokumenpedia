@@ -25,3 +25,25 @@
 ==== Deployment
 * Run <tt>bin/delayed_jobs start</tt>
 
+==== Kifu update detail
+* 81Dojo
+** Upload function is implemented on 81Dojo side.
+** In rails c, Kifu.update_kyokumenpedia('2017-01-01', '2017-02-01') for example tests loading valid kifus in whole January.
+** Then Kifu.update_kyokumenpedia('2017-01-01', '2017-02-01', false) really posts to Kyokumenpedia.
+** The condition for a player to be valid for the upload is defined in Player.valid_for_kyokumenpedia? (Originally it was 4-Dan or higher, but now changed to 5-Dan or higher) Number of matching kifus should be less thant 5000 games per year.
+
+* Floodgate
+** First create csv file containing all kifus to be uploaded. This procedure should be down in the following process on a local computer.
+** Download yearly 7z file from http://wdoor.c.u-tokyo.ac.jp/shogi/ and unzip.
+** Edit Kyokumenpedia/db/script/floodgate2csv.rb to have the player names that you want to consider valid. To do this, see http://wdoor.c.u-tokyo.ac.jp/shogi/logs/LATEST/players-floodgate.html and pick-up only high-rated names. (originally it was above 2600 but changed to 3000) Number of matching kifus should be less than 5000 games per year.
+** After CSV file is made, move it to kyokumen.jp server, and run db/script/register_csv_floodgate.rb
+** Update must be done yearly at longest, as the rating list keeps being more and more different from the players who played games several years ago.
+
+* FamousGames
+** Shogidb2Entry model stores all hashes of shogidb2. Result=nil means it has not been registered to Game model yet.
+** Shogidb2Entry.load_from_origin loads new hashes, and then registers to Game model. This runs by Whenever gem. 
+** Run rails runner Game.update_relations manually to update positions-moves-games relation. Before doing this, check new Game data by tp Game.where(relation_update:false)
+
+==== Other maintenance
+* Restart bin/delayed_job with cron
+* Run Position.reduce_views_count occasionally

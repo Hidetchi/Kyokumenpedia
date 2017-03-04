@@ -14,8 +14,8 @@ class Shogidb2Entry < ActiveRecord::Base
 #   4: avoided posting (due to game importance (player level or lack of officiality))
 
 def self.load_from_origin(with_register: true)
-  180.step(0, -20) {|i|
-    doc = REXML::Document.new(open("https://shogidb2.com/api/latest?limit=20&offset=" + i.to_s))
+  195.step(0, -15) {|i|
+    doc = REXML::Document.new(open("https://api.shogidb2.com/latest?limit=15&offset=" + i.to_s))
     data = doc.elements['/'].text
     h = JSON.load(data)
     h.reverse.each {|game|
@@ -29,7 +29,7 @@ end
 def self.register_all
   Shogidb2Entry.where(result: nil).each {|e|
     e.register_kifu
-    sleep(1)
+    sleep(2)
   }
 end
 
@@ -69,7 +69,7 @@ def register_kifu
       :white_name => h["後手"],
       :black_rate => "",
       :white_rate => "", 
-      :date => h["開始日時"].split("T")[0],
+      :date => Time.parse(h["開始日時"]).in_time_zone("Tokyo").to_s.split(" ")[0],
       :result => result_code ? result_code : "",
       :csa => csa_str,
       :game_source_pass => "shogidb2",

@@ -25,11 +25,12 @@
 <%= link_to image_tag('logo-off.png', :id => 'logo'), '/', :title => 'トップへ' %>
 </center>
 <ul class="sidemenu">
+<li><%= link_to '初期局面', '/positions/start/1' %>
 <li><%= link_to '局面検索・戦型ツリー', search_positions_path %>
 <li class="new_section"><%= link_to '編集ランキング', '/users/ranking' %>
 <li class="new_section"><%= link_to '編集員のオススメ', '/positions/list/pic' %>
 <li><%= link_to '解説リクエスト局面', '/positions/list/req' %>
-<li><%= link_to 'いま人気の局面', '/positions/list/hot' %>
+<li><%= link_to '人気の局面', '/positions/list/hot' %>
 <li><%= link_to '新しい局面', '/positions/list/new' %>
 <li class="new_section"><%= link_to '最新の編集', wikiposts_path %>
 <li><%= link_to '最新ディスカッション', '/discussions' %>

@@ -258,8 +258,8 @@ class Game < ActiveRecord::Base
   def render_player_name(user, category, sente)
     player_name = sente ? self.black_name : self.white_name
     player_name = player_name[0..10] + "..." if player_name.length > 12
-    if (category == 2 && !user)
-      "<span class='dark_red'>???</span>".html_safe
+    if (!user && (self.result == 0 && !sente || self.result == 1 && sente))
+      "<span class='dark_red' title='ログインして下さい'>???</span>".html_safe
     else
       player_name
     end
@@ -271,6 +271,6 @@ class Game < ActiveRecord::Base
   end
 
   def show_kifu?(user, category)
-    self.native_kid && (category == 3 || (category == 2 && user) || (category == 1 && user && user.can_view_pro_kifu?))
+    self.native_kid && user
   end
 end

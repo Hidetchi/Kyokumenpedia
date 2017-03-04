@@ -104,7 +104,7 @@ class PositionsController < ApplicationController
     end
     Position.increment_counter(:views, @position.id)
     @referrers = @position.referrers.order('views desc')
-    @category = session[:viewing_category] || 2
+    @category = session[:viewing_category] || 1
     @notes = @position.notes.includes(:user)
     @notes = @notes.where(public: true) unless user_signed_in? && current_user.is_admin?
     @referrer_notes = @position.referrer_notes.includes(:user, :position) # NoteReference exists only for public=true notes
