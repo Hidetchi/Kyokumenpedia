@@ -42,7 +42,7 @@
 * FamousGames
 ** Shogidb2Entry model stores all hashes of shogidb2. Result=nil means it has not been registered to Game model yet.
 ** Shogidb2Entry.load_from_origin loads new hashes, and then registers to Game model. This runs by Whenever gem. 
-** Run rails runner Game.update_relations manually to update positions-moves-games relation. Before doing this, check new Game data by tp Game.where(relation_update:false)
+** Run rails runner -e production db/script/update_relations.rb manually to update positions-moves-games relation. Before doing this, check new Game data by tp Game.where(relation_update:false)
 
 ==== Other maintenance
 * Restart bin/delayed_job with cron
